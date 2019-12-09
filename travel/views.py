@@ -9,3 +9,9 @@ def tours(request):
 
 def tourDetail(request):
     return render(request,'tour-details.html')
+def login(request):
+    return render(request,'login.html')
+def signUp(request):
+    return render(request,'register.html')
+def profile(request):
+    return render(request,'profile.html')
