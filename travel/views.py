@@ -6,7 +6,6 @@ def index(request):
 
 def tours(request):
     return render(request,'all-package.html')
-
 def tourDetail(request):
     return render(request,'tour-details.html')
 def login(request):
@@ -15,3 +14,9 @@ def signUp(request):
     return render(request,'register.html')
 def profile(request):
     return render(request,'profile.html')
+def eventBooking(request):
+    return render(request,'eventBooking.html')
+def editProfile(request):
+    return render(request,'edit-Profile.html')
+def contact(request):
+    return render(request,'contact.html')
