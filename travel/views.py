@@ -4,6 +4,12 @@ from django.shortcuts import render
 def index(request):
     return render(request,'index.html')
 
+def tips(request):
+    return render(request,'tips.html')
+def faq(request):
+    return render(request,'faq.html')
+def specialEvent(request):
+    return render(request,'special-event.html')
 def tours(request):
     return render(request,'all-package.html')
 def tourDetail(request):
