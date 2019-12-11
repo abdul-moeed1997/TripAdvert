@@ -20,3 +20,9 @@ def editProfile(request):
     return render(request,'edit-Profile.html')
 def contact(request):
     return render(request,'contact.html')
+def not_found(request):
+    return render(request, '404.html')
+def about(request):
+    return render(request, 'about.html')
+def price_list(request):
+    return render(request, 'price-list.html')
