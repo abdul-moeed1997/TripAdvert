@@ -2,7 +2,7 @@
  {% load static %}
 
 {% block title %}
- <title> Tour ProfilePage</title>
+ <title> Tour Profile Page</title>
  {% endblock %}
 
 
@@ -35,14 +35,14 @@
         </div>
 		<!-- END TOP SEARCH BOX -->
 
-	<!--DASHBOARD-->
+<!--DASHBOARD-->
 	<section>
 		<div class="db">
 			<!--LEFT SECTION-->
 			<div class="db-l">
 				<div class="db-l-1">
 					<ul>
-						<li><img src="images/db-profile.jpg" alt="" />
+						<li><img src="{% static 'travel/images/db-profile.jpg' %}" alt="" />
 						</li>
 						<li><span>80%</span> profile compl</li>
 						<li><span>18</span> Notifications</li>
@@ -51,25 +51,25 @@
 				<div class="db-l-2">
 					<ul>
 						<li>
-							<a href="dashboard.html"><img src="images/icon/dbl1.png" alt="" /> All Bookings</a>
+							<a href="dashboard.html"><img src="{% static 'travel/images/icon/dbl1.png' %}" alt="" /> All Bookings</a>
 						</li>
 						<li>
-							<a href="db-travel-booking.html"><img src="images/icon/dbl2.png" alt="" /> Travel Bookings</a>
+							<a href="/travel/dashboard/eventBooking/"><img src="{% static 'travel/images/icon/dbl2.png' %}" alt="" /> Travel Bookings</a>
 						</li>
 						<li>
-							<a href="db-hotel-booking.html"><img src="images/icon/dbl3.png" alt="" /> Hotel Bookings</a>
+							<a href="db-hotel-booking.html"><img src="{% static 'travel/images/icon/dbl3.png' %}" alt="" /> Hotel Bookings</a>
 						</li>
 						<li>
-							<a href="db-event-booking.html"><img src="images/icon/dbl4.png" alt="" /> Event Bookings</a>
+							<a href="db-event-booking.html"><img src="{% static 'travel/images/icon/dbl4.png' %}" alt="" /> Event Bookings</a>
 						</li>
 						<li>
-							<a href="db-my-profile.html"><img src="images/icon/dbl6.png" alt="" /> My Profile</a>
+							<a href="/travel/dashboard/myProfile/"><img src="{% static 'travel/images/icon/dbl6.png' %}" alt="" /> My Profile</a>
 						</li>
 						<li>
-							<a href="db-all-payment.html"><img src="images/icon/dbl9.png" alt="" /> Payments</a>
+							<a href="db-all-payment.html"><img src="{% static 'travel/images/icon/dbl9.png' %}" alt="" /> Payments</a>
 						</li>
 						<li>
-							<a href="db-refund.html"><img src="images/icon/dbl7.png" alt="" /> Claim & Refund</a>
+							<a href="db-refund.html"><img src="{% static 'travel/images/icon/dbl7.png' %}" alt="" /> Claim & Refund</a>
 						</li>
 					</ul>
 				</div>
@@ -80,7 +80,7 @@
 					<h4>Manage Booking</h4>
 					<div class="db-2-main-com">
 						<div class="db-2-main-1">
-							<div class="db-2-main-2"> <img src="images/icon/db2.png" alt="" /><span>Travel Bookings</span>
+							<div class="db-2-main-2"> <img src="{% static 'travel/images/icon/db2.png' %}" alt="" /><span>Travel Bookings</span>
 								<ul>
 									<li><a href="db-travel-details.html">Honeymoon Package</a>
 									</li>
@@ -96,7 +96,7 @@
 							</div>
 						</div>
 						<div class="db-2-main-1">
-							<div class="db-2-main-2"> <img src="images/icon/db3.png" alt="" /><span>Hotel Bookings</span>
+							<div class="db-2-main-2"> <img src="{% static 'travel/images/icon/db3.png' %}" alt="" /><span>Hotel Bookings</span>
 								<ul>
 									<li><a href="db-hotel-details.html">GTC Grand Chola</a>
 									</li>
@@ -112,7 +112,7 @@
 							</div>
 						</div>
 						<div class="db-2-main-1">
-							<div class="db-2-main-2"> <img src="images/icon/db1.png" alt="" /><span>Event Bookings</span>
+							<div class="db-2-main-2"> <img src="{% static 'travel/images/icon/db1.png' %}" alt="" /><span>Event Bookings</span>
 								<ul>
 									<li><a href="db-event-details.html">Eiffel Tower Party</a>
 									</li>
@@ -135,49 +135,49 @@
 				<h4>Notifications</h4>
 				<ul>
 					<li>
-						<a href="#!"> <img src="images/icon/dbr1.jpg" alt="" />
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr1.jpg' %}" alt="" />
 							<h5>50% Discount Offer</h5>
 							<p>All the Lorem Ipsum generators on the</p>
 						</a>
 					</li>
 					<li>
-						<a href="#!"> <img src="images/icon/dbr2.jpg" alt="" />
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr2.jpg' %}" alt="" />
 							<h5>paris travel package</h5>
 							<p>All the Lorem Ipsum generators on the</p>
 						</a>
 					</li>
 					<li>
-						<a href="#!"> <img src="images/icon/dbr3.jpg" alt="" />
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr3.jpg' %}" alt="" />
 							<h5>Group Trip - Available</h5>
 							<p>All the Lorem Ipsum generators on the</p>
 						</a>
 					</li>
 					<li>
-						<a href="#!"> <img src="images/icon/dbr4.jpg" alt="" />
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr4.jpg' %}" alt="" />
 							<h5>world best travel agency</h5>
 							<p>All the Lorem Ipsum generators on the</p>
 						</a>
 					</li>
 					<li>
-						<a href="#!"> <img src="images/icon/dbr5.jpg" alt="" />
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr5.jpg' %}" alt="" />
 							<h5>special travel coupons</h5>
 							<p>All the Lorem Ipsum generators on the</p>
 						</a>
 					</li>
 					<li>
-						<a href="#!"> <img src="images/icon/dbr6.jpg" alt="" />
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr6.jpg' %}" alt="" />
 							<h5>70% Offer 2018</h5>
 							<p>All the Lorem Ipsum generators on the</p>
 						</a>
 					</li>
 					<li>
-						<a href="#!"> <img src="images/icon/dbr7.jpg" alt="" />
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr7.jpg' %}" alt="" />
 							<h5>Popular Cities</h5>
 							<p>All the Lorem Ipsum generators on the</p>
 						</a>
 					</li>
 					<li>
-						<a href="#!"> <img src="images/icon/dbr8.jpg" alt="" />
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr8.jpg' %}" alt="" />
 							<h5>variations of passages</h5>
 							<p>All the Lorem Ipsum generators on the</p>
 						</a>
