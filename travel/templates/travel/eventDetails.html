@@ -1,0 +1,96 @@
+{% extends  'base.html' %}
+{% load static %}
+
+
+{% block title %}
+<title>Register Yourselg</title>
+{% endblock %}
+
+{% block body  %}
+<h1 class="text-center text-primary  ">Event Booking Details</h1><br><br>
+	<section>
+<div class="container-fluid">
+				<form class="form-horizontal ">
+					<div class="form-group ">
+							<div class="control-div col-md-4" FOR="ID"></div>
+						<div class="col-md-4">
+							<input type="number" class="form-control validate" id="ID" PLACEHOLDER="ID">
+						</div>
+					</div>
+					<div class="form-group">
+							<div class="control-div col-md-4" FOR="eve-Name"></div>
+						<div class="col-md-4">
+							<input type="text" class="form-control validate" id="eve-Name" PLACEHOLDER="Event Name">
+						</div>
+					</div>
+						<div class="form-group">
+							<div class="control-div col-md-4" FOR="org-Name"></div>
+						<div class="col-md-4">
+							<input type="text" class="form-control validate" id="org-Name" PLACEHOLDER="Organizer Name">
+						</div>
+					</div>
+						<div class="form-group">
+						<div class="control-div col-md-4" FOR="date"></div>
+						<div class="col-md-4">
+							<input type="date" class="form-control validate" id="date" PLACEHOLDER="">
+						</div>
+							</div>
+							<div class="form-group">
+						<div class="control-div col-md-4" FOR="price"></div>
+						<div class="col-md-4">
+							<input type="number" class="form-control validate " id="price" PLACEHOLDER="Price">
+						</div>
+					</div>
+					<div class="form-group ">
+					<div class="control-div col-md-4" FOR="total"></div>
+						<div class="col-md-4">
+							<input type="number" class="form-control validate " id="total" PLACEHOLDER="Total Bill">
+						</div>
+					</div>
+						<div class="form-group ">
+							<div class="control-div col-md-4" ></div>
+						<div class=" col-md-4">
+							<input type="submit" value="Print" class="btn   btn-info btn-large full-btn"> </div>
+						</div>
+				</form>
+</div>
+	</section>
+<!--						<div class="row">-->
+<!--						<div class="input-field col m6 s12">-->
+<!--							<input type="text" class="validate">-->
+<!--							<div>Last Name</div>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--					</div>-->
+<!--					<div class="row">-->
+<!--						<div class="input-field col lg12">-->
+<!--							<input type="number" class="validate">-->
+<!--							<div>Mobile</div>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--					<div class="row">-->
+<!--						<div class="input-field col s12">-->
+<!--							<input type="email" class="validate">-->
+<!--							<div>Email</div>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--					<div class="row">-->
+<!--						<div class="input-field col s12">-->
+<!--							<input type="password" class="validate">-->
+<!--							<div>Password</div>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--					<div class="row">-->
+<!--						<div class="input-field col s12">-->
+<!--							<input type="password" class="validate">-->
+<!--							<div>Confirm Password</div>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--					<div class="row">-->
+<!--						<div class="input-field col s12">-->
+<!--							<input type="submit" value="submit" class="waves-effect waves-light btn-large full-btn"> </div>-->
+<!--					</div>-->
+<!--				</form>-->
+
+	END DASHBOARD
+{% endblock %}
