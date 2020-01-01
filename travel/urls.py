@@ -19,4 +19,6 @@ urlpatterns = [
     path('404/',views.not_found, name='404'),
     path('about/',views.about, name='About'),
     path('price-list/',views.price_list, name='Price-Lists'),
+    path('event-details',views.eventDetails,name='event-Details'),
+    path('org-signUp',views.organizerSignUp, name='org-signUp'),
 ]

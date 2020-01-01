@@ -39,9 +39,13 @@ def contact(request):
 
 def not_found(request):
     return render(request, '404.html')
-
 def about(request):
     return render(request, 'about.html')
 
 def price_list(request):
     return render(request, 'price-list.html')
+
+def eventDetails(request):
+    return render(request,'eventDetails.html')
+def organizerSignUp(request):
+    return render(request,'organizer_SignUp.html')
