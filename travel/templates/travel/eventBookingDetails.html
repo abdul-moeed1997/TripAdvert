@@ -1,0 +1,106 @@
+{% extends  'base.html' %}
+{% load static %}
+
+
+{% block title %}
+<title>Booking Details</title>
+
+{% endblock %}
+{% block content%}
+ <style>
+	h2.title{
+		color:	#808080;
+	}
+	.invoice-title h2, .invoice-title h3 {
+    display: inline-block;
+}
+
+.table > tbody > tr > .no-line {
+    border-top: none;
+}
+
+.table > thead > tr > .no-line {
+    border-bottom: none;
+}
+
+.table > tbody > tr > .thick-line {
+    border-top: 2px solid;
+}
+	</style>
+{% endblock %}
+{% block body  %}
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+    		<div class="invoice-title">
+    			<center><h2 class="title">Event Booking Details</h2></center>
+    		</div>
+    		<hr>
+
+
+    		<div class="row">
+    			<div class="col-xs-6">
+    				<address>
+    					<strong>Order Date:</strong><br>
+    					<div name="date">March 7, 2014<br><br></div>
+    				</address>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+
+    <div class="row">
+    	<div class="col-md-12">
+    		<div class="panel panel-default">
+    			<div class="panel-heading">
+    				<h3 class="panel-title"><strong>Booking Summary</strong></h3>
+    			</div>
+    			<div class="panel-body">
+    				<div class="table-responsive">
+    					<table class="table table-condensed">
+    						<thead>
+                                <tr>
+        							<td><strong>ID</strong></td>
+        							<td class="text-center"><strong></strong></td>
+        							<td class="text-center"><div id="ID">1</div></td>
+                                </tr>
+    						</thead>
+    						<tbody>
+    							<!-- foreach ($order->lineItems as $line) or some such thing here -->
+    							<tr>
+        							<td><strong>Event Name</strong></td>
+        							<td class="text-center"><strong></strong></td>
+        							<td class="text-center"><div id="event_name">Trip Adviser</div></td>
+                                </tr>
+                               <tr>
+        							<td><strong>Organizer Name</strong></td>
+        							<td class="text-center"><strong></strong></td>
+        							<td class="text-center"><div id="org_name">Emerates</div></td>
+                                </tr>
+    							<tr>
+    								<td class="thick-line"></td>
+    								<!-- <td class="thick-line"></td> -->
+    								<td class="thick-line text-center"><strong>Price</strong></td>
+    								<td class="thick-line text-right"><div id="price">$670.99</div></td>
+    							</tr>
+    							<tr>
+    								<td class="no-line"></td>
+    								<!-- <td class="no-line"></td> -->
+    								<td class="no-line text-center"><strong>Total</strong></td>
+    								<td class="no-line text-right"><div id="total">$670.99</div></td>
+    							</tr>
+    						</tbody>
+    					</table>
+
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+    <hr>
+    <br>
+    <button type="text">Print</button>
+	<br>
+	<br>
+</div>
+{% endblock %}

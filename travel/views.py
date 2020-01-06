@@ -45,7 +45,7 @@ def about(request):
 def price_list(request):
     return render(request, 'price-list.html')
 
-def eventDetails(request):
-    return render(request,'eventDetails.html')
+def eventBookingDetails(request):
+    return render(request,'eventBookingDetails.html')
 def organizerSignUp(request):
     return render(request,'organizer_SignUp.html')
