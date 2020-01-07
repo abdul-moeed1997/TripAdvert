@@ -19,4 +19,7 @@ urlpatterns = [
     path('404/',views.not_found, name='404'),
     path('about/',views.about, name='About'),
     path('price-list/',views.price_list, name='Price-Lists'),
+    path('booking-details',views.eventBookingDetails,name='booking-Details'),
+    path('org-signUp',views.organizerSignUp, name='org-signUp'),
+    path('forgot-pass', views.forgotPassword,name='forgpt-pass')
 ]

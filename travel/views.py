@@ -39,9 +39,15 @@ def contact(request):
 
 def not_found(request):
     return render(request, '404.html')
-
 def about(request):
     return render(request, 'about.html')
 
 def price_list(request):
     return render(request, 'price-list.html')
+
+def eventBookingDetails(request):
+    return render(request,'eventBookingDetails.html')
+def organizerSignUp(request):
+    return render(request,'organizer_SignUp.html')
+def forgotPassword(request):
+    return render(request,'forgot-pass.html')
