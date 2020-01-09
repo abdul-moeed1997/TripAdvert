@@ -2206,7 +2206,6 @@
  .tour_r {
 }
  .tour_offer {
-     background: url('../images/book-bg.png') no-repeat center center;
      padding: 20px;
      background-size: cover;
      margin-bottom: 30px;
@@ -2716,9 +2715,7 @@
 /* PAGE: TOUR PACKAGE 
 /*-------------------------------------------------------*/
  .pack_title {
-     background: url('../images/book-bg.png') no-repeat center center;
      padding: 20px;
-     background-size: cover;
      text-align: center;
 }
  .pack_title h3 {
@@ -2743,7 +2740,6 @@
 /* PAGE: DISCOUNT PRICE TABLE 
 /*-------------------------------------------------------*/
  .pack_price {
-     background: rgba(237, 237, 237, 0.32);
      margin-bottom: 50px;
      box-shadow: 0px 13px 13px -12px rgba(0, 0, 0, 0.4);
      transition: all 0.5s ease;
@@ -3659,6 +3655,40 @@
      display: block;
      text-align: center;
 }
+.red-buton{
+    transition: all 0.5s ease;
+     -webkit-transition: all 0.5s ease;
+     -moz-transition: all 0.5s ease;
+     -ms-transition: all 0.5s ease;
+     -o-transition: all 0.5s ease;
+     margin-top: 5px;
+     border: 1px solid #e5ad05;
+     border: 1px solid #d7a307;
+    /* -webkit-box-shadow: #B7B8B8 0px 1px 0px inset;
+     */
+     -moz-box-shadow: #B7B8B8 0px 1px 0px inset;
+    /* box-shadow: #B7B8B8 0px 1px 0px inset;
+     */
+     -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+     border-radius: 3px;
+     font-size: 14px;
+     padding: 5px 10px;
+     text-decoration: none;
+     text-shadow: -1px -1px 0 rgba(177, 177, 177, 0.3);
+     font-weight: bold;
+     color: #fff;
+     background-color: #f7282e !important;
+     background-image: -webkit-gradient(linear, left top, left bottom, from(#eb343a), to(#f7282e));
+     #background-image: -webkit-linear-gradient(top, #eb343a, #f7282e);
+     background-image: -moz-linear-gradient(top, #eb343a, #f7282e);
+     background-image: -ms-linear-gradient(top, #eb343a, #f7282e);
+     background-image: -o-linear-gradient(top, #eb343a, #f7282e);
+     background-image: linear-gradient(to bottom, #eb343a, #f7282e);
+     display: block;
+     text-align: center;
+}
+
  .hot-page2-alp-quot-free-btn {
      margin-top: 5px;
      border: 1px solid #234767;
