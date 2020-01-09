@@ -47,7 +47,13 @@ def price_list(request):
 
 def eventBookingDetails(request):
     return render(request,'eventBookingDetails.html')
+
 def organizerSignUp(request):
     return render(request,'organizer_SignUp.html')
+
 def forgotPassword(request):
     return render(request,'forgot-pass.html')
+
+
+def EmailforgotPassword(request):
+    return render(request, 'emailForgotPass.html')

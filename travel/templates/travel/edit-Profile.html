@@ -16,32 +16,15 @@
 				<div class="db-l-1">
 					<ul>
 						<li><img src="{% static 'travel/images/db-profile.jpg' %}" alt="" /> </li>
-						<li><span>80%</span> profile compl</li>
-						<li><span>18</span> Notifications</li>
 					</ul>
 				</div>
 				<div class="db-l-2">
 					<ul>
 						<li>
-							<a href="dashboard.html"><img src="{% static 'travel/images/icon/dbl1.png' %}" alt="" /> All Bookings</a>
+							<a href="/travel/user/dashboard/myProfile/"><img src="{% static 'travel/images/icon/dbl6.png' %}" alt="" /> My Profile</a>
 						</li>
 						<li>
-							<a href="/travel/dashboard/eventBooking/"><img src="{% static 'travel/images/icon/dbl2.png' %}" alt="" /> Travel Bookings</a>
-						</li>
-						<li>
-							<a href="db-hotel-booking.html"><img src="{% static 'travel/images/icon/dbl3.png' %}" alt="" /> Hotel Bookings</a>
-						</li>
-						<li>
-							<a href="db-event-booking.html"><img src="{% static 'travel/images/icon/dbl4.png' %}" alt="" /> Event Bookings</a>
-						</li>
-						<li>
-							<a href="/travel/dashboard/myProfile/"><img src="{% static 'travel/images/icon/dbl6.png' %}" alt="" /> My Profile</a>
-						</li>
-						<li>
-							<a href="db-all-payment.html"><img src="{% static 'travel/images/icon/dbl9.png' %}" alt="" /> Payments</a>
-						</li>
-						<li>
-							<a href="db-refund.html"><img src="{% static 'travel/images/icon/dbl7.png' %}" alt="" /> Claim & Refund</a>
+							<a href="/travel/user/dashboard/eventBooking/"><img src="{% static 'travel/images/icon/dbl2.png' %}" alt="" /> Travel Bookings</a>
 						</li>
 					</ul>
 				</div>
@@ -52,10 +35,28 @@
 					<h4>Edit My Profile </h4>
 					<div class="db-2-main-com db2-form-pay db2-form-com">
 						<form class="col s12">
+                            <div class="row">
+								<div class="input-field col s12">
+									<input type="text" class="validate">
+									<label>First Name</label>
+								</div>
+							</div>
+                            <div class="row">
+								<div class="input-field col s12">
+									<input type="text" class="validate">
+									<label>Last Name</label>
+								</div>
+							</div>
 							<div class="row">
 								<div class="input-field col s12">
-									<input type="number" class="validate">
+									<input type="text" class="validate">
 									<label>User Name</label>
+								</div>
+							</div>
+                            <div class="row">
+								<div class="input-field col s12">
+									<input type="text" class="validate">
+									<label>Address</label>
 								</div>
 							</div>
 							<div class="row">
@@ -78,21 +79,6 @@
 									<label>Phone</label>
 								</div>
 							</div>
-							<div class="row">
-								<div class="input-field col s12">
-									<select>
-										<option value="" disabled selected>Select Status</option>
-										<option value="1">Active</option>
-										<option value="2">Non-Active</option>
-									</select>
-								</div>
-							</div>
-							<div class="row">
-								<div class="input-field col s12">
-									<input id="pay-ca" type="number" class="validate">
-									<label for="pay-ca">Card Number</label>
-								</div>
-							</div>
 							<div class="row db-file-upload">
 								<div class="file-field input-field">
 									<div class="db-up-btn"> <span>File</span>
@@ -103,7 +89,7 @@
 							</div>
 							<div class="row">
 								<div class="input-field col s12">
-									<input type="submit" value="SUBMIT" class="waves-effect waves-light full-btn"> </div>
+									<input type="submit" value="CONFIRM" class="waves-effect waves-light full-btn"> </div>
 							</div>
 						</form>
 					</div>
