@@ -3,17 +3,13 @@
 
 
 {% block title %}
-<title>The Travel - My Profile</title>
+<title>Price Lists</title>
 {% endblock %}
 
 {% block body  %}
 
 
-    </section>
-    <!--END HEADER SECTION-->
-	
-	<!--DASHBOARD-->
-	<section>
+    <section>
 		<div class="db">
 			<!--LEFT SECTION-->
 			<div class="db-l">
@@ -21,16 +17,21 @@
 					<ul>
 						<li><img src="{% static 'travel/images/db-profile.jpg' %}" alt="" />
 						</li>
-
 					</ul>
 				</div>
 				<div class="db-l-2">
 					<ul>
 						<li>
-							<a href="/travel/user/dashboard/myProfile/"><img src="{% static 'travel/images/icon/dbl6.png' %}" alt="" /> My Profile</a>
+							<a href="/travel/organizer/dashboard/myProfile/"><img src="{% static 'travel/images/icon/dbl6.png' %}" alt="" /> My Profile</a>
 						</li>
 						<li>
-							<a href="/travel/user/dashboard/eventBooking/"><img src="{% static 'travel/images/icon/dbl2.png' %}" alt="" /> Travel Bookings</a>
+							<a href="/travel/organizer/dashboard/myProfile/events/"><img src="{% static 'travel/images/icon/dbl4.png' %}" alt="" />My Events</a>
+						</li>
+						<li>
+							<a href="/travel/organizer/dashboard/myProfile/portfolio/"><img src="{% static 'travel/images/icon/dbl7.png' %}" alt="" />Portfolio</a>
+						</li>
+						<li>
+							<a href="/travel/organizer/addEvent/"><img src="{% static 'travel/images/icon/dbl2.png' %}" alt="" />Add Event</a>
 						</li>
 					</ul>
 				</div>
@@ -48,12 +49,12 @@
 									<td>Sam Anderson</td>
 								</tr>
 								<tr>
-									<td>User Name</td>
+									<td>Company Name</td>
 									<td>:</td>
-									<td>mytour123</td>
+									<td>mypasswordtour</td>
 								</tr>
 								<tr>
-									<td>Eamil</td>
+									<td>E-mail</td>
 									<td>:</td>
 									<td>sam_anderson@gmail.com</td>
 								</tr>
@@ -66,15 +67,24 @@
 									<td>Address</td>
 									<td>:</td>
 									<td>8800 Orchard Lake Road, Suite 180 Farmington Hills, U.S.A.</td>
-								</tr>
+                                </tr>
+                                <tr>
+									<td>Rating</td>
+									<td>:</td>
+									<td><span class="db-done">5 star</span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="/travel/organizer/dashboard/myProfile/edit/" class="waves-effect waves-light btn-large">Edit my profile</a>
+                                    </td>
+                                </tr>
 							</tbody>
 						</table>
-						<div class="db-mak-pay-bot">
-							 <a href="/travel/user/dashboard/myProfile/edit/" class="waves-effect waves-light btn-large" style="font-family:Ebrima">Edit my profile</a> </div>
 					</div>
 				</div>
 			</div>
 			<!--RIGHT SECTION-->
+            <!--RIGHT SECTION-->
 			<div class="db-3">
 				<h4>Notifications</h4>
 				<ul>
@@ -128,8 +138,8 @@
 					</li>
 				</ul>
 			</div>
+			
 		</div>
-	</section>
-	<!--END DASHBOARD-->
 
+    </section>
 {% endblock %}

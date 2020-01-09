@@ -25,8 +25,6 @@ def signUp(request):
 def myProfile(request):
     return render(request,'my-profile.html')
 
-def dashboard(request):
-    return render(request,'dashboard.html')
 
 def eventBooking(request):
     return render(request,'eventBooking.html')
@@ -57,3 +55,30 @@ def forgotPassword(request):
 
 def EmailforgotPassword(request):
     return render(request, 'emailForgotPass.html')
+
+
+def organizerProfile(request):
+    return render(request, 'organizerProfile.html')
+
+
+def editProfileOrganizer(request):
+    return render(request, 'editProfileOrg.html')
+
+
+def organizerEvents(request):
+    return render(request, 'orgEvents.html')
+
+
+def addEvent(request):
+    return render(request, 'add-event.html')
+
+
+def organizerPortfolio(request):
+    return render(request, 'my-portfolio.html')
+
+def organizerPortfolioUser(request):
+    return render(request, 'my-portfolio-user.html')
+
+
+def organizerDetail(request):
+    return render(request, 'organizer-detail.html')

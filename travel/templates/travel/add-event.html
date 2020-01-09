@@ -1,0 +1,205 @@
+{% extends  'base.html' %}
+{% load static %}
+
+
+{% block title %}
+<title>Trip Advert - Add Tour</title>
+{% endblock %}
+
+{% block body  %}
+    <section>
+		<div class="db">
+			<!--LEFT SECTION-->
+			<div class="db-l">
+				<div class="db-l-1">
+					<ul>
+						<li><img src="{% static 'travel/images/db-profile.jpg' %}" alt="" />
+						</li>
+					</ul>
+				</div>
+				<div class="db-l-2">
+						<ul>
+						<li>
+							<a href="/travel/organizer/dashboard/myProfile/"><img src="{% static 'travel/images/icon/dbl6.png' %}" alt="" /> My Profile</a>
+						</li>
+						<li>
+							<a href="/travel/organizer/dashboard/myProfile/events/"><img src="{% static 'travel/images/icon/dbl4.png' %}" alt="" />My Events</a>
+						</li>
+						<li>
+							<a href="/travel/organizer/dashboard/myProfile/portfolio/"><img src="{% static 'travel/images/icon/dbl7.png' %}" alt="" />Portfolio</a>
+						</li>
+						<li>
+							<a href="/travel/organizer/addEvent/"><img src="{% static 'travel/images/icon/dbl2.png' %}" alt="" />Add Event</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!--CENTER SECTION-->
+			<div class="db-2">
+                <div class="db-2-com db-2-main">
+                    <h4>Add Event </h4>
+                    <div class="db-2-main-com db2-form-pay db2-form-com">
+                        <form class="col s12">
+                            <div class="row">
+                                <div class="input-field col s12">
+									<input type="text"  class="validate" name="name" required>
+									<label>Event Name</label>
+								</div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input type="text" class="validate">
+                                    <label>Event Destination</label>
+                                </div>
+                            </div>                         
+                            <div class="row">
+                                <div class="input-field col s6">
+									<input type="text" id="from" name="arrival" readonly>
+									<label for="from">Departure Date</label>
+								</div>
+								<div class="input-field col s6">
+									<input type="text" id="to" name="departure" readonly>
+									<label for="to">Arrival Date</label>
+								</div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+									<select name="package">
+										<option value="" disabled selected>Select Category</option>
+										<option value="Honeymoon Package">One Day Tour</option>
+										<option value="Family Package">Three Day Tour</option>
+										<option value="Holiday Package">Detailed Tour</option>
+										<option value="Group Package">Cultural/Heritage Tour</option>
+									</select>
+								</div>
+                            </div>
+                            <div class="row">
+                                
+                                <div class="input-field col s12 m7">
+									<select>
+										<option value="" disabled selected>Select Accomodation</option>
+										<option value="1">Included</option>
+                                        <option value="0">Not Included</option>
+                                    </select>
+                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <textarea style="height: 50%;" type="text" aria-multiline="true" class="validate"></textarea>
+                                    <label>Accomodation Details</label>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                
+                                <div class="input-field col s12 m7">
+									<select>
+										<option value="" disabled selected>Select Meal</option>
+										<option value="1">Included</option>
+                                        <option value="0">Not Included</option>
+                                    </select>
+                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <textarea style="height: 50%;" type="text" aria-multiline="true" class="validate"></textarea>
+                                    <label>Meal Details</label>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                
+                                <div class="input-field col s12 m7">
+									<select>
+										<option value="" disabled selected>Select Site Visit Status</option>
+										<option value="1">Included</option>
+                                        <option value="0">Not Included</option>
+                                    </select>
+                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <textarea style="height: 50%;" type="text" aria-multiline="true" class="validate"></textarea>
+                                    <label>Site Visit Details</label>
+                                </div>
+
+                            </div>
+                            
+                            <div class="row db-file-upload">
+                                <div class="file-field input-field">
+                                    <div class="waves-effect waves-light tourz-sear-btn-blue v2-ser-btn col s2"> <span style="font-size: 12px;;">Picture</span>
+                                        <input type="file"> </div>
+                                    <div class="file-path-wrapper">
+                                        <input class="file-path validate" type="text"> </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+									<input type="submit" value="Submit" class="waves-effect waves-light tourz-sear-btn v2-ser-btn">
+								</div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!--RIGHT SECTION-->
+			<div class="db-3">
+				<h4>Notifications</h4>
+				<ul>
+					<li>
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr1.jpg' %}" alt="" />
+							<h5>50% Discount Offer</h5>
+							<p>All the Lorem Ipsum generators on the</p>
+						</a>
+					</li>
+					<li>
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr2.jpg' %}" alt="" />
+							<h5>paris travel package</h5>
+							<p>All the Lorem Ipsum generators on the</p>
+						</a>
+					</li>
+					<li>
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr3.jpg' %}" alt="" />
+							<h5>Group Trip - Available</h5>
+							<p>All the Lorem Ipsum generators on the</p>
+						</a>
+					</li>
+					<li>
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr4.jpg' %}" alt="" />
+							<h5>world best travel agency</h5>
+							<p>All the Lorem Ipsum generators on the</p>
+						</a>
+					</li>
+					<li>
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr5.jpg' %}" alt="" />
+							<h5>special travel coupons</h5>
+							<p>All the Lorem Ipsum generators on the</p>
+						</a>
+					</li>
+					<li>
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr6.jpg' %}" alt="" />
+							<h5>70% Offer 2018</h5>
+							<p>All the Lorem Ipsum generators on the</p>
+						</a>
+					</li>
+					<li>
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr7.jpg' %}" alt="" />
+							<h5>Popular Cities</h5>
+							<p>All the Lorem Ipsum generators on the</p>
+						</a>
+					</li>
+					<li>
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr8.jpg' %}" alt="" />
+							<h5>variations of passages</h5>
+							<p>All the Lorem Ipsum generators on the</p>
+						</a>
+					</li>
+				</ul>
+			</div>
+        </div>
+    </section>
+{% endblock %}

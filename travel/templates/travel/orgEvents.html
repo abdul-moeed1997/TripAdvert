@@ -3,30 +3,33 @@
 
 
 {% block title %}
-<title>Booking Event</title>
+<title>Price Lists</title>
 {% endblock %}
 
 {% block body  %}
-
-	
-	<!--DASHBOARD-->
-	<section>
+    <section>
 		<div class="db">
 			<!--LEFT SECTION-->
 			<div class="db-l">
 				<div class="db-l-1">
 					<ul>
-						<li><img src="{% static 'travel/images/db-profile.jpg' %}"alt="" />
+						<li><img src="{% static 'travel/images/db-profile.jpg' %}" alt="" />
 						</li>
 					</ul>
 				</div>
 				<div class="db-l-2">
 					<ul>
 						<li>
-							<a href="/travel/user/dashboard/myProfile/"><img src="{% static 'travel/images/icon/dbl6.png' %}" alt="" /> My Profile</a>
+							<a href="/travel/organizer/dashboard/myProfile/"><img src="{% static 'travel/images/icon/dbl6.png' %}" alt="" /> My Profile</a>
 						</li>
 						<li>
-							<a href="/travel/user/dashboard/eventBooking/"><img src="{% static 'travel/images/icon/dbl2.png' %}" alt="" /> Travel Bookings</a>
+							<a href="/travel/organizer/dashboard/myProfile/events/"><img src="{% static 'travel/images/icon/dbl4.png' %}" alt="" />My Events</a>
+						</li>
+						<li>
+							<a href="/travel/organizer/dashboard/myProfile/portfolio/"><img src="{% static 'travel/images/icon/dbl7.png' %}" alt="" />Portfolio</a>
+						</li>
+						<li>
+							<a href="/travel/organizer/addEvent/"><img src="{% static 'travel/images/icon/dbl2.png' %}" alt="" />Add Event</a>
 						</li>
 					</ul>
 				</div>
@@ -145,7 +148,9 @@
 					</div>
 				</div>
 			</div>
+			
 			<!--RIGHT SECTION-->
+            <!--RIGHT SECTION-->
 			<div class="db-3">
 				<h4>Notifications</h4>
 				<ul>
@@ -199,9 +204,7 @@
 					</li>
 				</ul>
 			</div>
+			
 		</div>
-	</section>
-{% endblock %}
-
-
-<!-- Mirrored from rn53themes.net/themes/demo/travelz/db-event-booking.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 30 Nov 2019 09:54:53 GMT -->
+    </section>
+        {% endblock %}

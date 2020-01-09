@@ -1,0 +1,144 @@
+{% extends  'base.html' %}
+{% load static %}
+
+
+{% block title %}
+<title>The Travel - Tour Travel</title>
+{% endblock %}
+
+{% block body  %}
+    <section>
+		<div class="db">
+			<!--LEFT SECTION-->
+			<div class="db-l">
+				<div class="db-l-1">
+					<ul>
+						<li><img src="{% static 'travel/images/db-profile.jpg' %}" alt="" />
+						</li>
+					</ul>
+				</div>
+				<div class="db-l-2">
+						<ul>
+						<li>
+							<a href="/travel/organizer/dashboard/myProfile/"><img src="{% static 'travel/images/icon/dbl6.png' %}" alt="" /> My Profile</a>
+						</li>
+						<li>
+							<a href="/travel/organizer/dashboard/myProfile/events/"><img src="{% static 'travel/images/icon/dbl4.png' %}" alt="" />My Events</a>
+						</li>
+						<li>
+							<a href="/travel/organizer/dashboard/myProfile/portfolio/"><img src="{% static 'travel/images/icon/dbl7.png' %}" alt="" />Portfolio</a>
+						</li>
+						<li>
+							<a href="/travel/organizer/addEvent/"><img src="{% static 'travel/images/icon/dbl2.png' %}" alt="" />Add Event</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!--CENTER SECTION-->
+			<div class="db-2">
+				<div class="db-2-com db-2-main">
+					<h4>My Portfolio</h4>
+					<div class="db-2-main-com db-2-main-com-table">
+						<table class="responsive-table">
+							<thead>
+								<tr>
+									<th>Id</th>
+									<th>Name</th>
+									<th>Destination</th>
+									<th>Start Date</th>
+									<th>Price</th>
+									<th></th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>1</td>
+									<td>Pakistan</td>
+									<td>Naran</td>
+									<td>12 Aug 2017</td>
+									<td>$784</td>
+									<td><a href="#" class="db-done">View Details</a>
+									</td>
+									<td><a href="#" class="db-not-done">Remove</a>
+									</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td>Europe</td>
+									<td>France - Italy</td>
+									<td>09 Nov 2017</td>
+									<td>$1058</td>
+									<td><a href="#" class="db-done">View Details</a>
+									</td>
+									<td><a href="#" class="db-not-done">Remove</a>
+									</td>
+								</tr>
+								<tr>
+									<td>3</td>
+									<td>Dubai</td>
+									<td>Dubai - Sharjah</td>
+									<td>24 Dec 2017</td>
+									<td>$862</td>
+									<td><a href="#" class="db-done">View Details</a>
+									</td>
+									<td><a href="#" class="db-not-done">Remove</a>
+									</td>
+								</tr>
+								<tr>
+									<td>4</td>
+									<td>Thailand</td>
+									<td>Thailand</td>
+									<td>24 Jan 2018</td>
+									<td>$2355</td>
+									<td><a href="#" class="db-done">View Details</a>
+									</td>
+									<td><a href="#" class="db-not-done">Remove</a>
+									</td>
+								</tr>
+								<tr>
+									<td>5</td>
+									<td>Australia</td>
+									<td>Sidney</td>
+									<td>02 Mar 2018</td>
+									<td>$1542</td>
+									<td><a href="#" class="db-done">View Details</a>
+									</td>
+									<td><a href="#" class="db-not-done">Remove</a>
+									</td>
+								</tr>
+								<tr>
+									<td>6</td>
+									<td>Singapore</td>
+									<td>Singapore</td>
+									<td>21 Apr 2018</td>
+									<td>$2142</td>
+									<td><a href="#" class="db-done">View Details</a>
+									</td>
+									<td><a href="#" class="db-not-done">Remove</a>
+									</td>
+								</tr>
+								<tr>
+									<td>7</td>
+									<td>South Africa</td>
+									<td>Columbo</td>
+									<td>08 Jun 2018</td>
+									<td>$2350</td>
+									<td><a href="#" class="db-done">View Details</a>
+									</td>
+									<td><a href="#" class="db-not-done">Remove</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			
+			<!--RIGHT SECTION-->
+			
+		</div>
+	
+</div>
+    </section>
+{% endblock %}
