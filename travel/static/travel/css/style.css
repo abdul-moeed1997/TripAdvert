@@ -5600,7 +5600,7 @@
  .wed-logo a{
 }
  .wed-logo a img{
-     width: 250px;
+     width: 60%;
      padding: 7px 0px;
 }
  .wed-menu{
@@ -5733,6 +5733,23 @@
  .main-menu ul li a:hover{
      color: #e23464;
 }
+
+ .login-nav-btn{
+
+     color: #000000;
+     padding: 20px 10px;
+     line-height: 58px;
+     font-size: 15px;
+     font-weight: 600;
+    /* text-transform: uppercase;
+     */
+     position:relative;
+     font-family: 'Quicksand', sans-serif;
+ }
+ .login-nav-btn:hover{
+    color:#FFF !important;
+     text-decoration: none !important;
+ }
  .main-menu ul li a:after{
      content: "";
      position: absolute;
@@ -6613,7 +6630,7 @@
      position: fixed;
      top: 0px;
      width: 100%;
-     height: 55px;
+     height: 12%;
      background: #fff;
      box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.32);
      z-index: 999;
@@ -7916,4 +7933,53 @@
  .trav-list-bod p{
      font-size: 13px;
      line-height: 20px;
+}
+.btn {
+	background-image: linear-gradient(to right, #006175 0%, #00a950 100%);
+	border-radius: 40px;
+  box-sizing: border-box;
+	color: #00a84f;
+	display: block;
+	font: 1.125rem 'Oswald', Arial, sans-serif; /*18*/
+	height: 80px;
+	letter-spacing: 1px;
+	margin: 0 auto;
+	padding: 4px;
+	position: relative;
+  text-decoration: none;
+	text-transform: uppercase;
+	width: 264px;
+	z-index: 2;
+}
+
+.btn:hover {
+	color: #fff;
+}
+
+.btn span {
+	align-items: center;
+	background: #e7e8e9;
+	border-radius: 40px;
+	display: flex;
+	justify-content: center;
+	height: 100%;
+	transition: background .5s ease;
+	width: 100%;
+}
+
+.btn:hover span {
+	background: transparent;
+}
+
+.btn-grad {background-image: linear-gradient(to right, #FF512F 0%, #DD2476 51%, #FF512F 100%);
+    border-radius: 8%;
+    color: white;
+
+}
+.btn-grad:hover {
+    background-position: right center;
+    text-decoration: none;
+}
+.btn-grad span{
+    text-decoration: none !important;
 }
