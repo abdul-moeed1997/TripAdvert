@@ -26,7 +26,7 @@ urlpatterns = [
     path('about/',views.about, name='About'),
     path('price-list/',views.price_list, name='Price-Lists'),
     path('booking-receipt/',views.eventBookingDetails,name='booking-Details'),
-    path('organizer/signUp/',views.organizerSignUp, name='org-signUp'),
+    path('organizer/register/',views.organizerSignUp, name='org-signUp'),
     path('forgot-pass/', views.forgotPassword,name='forgot-password'),
     path('email-forgot-pass/', views.EmailforgotPassword,name='forgot-password')
 ]
