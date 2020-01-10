@@ -1,0 +1,82 @@
+{% extends  'base.html' %}
+{% load static %}
+
+
+{% block title %}
+<title>Organizer Detail</title>
+{% endblock %}
+
+{% block body  %}
+
+
+    <!--DASHBOARD-->
+	<section>
+		<div class="db">
+			<!--LEFT SECTION-->
+			<div class="db-l">
+				<div class="db-l-1">
+					<ul>
+						<li><img src="{% static 'travel/images/db-profile.jpg' %}" alt="" />
+						</li>
+					</ul>
+				</div>
+				<div class="db-l-2">
+					<ul>
+						<li>
+							<a href="/travel/organizer/detail/"><img src="{% static 'travel/images/icon/dbl6.png' %}" alt="" /> Organizer's Profile</a>
+						</li>
+						<li>
+							<a href="/travel/organizer/detail/portfolio/"><img src="{% static 'travel/images/icon/dbl3.png' %}" alt="" /> Portfolio</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!--CENTER SECTION-->
+			<div class="db-2">
+				<div class="db-2-com db-2-main">
+					<h4>Organizer's Profile</h4>
+					<div class="db-2-main-com db-2-main-com-table">
+						<table class="responsive-table">
+							<tbody>
+								<tr>
+									<td>Name</td>
+									<td>:</td>
+									<td>Sam Anderson</td>
+								</tr>
+								<tr>
+									<td>Company Name</td>
+									<td>:</td>
+									<td>mypasswordtour</td>
+								</tr>
+								<tr>
+									<td>E-mail</td>
+									<td>:</td>
+									<td>sam_anderson@gmail.com</td>
+								</tr>
+								<tr>
+									<td>Phone</td>
+									<td>:</td>
+									<td>+01 4561 3214</td>
+								</tr>
+								<tr>
+									<td>Address</td>
+									<td>:</td>
+									<td>8800 Orchard Lake Road, Suite 180 Farmington Hills, U.S.A.</td>
+                                </tr>
+                                <tr>
+									<td>Rating</td>
+									<td>:</td>
+									<td><span class="db-done">5 star</span></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<!--RIGHT SECTION-->
+			
+		</div>
+	</section>
+
+	
+	{% endblock %}
