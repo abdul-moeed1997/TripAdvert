@@ -67,6 +67,70 @@
      -o-transition: all 0.5s ease;
      color: #fff;
 }
+ .link-btn-red {
+     text-transform: uppercase;
+     font-weight: 700;
+     text-decoration: none;
+     padding: 6px 15px;
+     border-radius: 2px;
+     display: inline-block;
+     font-family: 'Quicksand', sans-serif;
+     text-decoration: none;
+     display: inline-block;
+     cursor: pointer;
+     color: #fff !important;
+    /* font-family: Arial;
+     */
+     font-size: 13px;
+     transition: all 0.5s ease;
+     -webkit-transition: all 0.5s ease;
+     -moz-transition: all 0.5s ease;
+     -ms-transition: all 0.5s ease;
+     -o-transition: all 0.5s ease;
+     background: #f4364f;
+     background: linear-gradient(to bottom,#f4364f,#dc2039);
+}
+ .link-btn-red:hover {
+     background-color: #e23464;
+     transition: all 0.5s ease;
+     -webkit-transition: all 0.5s ease;
+     -moz-transition: all 0.5s ease;
+     -ms-transition: all 0.5s ease;
+     -o-transition: all 0.5s ease;
+     color: #fff;
+}
+ .link-btn-blue {
+     text-transform: uppercase;
+     font-weight: 700;
+     text-decoration: none;
+     padding: 6px 15px;
+     border-radius: 2px;
+     display: inline-block;
+     font-family: 'Quicksand', sans-serif;
+     text-decoration: none;
+     display: inline-block;
+     cursor: pointer;
+     color: #fff !important;
+    /* font-family: Arial;
+     */
+     font-size: 13px;
+     transition: all 0.5s ease;
+     -webkit-transition: all 0.5s ease;
+     -moz-transition: all 0.5s ease;
+     -ms-transition: all 0.5s ease;
+     -o-transition: all 0.5s ease;
+     background: #f4364f;
+     background: linear-gradient(to bottom,#f4364f,#dc2039);
+}
+ .link-btn-blue:hover {
+     background-color: #e23464;
+     transition: all 0.5s ease;
+     -webkit-transition: all 0.5s ease;
+     -moz-transition: all 0.5s ease;
+     -ms-transition: all 0.5s ease;
+     -o-transition: all 0.5s ease;
+     color: #fff;
+}
  .div {
      transition: all 0.5s ease;
      -webkit-transition: all 0.5s ease;
@@ -7977,6 +8041,17 @@
 
 }
 .btn-grad:hover {
+    background-position: right center;
+    text-decoration: none;
+}
+
+
+.btn-grad-blue {background-image: linear-gradient(to right, #5aaeed 0%, #248ddd 51%, #4b96cc 100%);
+    border-radius: 8%;
+    color: white;
+
+}
+.btn-grad-blue:hover {
     background-position: right center;
     text-decoration: none;
 }
