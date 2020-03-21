@@ -1,8 +1,15 @@
+from django.http import HttpResponse
 from django.shortcuts import render
-
+import requests
+events = None
 # Create your views here.
 def index(request):
     return render(request,'index.html')
+
+def ajax(request):
+    print("------------------------")
+    print(request.GET["home"])
+    return HttpResponse(events, content_type='application/json')
 
 def tips(request):
     return render(request,'tips.html')
@@ -11,10 +18,21 @@ def faq(request):
 def specialEvent(request):
     return render(request,'special-event.html')
 def tours(request):
-    return render(request,'all-package.html')
+    global events
+    response = requests.get("http://127.0.0.1:8000/api/events/")
+    data = response.json()
+    global events
+    events= { str(i["id"]) : i for i in data }
+    return render(request,'all-package.html',{'data':events})
 
-def tourDetail(request):
-    return render(request,'tour-details.html')
+def tourDetail(request,id):
+    global events
+    if events:
+        data = events[id]
+    else:
+        response = requests.get("http://127.0.0.1:8000/api/events/"+id)
+        data = response.json()
+    return render(request,'tour-details.html',{"data":data})
 
 def login(request):
     return render(request,'login.html')

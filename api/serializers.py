@@ -4,12 +4,12 @@ from api import models
 class OrganizerSerializer(serializers.ModelSerializer):
     class Meta:
         model=models.Organizer
-        fields="__all__"
+        fields=("id","cnic","address","organization","is_verified","rating","name","email","phone")
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model=models.User
-        fields="__all__"
+        fields = ("id", "address","name","email","phone")
 
 class PersonSerializer(serializers.ModelSerializer):
     user = UserSerializer(many=False,allow_null=True)
@@ -32,3 +32,22 @@ class PersonSerializer(serializers.ModelSerializer):
             organizerID=None
         person = models.Person.objects.create(**validated_data,user=userID,organizer=organizerID)
         return person
+
+class ImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=models.Image
+        fields="__all__"
+
+class EventSerializer(serializers.ModelSerializer):
+    image = ImageSerializer(many=True,allow_null=True)
+    organizer = OrganizerSerializer(many=False,allow_null=False)
+    class Meta:
+        model=models.Event
+        fields=('id','title','description','date_of_departure','date_of_arrival','slots','pic','price','is_completed','is_accomodation','is_food','organizer','image')
+        #fields="__all__"
+    def create(self, validated_data):
+        images = validated_data.pop('image',None)
+        event = models.Event.objects.create(**validated_data)
+        for image in images:
+            models.Image.objects.create(**image,event=event)
+        return event

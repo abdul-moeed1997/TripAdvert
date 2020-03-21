@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block body  %}
-		
+
 		<!-- TOP SEARCH BOX -->
         <div class="search-top">
             <div class="container">
@@ -38,12 +38,12 @@
 	<section>
 		<div class="rows inner_banner inner_banner_4">
 			<div class="container">
-				<h2><span>Brazil & Argentina -</span> Family Package</h2>
+				<h2><span>{{data.title}} -</span> Tour Package</h2>
 				<ul>
 					<li><a href="#inner-page-title">Home</a>
 					</li>
 					<li><i class="fa fa-angle-right" aria-hidden="true"></i> </li>
-					<li><a href="#inner-page-title" class="bread-acti">Brazil & Argentina</a>
+					<li><a href="#inner-page-title" class="bread-acti">{{data.title}}</a>
 					</li>
 				</ul>
 				<p>Book travel packages and enjoy your holidays with distinctive experience</p>
@@ -56,9 +56,9 @@
 			<div class="container">
 				<div class="banner_book_1">
 					<ul>
-						<li class="dl1">Location : Rio,Brazil</li>
-						<li class="dl2">Price : $500</li>
-						<li class="dl3">Duration : 8 Nights/ 9 Days</li>
+						<li class="dl1">Location : {{ data.destination }}</li>
+						<li class="dl2">Price : {{ data.price }}</li>
+						<li class="dl3">Departure Date : {{data.date_of_departure}}</li>
 						<li class="dl4"><a href="/travel/user/dashboard/eventBooking/">Book Now</a> </li>
 					</ul>
 				</div>
@@ -72,38 +72,18 @@
 				<div class="col-md-9">
 					<!--====== TOUR TITLE ==========-->
 					<div class="tour_head">
-						<h2>The Best of Brazil & Argentina <span class="tour_star"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-half-o" aria-hidden="true"></i></span><span class="tour_rat">4.5</span></h2> </div>
+						<h2>{{data.title}} <span class="tour_star"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-half-o" aria-hidden="true"></i></span><span class="tour_rat">{{ data.organizer.rating }}</span></h2> </div>
 					<!--====== TOUR DESCRIPTION ==========-->
 					<div class="tour_head1">
 						<h3>Description</h3>
-						<p>Discover two of South America’s greatest cities, Rio de Janeiro and Buenos Aires, at a leisurely pace. A major highlight on this journey is a visit to Iguassu Falls in between your two city stays. It truly is one of the most spectacular sights on Earth. See the impressive falls from both the Brazilian and Argentine sides.</p>
-						<p>Brazil’s view takes you through clouds of mist and the opportunity to see these 275 falls, spanning nearly two miles! Argentina’s side allows you to walk along the boardwalk network and embark on a jungle train through the forest for unforgettable views. Hear the deafening roar and admire the brilliant rainbows created by the clouds of spray, and take in the majesty of this wonder of the world. From vibrant cities to scenic beauty, this vacation to Rio de Janeiro, Iguassu Falls, and Buenos Aires will leave you with vacation memories you’ll cherish for life.</p>
+						<p>{{data.description}}</p>
 					</div>
 					<!--====== ROOMS: HOTEL BOOKING ==========-->
 					<div class="tour_head1 hotel-book-room">
 						<h3>Photo Gallery</h3>
 						<div id="myCarousel1" class="carousel slide" data-ride="carousel">
 							<!-- Indicators -->
-							<ol class="carousel-indicators carousel-indicators-1">
-								<li data-target="#myCarousel1" data-slide-to="0"><img src="{% static 'travel/images/gallery/t1.jpg' %}" alt="Chania">
-								</li>
-								<li data-target="#myCarousel1" data-slide-to="1"><img src="{% static 'travel/images/gallery/t2.jpg' %}" alt="Chania">
-								</li>
-								<li data-target="#myCarousel1" data-slide-to="2"><img src="{% static 'travel/images/gallery/t3.jpg' %}" alt="Chania">
-								</li>
-								<li data-target="#myCarousel1" data-slide-to="3"><img src="{% static 'travel/images/gallery/t4.jpg' %}" alt="Chania">
-								</li>
-								<li data-target="#myCarousel1" data-slide-to="4"><img src="{% static 'travel/images/gallery/t5.jpg' %}" alt="Chania">
-								</li>
-								<li data-target="#myCarousel1" data-slide-to="5"><img src="{% static 'travel/images/gallery/s6.jpg' %}" alt="Chania">
-								</li>
-								<li data-target="#myCarousel1" data-slide-to="6"><img src="{% static 'travel/images/gallery/s7.jpg' %}" alt="Chania">
-								</li>
-								<li data-target="#myCarousel1" data-slide-to="7"><img src="{% static 'travel/images/gallery/s8.jpg' %}" alt="Chania">
-								</li>
-								<li data-target="#myCarousel1" data-slide-to="8"><img src="{% static 'travel/images/gallery/s9.jpg' %}" alt="Chania">
-								</li>
-							</ol>
+
 							<!-- Wrapper for slides -->
 							<div class="carousel-inner carousel-inner1" role="listbox">
 								<div class="item active"> <img src="{% static 'travel/images/gallery/t1.jpg' %}" alt="Chania" width="460" height="345"> </div>
@@ -117,8 +97,6 @@
 								<div class="item"> <img src="{% static 'travel/images/gallery/t9.jpg' %}" alt="Chania" width="460" height="345"> </div>
 							</div>
 							<!-- Left and right controls -->
-							<a class="left carousel-control" href="#myCarousel1" role="button" data-slide="prev"> <span><i class="fa fa-angle-left hotel-gal-arr" aria-hidden="true"></i></span> </a>
-							<a class="right carousel-control" href="#myCarousel1" role="button" data-slide="next"> <span><i class="fa fa-angle-right hotel-gal-arr hotel-gal-arr1" aria-hidden="true"></i></span> </a>
 						</div>
 					</div>
 					<!--====== TOUR LOCATION ==========-->
@@ -308,39 +286,36 @@
 				<div class="col-md-3 tour_r">
 					<!--====== SPECIAL OFFERS ==========-->
 					<div class="tour_right tour_offer">
-						<div class="band1"><img src="{% static 'travel/images/offer.png' %}" alt="" /> </div>
-						<p>Special Offer</p>
-						<h4>$500<span class="n-td">
-								<span class="n-td-1">$800</span>
-								</span>
+						<p>Price</p>
+						<h4 class="n-td-1" style="color: red" >$500
 							</h4> <a href="booking.html" class="link-btn">Book Now</a> </div>
 					<!--====== TRIP INFORMATION ==========-->
 					<div class="tour_right tour_incl tour-ri-com">
 						<h3>Trip Information</h3>
 						<ul>
-							<li>Location : Rio,Brazil</li>
-							<li>Arrival Date: Nov 12, 2017</li>
-							<li>Departure Date: Nov 21, 2017</li>
-							<li>Free Sightseeing & Hotel</li>
+                            <li>Home Town : {{ data.home }}</li>
+							<li>Location : {{ data.destination }}</li>
+							<li>Arrival Date: {{data.date_of_arrival}}</li>
+							<li>Departure Date: {{ data.date_of_departure }}</li>
+                            {% if data.is_accomodation %}
+							<li>Accomodation is included</li>
+                            {% endif %}
+                            {% if data.is_food %}
+							<li>Food is included</li>
+                            {% endif %}
+                            {% if data.is_sightseeing %}
+							<li>Free Sightseeing</li>
+                            {% endif %}
 						</ul>
 					</div>
 					<!--====== PACKAGE SHARE ==========-->
-					<div class="tour_right head_right tour_social tour-ri-com">
-						<h3>Share This Package</h3>
-						<ul>
-							<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a> </li>
-							<li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a> </li>
-							<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a> </li>
-							<li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a> </li>
-							<li><a href="#"><i class="fa fa-whatsapp" aria-hidden="true"></i></a> </li>
-						</ul>
-					</div>
 					<!--====== HELP PACKAGE ==========-->
 					<div class="tour_right head_right tour_help tour-ri-com">
 						<h3>Help & Support</h3>
 						<div class="tour_help_1">
-							<h4 class="tour_help_1_call">Call Us Now</h4>
-							<h4><i class="fa fa-phone" aria-hidden="true"></i> 10-800-123-000</h4> </div>
+							<h4 class="tour_help_1_call">Call or Mail Us Now</h4>
+							<h5><i class="fa fa-envelope" aria-hidden="true"></i> {{data.organizer.email}}</h5> </div>
+							<h5><i class="fa fa-phone center" aria-hidden="true"></i> {{data.organizer.phone}}</h5> </div>
 					</div>
 				</div>
 			</div>

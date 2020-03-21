@@ -5,8 +5,9 @@ from . import views
 urlpatterns = [
     path('', views.index, name='Home'),
     path('tours/', views.tours, name='Tours'),
+    path('ajax/', views.ajax),
     path('organizer/addEvent/', views.addEvent, name='Add-Event'),
-    path('tour/detail/', views.tourDetail, name='Tour-Details'),
+    path('tour/detail/<id>', views.tourDetail, name='Tour-Details'),
     path('organizer/detail/', views.organizerDetail, name='Organizer-Detail'),
     path('organizer/detail/portfolio/', views.organizerPortfolioUser, name='Organizer-Detail'),
     path('login/', views.login, name='Login'),
