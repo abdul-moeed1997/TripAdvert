@@ -19,6 +19,7 @@ class PersonProfileManager(BaseUserManager):
         user = self.create_user(email,name,password)
         user.is_superuser=True
         user.is_staff=True
+        user.user_type=3
         user.save(using=self._db)
         return user
 
@@ -91,13 +92,13 @@ class Person(AbstractBaseUser,PermissionsMixin):
     email = models.EmailField(max_length=255,unique=True)
     phone_no = models.CharField(max_length=11)
     image = models.ImageField(upload_to ='uploads/users',null=True)
-    password = models.CharField(max_length=50)
+    password = models.CharField(max_length=255)
     user_type = models.IntegerField(default=1)
     user = models.ForeignKey(User,null=True,blank=True,on_delete=models.CASCADE,related_name='user1')
     organizer = models.ForeignKey(Organizer,null=True,blank=True,on_delete=models.CASCADE,related_name='organizer1')
     date = models.DateField(auto_now_add=True)
     is_blocked = models.BooleanField(default=False,null=True)
-
+    is_staff = models.BooleanField(default=True)
 
     objects = PersonProfileManager()
 
