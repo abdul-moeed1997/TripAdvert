@@ -1,12 +1,31 @@
+from django import template
+from django.contrib.auth import authenticate
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 import requests
+from django.contrib import auth
+
+
+# global variables
+from django.template import context
 
 events = None
 prev_url = None
+user = True
 # Create your views here.
+
+
+
 def index(request):
-    global prev_url
+    global prev_url, user
+    if request.user.is_authenticated and user:
+        request.session["tripadvert_user_id"] = request.user.id
+        request.session["tripadvert_user_name"] = request.user.first_name
+        request.session["tripadvert_user_type"] = 0
+        user=False
+
+    if request.session.get("tripadvert_user_type")==0:
+        print("=-=-=-=-=-=-")
     prev_url = request.get_raw_uri()
     return render(request,'index.html')
 
@@ -41,6 +60,20 @@ def tourDetail(request,id):
         data = response.json()
     return render(request,'tour-details.html',{"data":data})
 
+
+def logout(request):
+    global user
+    user=True
+    if request.user.is_authenticated:
+        auth.logout(request)
+    if request.session.get("tripadvert_user_name",None):
+        del request.session["tripadvert_user_name"]
+    if request.session.get("tripadvert_user_type", None):
+        del request.session["tripadvert_user_type"]
+    if request.session.get("tripadvert_user_id", None):
+        del request.session["tripadvert_user_id"]
+    return redirect("/")
+
 def login(request):
     global prev_url
     data=""
@@ -49,7 +82,13 @@ def login(request):
         password = request.POST["password"]
         response = requests.post("http://127.0.0.1:8000/api/persons/login/",{'email':email,'password':password})
         if response.status_code == 200:
-            data = response.json()
+            data = (response.json()[0])
+            request.session["tripadvert_user_id"]=data["id"]
+            request.session["tripadvert_user_name"] = data["first_name"]
+            request.session["tripadvert_user_type"] = data["user_type"]
+            request.session["tripadvert_user_image"] = data["image"]
+            global user
+            user=False
             if prev_url:
                 temp_url = prev_url
                 prev_url = None

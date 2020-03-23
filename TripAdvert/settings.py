@@ -25,7 +25,7 @@ SECRET_KEY = '%l731@__)qa_w%b8a1%oaf%=^=r7tzsw+b@n4h^r_3&7up*n2#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -171,6 +171,7 @@ SOCIALACCOUNT_PROVIDERS = \
 SOCIAL_AUTH_FACEBOOK_KEY = '227181361806869'  # App ID
 SOCIAL_AUTH_FACEBOOK_SECRET ='4dce1f5a5e740ab7c5791a62ef846cf5' #app key
 LOGIN_REDIRECT_URL = "/travel/"
+LOGOUT_REDIRECT_URL = "/travel"
 
 SITE_ID = 1 # for the dev mode, you need to use localhost's id facebook does not support the name 127.0.0.1:8000
 #little options for your page's signup.

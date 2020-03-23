@@ -1,3 +1,4 @@
+from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 from api import models
 
@@ -19,6 +20,10 @@ class PersonSerializer(serializers.ModelSerializer):
         fields=('id','first_name','last_name','email','password','phone_no','is_blocked','image','date','user_type','user','organizer')
 
     def create(self, validated_data):
+        if 'username' not in validated_data:
+            print("Yes")
+            validated_data['username'] = validated_data['email']
+        validated_data['password'] = make_password(validated_data.get('password'))
         user = validated_data.pop('user',None)
         organizer = validated_data.pop('organizer',None)
         user_type = validated_data.get('user_type',None)
@@ -32,8 +37,6 @@ class PersonSerializer(serializers.ModelSerializer):
             organizerID=None
         person = models.Person.objects.create(**validated_data,user=userID,organizer=organizerID)
         return person
-
-    def authenticate(self):
 
 
 
@@ -55,3 +58,9 @@ class EventSerializer(serializers.ModelSerializer):
         for image in images:
             models.Image.objects.create(**image,event=event)
         return event
+
+class SessionSerializer(serializers.ModelSerializer):
+    user = PersonSerializer(many=False)
+    class Meta:
+        model=models.SessionLogin
+        fields=("session_id","user")

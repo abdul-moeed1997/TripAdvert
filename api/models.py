@@ -30,7 +30,8 @@ class User(models.Model):
         """
         Return the mean rating from all comments
         """
-        return self.user1.filter(user=self.id).values("name").first()["name"]
+        user = self.user1.filter(user=self.id).values("first_name","last_name").first()
+        return user["first_name"]+ " " + user["last_name"]
 
 
     def email(self):
@@ -38,13 +39,13 @@ class User(models.Model):
         Return the mean rating from all comments
         """
 
-        return self.user1.filter(organizer=self.id).values("email").first()["email"]
+        return self.user1.filter(user=self.id).values("email").first()["email"]
 
     def phone(self):
         """
         Return the mean rating from all comments
         """
-        return self.user1.filter(organizer=self.id).values("phone_no").first()["phone_no"]
+        return self.user1.filter(user=self.id).values("phone_no").first()["phone_no"]
 
 class Organizer(models.Model):
     cnic = models.CharField(max_length=13,blank=True,unique=True)
@@ -66,7 +67,8 @@ class Organizer(models.Model):
         """
         Return the mean rating from all comments
         """
-        return self.organizer1.filter(organizer=self.id).values("name").first()["name"]
+        organizer = self.organizer1.filter(organizer=self.id).values("first_name","last_name").first()
+        return organizer["first_name"] + " " + organizer["last_name"]
 
     def email(self):
         """
@@ -91,7 +93,7 @@ class Person(AbstractBaseUser,PermissionsMixin):
     first_name = models.CharField(max_length=50,blank=True)
     last_name = models.CharField(max_length=50,blank=True)
     email = models.EmailField(max_length=255,unique=True)
-    username = models.CharField(max_length=255,default=email)
+    username = models.CharField(max_length=255,blank=True)
     phone_no = models.CharField(max_length=11)
     image = models.ImageField(upload_to ='uploads/users',null=True)
     password = models.CharField(max_length=255)
@@ -107,7 +109,8 @@ class Person(AbstractBaseUser,PermissionsMixin):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name','last_name','password']
 
-
+    def get_password(self):
+        return self.password
     def get_name(self):
         return self.first_name+" "+self.last_name
 
@@ -169,3 +172,7 @@ class Booking(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     event = models.ForeignKey(Event, null=False, on_delete=models.CASCADE)
     user = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
+
+class SessionLogin(models.Model):
+    session_id = models.CharField(max_length=255,primary_key=True)
+    user = models.ForeignKey(Person,on_delete=models.CASCADE)

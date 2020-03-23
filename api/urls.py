@@ -6,7 +6,9 @@ router=DefaultRouter()
 router.register('persons',views.PersonViewSet)
 router.register('events',views.EventViewSet)
 router.register('images',views.ImageViewSet)
+router.register('session',views.SessionViewSet)
 urlpatterns=[
     path('',include(router.urls)),
+    path('api-auth/', include('rest_framework.urls')),
 
 ]

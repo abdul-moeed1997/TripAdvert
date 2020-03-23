@@ -90,8 +90,53 @@
                                 </li>
                                 <li><a href="/travel/contact/">Contact us</a>
                                 </li>
-                                <li style="margin-left: 50px;"><a href="/travel/login/" class="login-nav-btn btn-grad"> <span style="color: white;margin-left: 10px;margin-right: 15px;">Login / Register</span></a>
-                                </li>
+                                {% if request.session.tripadvert_user_type == 0 %}
+                                    <li class="cour-menu right-align ml-5"><img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="Avatar" class="my_avatar ml-5 mr-3"><a href="#" >Profile</a>
+                                        <div class="cour-mm m-menu">
+                                            <div class="m-menu-inn">
+                                                <div class="mm1-com mm1-cour-com mm1-s3" style="text-align: left!important;">
+                                                    <h4>Options</h4>
+                                                    <ul>
+                                                        <li><a href="#">Dashboard</a></li>
+                                                        <li><a href="/travel/logout/">Logout</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% elif request.session.tripadvert_user_type == 1 %}
+                                    <li class="cour-menu right-align ml-5"><img src="{{ request.session.tripadvert_user_image }}" alt="Avatar" class="my_avatar ml-5 mr-3"><a href="#" >Profile</a>
+                                        <div class="cour-mm m-menu">
+                                            <div class="m-menu-inn">
+                                                <div class="mm1-com mm1-cour-com mm1-s3" style="text-align: left!important;">
+                                                    <h4>Options</h4>
+                                                    <ul>
+                                                        <li><a href="#">Dashboard</a></li>
+                                                        <li><a href="/travel/logout/">Logout</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% elif request.session.tripadvert_user_type == 2 %}
+                                    <li class="cour-menu right-align ml-5"><img src="{{ request.session.tripadvert_user_image }}" alt="Avatar" class="my_avatar ml-5 mr-3"><a href="#" >Profile</a>
+                                        <div class="cour-mm m-menu">
+                                            <div class="m-menu-inn">
+                                                <div class="mm1-com mm1-cour-com mm1-s3" style="text-align: left!important;">
+                                                    <h4>Options</h4>
+                                                    <ul>
+                                                        <li><a href="#">Dashboard</a></li>
+                                                        <li><a href="/travel/logout/">Logout</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% else %}
+
+                                <a href="/travel/login/" style="margin-left:50px;" class="login-nav-btn btn-grad"> <span>Login / Register</span></a>
+                                {% endif %}
+
                             </ul>
                         </div>
                     </div>

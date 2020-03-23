@@ -8035,14 +8035,23 @@
 	background: transparent;
 }
 
-.btn-grad {background-image: linear-gradient(to right, #FF512F 0%, #DD2476 51%, #FF512F 100%);
-    border-radius: 8%;
+.btn-grad {background-image: linear-gradient(to right, #DD2476 0%, #FF512F 51%, #DD2476 100%);
+    border-radius: 5%;
     color: white;
+    border: 1px solid crimson;
 
 }
+.my_avatar {
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
 .btn-grad:hover {
+    background-image: linear-gradient(to right, #FF512F 0%, #DD2476 51%, #FF512F 100%);
     background-position: right center;
-    text-decoration: none;
+    text-decoration: none !important;
+
 }
 
 

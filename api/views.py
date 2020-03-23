@@ -1,3 +1,6 @@
+from django.contrib import auth
+from django.contrib.auth.hashers import make_password
+import django.contrib.auth.hashers as hasher
 from django.shortcuts import render
 
 # Create your views here.
@@ -18,6 +21,11 @@ from social_core.backends.oauth import BaseOAuth2
 from social_core.exceptions import MissingBackend, AuthTokenError, AuthForbidden
 from . import serializers
 
+
+
+class SessionViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.SessionSerializer
+    queryset = models.SessionLogin.objects.all()
 
 class ImageViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ImageSerializer
@@ -40,18 +48,17 @@ class OrganizerView(viewsets.ModelViewSet):
 class PersonViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.PersonSerializer
     queryset = models.Person.objects.filter(is_blocked=False)
-    search_fields = ('name', 'email',)
+    search_fields = ('first_name','last_name', 'email',)
 
     @action(detail=False, methods=['post'])
     def login(self, request):
         data=request.data
-        print(request.data["email"])
-        user = self.queryset.filter(email=request.data['email'],password=request.data['password'])
-        print(user)
-        if not user:
-            return Response(status=status.HTTP_400_BAD_REQUEST,data="Invalid Email or Password")
-        else:
-            serializer = serializers.PersonSerializer(user,many=True)
-            print(serializer.data)
-            return Response(status=status.HTTP_200_OK, data=serializer.data)
+        user = self.queryset.filter(email=request.data['email'])
+        if user:
+            if hasher.check_password(request.data['password'],user.first().get_password()):
+                serializer = serializers.PersonSerializer(user,many=True)
+                return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+        return Response(status=status.HTTP_400_BAD_REQUEST,data="Invalid Email or Password")
+
 

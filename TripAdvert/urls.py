@@ -19,7 +19,10 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.urls import path, include
 
+from TripAdvert import views
+
 urlpatterns = [
+    path('', views.index),
     path('admin/', admin.site.urls),
     path('travel/', include('travel.urls')),
     path('api/', include('api.urls')),

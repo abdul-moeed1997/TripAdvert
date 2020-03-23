@@ -13,6 +13,7 @@ urlpatterns = [
     path('organizer/detail/', views.organizerDetail, name='Organizer-Detail'),
     path('organizer/detail/portfolio/', views.organizerPortfolioUser, name='Organizer-Detail'),
     path('login/', views.login, name='Login'),
+    path('logout/', views.logout, name='Logout'),
     path('user/register/', views.signUp, name='Signup'),
     path('specialEvent/', views.specialEvent , name='specialEvent'),
     path('tips/', views.tips , name='tips'),
