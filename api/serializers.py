@@ -33,6 +33,10 @@ class PersonSerializer(serializers.ModelSerializer):
         person = models.Person.objects.create(**validated_data,user=userID,organizer=organizerID)
         return person
 
+    def authenticate(self):
+
+
+
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model=models.Image
