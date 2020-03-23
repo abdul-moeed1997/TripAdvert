@@ -6,17 +6,17 @@ from  django.contrib.auth.models import BaseUserManager
 # Create your models here.
 
 class PersonProfileManager(BaseUserManager):
-    def create_user(self,email,name,password=None):
+    def create_user(self,email,first_name,last_name="",password=None):
         if not email:
             raise ValueError("User must have email")
         email = self.normalize_email(email)
-        user = self.model(email=email,name=name)
+        user = self.model(email=email,first_name=first_name,last_name=last_name,password=password)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self,email,name,password):
-        user = self.create_user(email,name,password)
+    def create_superuser(self,email,first_name,last_name="",password=None):
+        user = self.create_user(email,first_name,last_name=last_name,password=password)
         user.is_superuser=True
         user.is_staff=True
         user.user_type=3
@@ -88,8 +88,10 @@ class Organizer(models.Model):
 
 
 class Person(AbstractBaseUser,PermissionsMixin):
-    name = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=50,blank=True)
+    last_name = models.CharField(max_length=50,blank=True)
     email = models.EmailField(max_length=255,unique=True)
+    username = models.CharField(max_length=255,default=email)
     phone_no = models.CharField(max_length=11)
     image = models.ImageField(upload_to ='uploads/users',null=True)
     password = models.CharField(max_length=255)
@@ -103,11 +105,13 @@ class Person(AbstractBaseUser,PermissionsMixin):
     objects = PersonProfileManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['name','password']
+    REQUIRED_FIELDS = ['first_name','last_name','password']
 
 
     def get_name(self):
-        return self.name
+        return self.first_name+" "+self.last_name
+
+
 
 class Review(models.Model):
     rating = models.IntegerField(null=False)

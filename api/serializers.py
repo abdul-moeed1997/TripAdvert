@@ -16,7 +16,7 @@ class PersonSerializer(serializers.ModelSerializer):
     organizer = OrganizerSerializer(many=False,allow_null=True)
     class Meta:
         model=models.Person
-        fields=('id','name','email','password','phone_no','is_blocked','image','date','user_type','user','organizer')
+        fields=('id','first_name','last_name','email','password','phone_no','is_blocked','image','date','user_type','user','organizer')
 
     def create(self, validated_data):
         user = validated_data.pop('user',None)

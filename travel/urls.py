@@ -1,9 +1,11 @@
-from django.urls import path
+from django.conf.urls import url
+from django.urls import path, include
 from . import views
 
 
 urlpatterns = [
     path('', views.index, name='Home'),
+    url(r'^accounts/',include('allauth.urls')),
     path('tours/', views.tours, name='Tours'),
     path('ajax/', views.ajax),
     path('organizer/addEvent/', views.addEvent, name='Add-Event'),

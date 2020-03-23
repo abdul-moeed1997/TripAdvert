@@ -8,6 +8,16 @@ from rest_framework.decorators import action
 from django.db.models import Avg, Max, Min, Sum, Count
 from api import serializers, models
 
+from django.http import JsonResponse
+from rest_framework import generics, permissions, status, views
+from rest_framework.response import Response
+from requests.exceptions import HTTPError
+
+from social_django.utils import load_strategy, load_backend
+from social_core.backends.oauth import BaseOAuth2
+from social_core.exceptions import MissingBackend, AuthTokenError, AuthForbidden
+from . import serializers
+
 
 class ImageViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ImageSerializer
@@ -44,3 +54,4 @@ class PersonViewSet(viewsets.ModelViewSet):
             serializer = serializers.PersonSerializer(user,many=True)
             print(serializer.data)
             return Response(status=status.HTTP_200_OK, data=serializer.data)
+

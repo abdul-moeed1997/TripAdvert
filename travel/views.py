@@ -1,15 +1,17 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import requests
 
 events = None
+prev_url = None
 # Create your views here.
 def index(request):
+    global prev_url
+    prev_url = request.get_raw_uri()
     return render(request,'index.html')
 
+
 def ajax(request):
-    print("------------------------")
-    print(request.GET["home"])
     return HttpResponse(events, content_type='application/json')
 
 def tips(request):
@@ -19,6 +21,8 @@ def faq(request):
 def specialEvent(request):
     return render(request,'special-event.html')
 def tours(request):
+    global prev_url
+    prev_url = request.get_raw_uri()
     global events
     response = requests.get("http://127.0.0.1:8000/api/events/")
     data = response.json()
@@ -27,6 +31,8 @@ def tours(request):
     return render(request,'all-package.html',{'data':events})
 
 def tourDetail(request,id):
+    global prev_url
+    prev_url = request.get_raw_uri()
     global events
     if events:
         data = events[id]
@@ -36,7 +42,24 @@ def tourDetail(request,id):
     return render(request,'tour-details.html',{"data":data})
 
 def login(request):
-    return render(request,'login.html')
+    global prev_url
+    data=""
+    if request.method=='POST':
+        email = request.POST["email"]
+        password = request.POST["password"]
+        response = requests.post("http://127.0.0.1:8000/api/persons/login/",{'email':email,'password':password})
+        if response.status_code == 200:
+            data = response.json()
+            if prev_url:
+                temp_url = prev_url
+                prev_url = None
+            else:
+                temp_url='Home'
+            return redirect(temp_url)
+        elif response.status_code == 400:
+            data = response.json()
+
+    return render(request,'login.html',{"data":data})
 
 def signUp(request):
     return render(request,'register.html')
