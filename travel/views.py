@@ -30,26 +30,26 @@ def index(request):
     return render(request,'index.html')
 
 
-def user_profile(request):
-    if "tripadvert_user_type" in request.session and request.session["tripadvert_user_type"]==1:
-        response = requests.get("http://127.0.0.1:8000/api/users/"+str(request.session["tripadvert_user_id"]))
-        if response.status_code==200:
-            data = response.json()
-            return render(request,'user-my-profile.html',{"data":data})
-        else:
-            return redirect(request,'/travel/something-wrong')
-    elif "tripadvert_user_type" in request.session and request.session["tripadvert_user_type"]==2:
-        response = requests.get("http://127.0.0.1:8000/api/organizers/" + str(request.session["tripadvert_user_id"]))
-        if response.status_code == 200:
-            data = response.json()
-            return render(request, 'organizer-my-profile.html', {"data": data})
-        else:
-            return redirect(request, '/travel/something-wrong')
-
-
-    global prev_url
-    prev_url = request.get_raw_uri()
-    return redirect('/travel/access-denied')
+# def user_profile(request):
+#     if "tripadvert_user_type" in request.session and request.session["tripadvert_user_type"]==1:
+#         response = requests.get("http://127.0.0.1:8000/api/users/"+str(request.session["tripadvert_user_id"]))
+#         if response.status_code==200:
+#             data = response.json()
+#             return render(request,'user-my-profile.html',{"data":data})
+#         else:
+#             return redirect(request,'/travel/something-wrong')
+#     elif "tripadvert_user_type" in request.session and request.session["tripadvert_user_type"]==2:
+#         response = requests.get("http://127.0.0.1:8000/api/organizers/" + str(request.session["tripadvert_user_id"]))
+#         if response.status_code == 200:
+#             data = response.json()
+#             return render(request, 'organizer-my-profile.html', {"data": data})
+#         else:
+#             return redirect(request, '/travel/something-wrong')
+#
+#
+#     global prev_url
+#     prev_url = request.get_raw_uri()
+#     return redirect('/travel/access-denied')
 
 def ajax(request):
     return HttpResponse(events, content_type='application/json')
@@ -185,7 +185,6 @@ def fblogin(request):
     global user
     if request.user.is_authenticated:
         request.session["tripadvert_person_id"] = request.user.id
-        request.session["tripadvert_user_id"] = request.user.user1.id
         request.session["tripadvert_user_name"] = request.user.first_name + " " + request.user.last_name
         request.session["tripadvert_user_type"] = 0
         user=False

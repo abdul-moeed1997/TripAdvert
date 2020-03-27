@@ -8,7 +8,7 @@ urlpatterns = [
     url(r'^accounts/',include('allauth.urls')),
     path('tours/', views.tours, name='Tours'),
     path('fb-login/', views.fblogin, name='Fb-Login'),
-    path('user-profile/', views.user_profile, name='User-Profile'),
+#    path('user-profile/', views.user_profile, name='User-Profile'),
     path('access-denied/', views.access_denied, name='Access-Denied'),
     path('something-wrong/', views.something_wrong, name='Something-Wrong'),
     path('ajax/', views.ajax),
