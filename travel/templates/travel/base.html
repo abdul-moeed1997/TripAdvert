@@ -53,16 +53,45 @@
                             <h4>Home page</h4>
                             <h4>Packages</h4>
                             <ul>
-                                <li><a href="all-package.html">All Package</a></li><li><a href="#">Family Package</a></li>
-                                <li><a href="#">Honeymoon Package</a></li>
-                                <li><a href="group-package.html">Group Package</a></li>
-                                <li><a href="weekend-package.html">WeekEnd Package</a></li>
-                                <li><a href="regular-package.html">Regular Package</a></li>
-                                <li><a href="custom-package.html">Custom Package</a></li>
+                                <li><a href="#">Home</a></li><li><a href="#">Family Package</a></li>
+                                <li><a href="#">All Packages</a></li>
+                                <li><a href="#">About Us</a></li>
+                                <li><a href="#">Contact Us</a></li>
+                                {% if request.session.tripadvert_user_type == 0 %}
+                                    <li class="cour-menu right-align ml-5"><img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="Avatar" class="my_avatar ml-5 mr-3"><a href="#" >{{request.session.tripadvert_user_name}}</a>
+                                        <div class="cour-mm m-menu mm1-cour-com">
+                                            <ul class="ml-5" style="border-left: lightgrey 1px solid;" >
+                                                        <li class="fa fa-user" style="color:#e23464" ><a href="#" class="ml-3" style="padding-top: 1px;padding-left:0px;color: grey">My Profile</a></li>
+                                                        <li  class="fa fa-power-off" style="color:#e23464"><a href="/travel/logout/" class="ml-3" style="padding-top: 1px;padding-left:0px;color: grey">Logout</a></li>
+                                            </ul>
+                                        </div>
+                                    </li>
+
+                                {% elif request.session.tripadvert_user_type == 1 %}
+                                    <li class="cour-menu right-align ml-5"><img src="{{ request.session.tripadvert_user_image }}" alt="Avatar" class="my_avatar ml-5 mr-3"><a href="#" >{{request.session.tripadvert_user_name}}</a>
+                                        <div class="cour-mm m-menu mm1-cour-com">
+                                            <ul class="ml-5" style="border-left: lightgrey 1px solid;" >
+                                                        <li class="fa fa-user" style="color:#e23464" ><a href="/travel/user/dashboard/my-profile/" class="ml-3" style="padding-top: 1px;padding-left:0px;color: grey">Dashboard</a></li>
+                                                        <li  class="fa fa-power-off" style="color:#e23464"><a href="/travel/logout/" class="ml-3" style="padding-top: 1px;padding-left:0px;color: grey">Logout</a></li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    </li>
+                                {% elif request.session.tripadvert_user_type == 2 %}
+                                    <li class="cour-menu right-align ml-5"><img src="{{ request.session.tripadvert_user_image }}" alt="Avatar" class="my_avatar ml-5 mr-3"><a href="#" >{{request.session.tripadvert_user_name}}</a>
+                                        <div class="cour-mm m-menu mm1-cour-com">
+                                            <ul class="ml-5" style="border-left: lightgrey 1px solid;" >
+                                                        <li class="fa fa-user" style="color:#e23464" ><a href="#" class="ml-3" style="padding-top: 1px;padding-left:0px;color: grey">My Profile</a></li>
+                                                        <li  class="fa fa-power-off" style="color:#e23464"><a href="/travel/logout/" class="ml-3" style="padding-top: 1px;padding-left:0px;color: grey">Logout</a></li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    </li>
+                                {% else %}
+
+                                <a href="/travel/login/" style="margin-left:50px;" class="login-nav-btn btn-grad"> <span>Login / Register</span></a>
+                                {% endif %}
                             </ul>
-                           <h4>Profile</h4>
-                            <h4>Contact Us</h4>
-                            <h4>About Us</h4>
                         </div>
                     </div>
                 </div>
@@ -91,46 +120,34 @@
                                 <li><a href="/travel/contact/">Contact us</a>
                                 </li>
                                 {% if request.session.tripadvert_user_type == 0 %}
-                                    <li class="cour-menu right-align ml-5"><img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="Avatar" class="my_avatar ml-5 mr-3"><a href="#" >Profile</a>
-                                        <div class="cour-mm m-menu">
-                                            <div class="m-menu-inn">
-                                                <div class="mm1-com mm1-cour-com mm1-s3" style="text-align: left!important;">
-                                                    <h4>Options</h4>
-                                                    <ul>
-                                                        <li><a href="#">Dashboard</a></li>
-                                                        <li><a href="/travel/logout/">Logout</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
+                                    <li class="cour-menu right-align ml-5"><img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="Avatar" class="my_avatar ml-5 mr-3"><a href="#" >{{request.session.tripadvert_user_name}}</a>
+                                        <div class="cour-mm m-menu mm1-cour-com">
+                                            <ul class="ml-5" style="border-left: lightgrey 1px solid;" >
+                                                        <li class="fa fa-user" style="color:#e23464" ><a href="#" class="ml-3" style="padding-top: 1px;padding-left:0px;color: grey">My Profile</a></li>
+                                                        <li  class="fa fa-power-off" style="color:#e23464"><a href="/travel/logout/" class="ml-3" style="padding-top: 1px;padding-left:0px;color: grey">Logout</a></li>
+                                            </ul>
                                         </div>
                                     </li>
+
                                 {% elif request.session.tripadvert_user_type == 1 %}
-                                    <li class="cour-menu right-align ml-5"><img src="{{ request.session.tripadvert_user_image }}" alt="Avatar" class="my_avatar ml-5 mr-3"><a href="#" >Profile</a>
-                                        <div class="cour-mm m-menu">
-                                            <div class="m-menu-inn">
-                                                <div class="mm1-com mm1-cour-com mm1-s3" style="text-align: left!important;">
-                                                    <h4>Options</h4>
-                                                    <ul>
-                                                        <li><a href="#">Dashboard</a></li>
-                                                        <li><a href="/travel/logout/">Logout</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
+                                    <li class="cour-menu right-align ml-5"><img src="{{ request.session.tripadvert_user_image }}" alt="Avatar" class="my_avatar ml-5 mr-3"><a href="#" >{{request.session.tripadvert_user_name}}</a>
+                                        <div class="cour-mm m-menu mm1-cour-com">
+                                            <ul class="ml-5" style="border-left: lightgrey 1px solid;" >
+                                                        <li class="fa fa-user" style="color:#e23464" ><a href="/travel/user/dashboard/my-profile/" class="ml-3" style="padding-top: 1px;padding-left:0px;color: grey">Dashboard</a></li>
+                                                        <li  class="fa fa-power-off" style="color:#e23464"><a href="/travel/logout/" class="ml-3" style="padding-top: 1px;padding-left:0px;color: grey">Logout</a></li>
+                                            </ul>
                                         </div>
+                                    </li>
                                     </li>
                                 {% elif request.session.tripadvert_user_type == 2 %}
-                                    <li class="cour-menu right-align ml-5"><img src="{{ request.session.tripadvert_user_image }}" alt="Avatar" class="my_avatar ml-5 mr-3"><a href="#" >Profile</a>
-                                        <div class="cour-mm m-menu">
-                                            <div class="m-menu-inn">
-                                                <div class="mm1-com mm1-cour-com mm1-s3" style="text-align: left!important;">
-                                                    <h4>Options</h4>
-                                                    <ul>
-                                                        <li><a href="#">Dashboard</a></li>
-                                                        <li><a href="/travel/logout/">Logout</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
+                                    <li class="cour-menu right-align ml-5"><img src="{{ request.session.tripadvert_user_image }}" alt="Avatar" class="my_avatar ml-5 mr-3"><a href="#" >{{request.session.tripadvert_user_name}}</a>
+                                        <div class="cour-mm m-menu mm1-cour-com">
+                                            <ul class="ml-5" style="border-left: lightgrey 1px solid;" >
+                                                        <li class="fa fa-user" style="color:#e23464" ><a href="#" class="ml-3" style="padding-top: 1px;padding-left:0px;color: grey">My Profile</a></li>
+                                                        <li  class="fa fa-power-off" style="color:#e23464"><a href="/travel/logout/" class="ml-3" style="padding-top: 1px;padding-left:0px;color: grey">Logout</a></li>
+                                            </ul>
                                         </div>
+                                    </li>
                                     </li>
                                 {% else %}
 

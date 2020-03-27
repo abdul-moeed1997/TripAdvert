@@ -31,26 +31,33 @@
 			</div>
 			<!--CENTER SECTION-->
 			<div class="db-2">
+
 				<div class="db-2-com db-2-main">
 					<h4>Edit My Profile </h4>
 					<div class="db-2-main-com db2-form-pay db2-form-com">
 						<form class="col s12">
                             <div class="row">
-								<div class="input-field col s12">
-									<input type="text" class="validate">
+								<div class="input-field col s12 m6">
+									<input type="text" name="first_name" class="validate">
 									<label>First Name</label>
 								</div>
-							</div>
-                            <div class="row">
-								<div class="input-field col s12">
-									<input type="text" class="validate">
+								<div class="input-field col s12 m6">
+									<input type="text" name="last_name" class="validate">
 									<label>Last Name</label>
 								</div>
 							</div>
-							<div class="row">
+
+                            <div class="row">
 								<div class="input-field col s12">
-									<input type="text" class="validate">
-									<label>User Name</label>
+									<input type="email" name="email" class="validate">
+									<label>Email</label>
+								</div>
+							</div>
+
+                            <div class="row">
+								<div class="input-field col s12">
+									<input type="text" name="phone" class="validate">
+									<label>Phone</label>
 								</div>
 							</div>
                             <div class="row">
@@ -59,32 +66,12 @@
 									<label>Address</label>
 								</div>
 							</div>
-							<div class="row">
-								<div class="input-field col s12 m6">
-									<input type="password" class="validate">
-									<label>Enter Password</label>
-								</div>
-								<div class="input-field col s12 m6">
-									<input type="password" class="validate">
-									<label>Confirm Password</label>
-								</div>
-							</div>
-							<div class="row">
-								<div class="input-field col s12 m6">
-									<input type="email" class="validate">
-									<label>Email id</label>
-								</div>
-								<div class="input-field col s12 m6">
-									<input type="number" class="validate">
-									<label>Phone</label>
-								</div>
-							</div>
 							<div class="row db-file-upload">
 								<div class="file-field input-field">
 									<div class="db-up-btn"> <span>File</span>
 										<input type="file"> </div>
 									<div class="file-path-wrapper">
-										<input class="file-path validate" type="text"> </div>
+										<input class="file-path validate" name="image" type="file"> </div>
 								</div>
 							</div>
 							<div class="row">

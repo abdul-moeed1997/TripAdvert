@@ -26,12 +26,17 @@ class PersonProfileManager(BaseUserManager):
 class User(models.Model):
     address=models.CharField(max_length=255,blank=True)
 
-    def name(self):
+    def first_name(self):
         """
         Return the mean rating from all comments
         """
-        user = self.user1.filter(user=self.id).values("first_name","last_name").first()
-        return user["first_name"]+ " " + user["last_name"]
+        return self.user1.filter(user=self.id).values("first_name").first()["first_name"]
+
+    def last_name(self):
+        """
+        Return the mean rating from all comments
+        """
+        return self.user1.filter(user=self.id).values("last_name").first()["last_name"]
 
 
     def email(self):
@@ -63,12 +68,17 @@ class Organizer(models.Model):
         else:
             return 0
 
-    def name(self):
+    def first_name(self):
         """
         Return the mean rating from all comments
         """
-        organizer = self.organizer1.filter(organizer=self.id).values("first_name","last_name").first()
-        return organizer["first_name"] + " " + organizer["last_name"]
+        return self.organizer1.filter(organizer=self.id).values("first_name").first()["first_name"]
+
+    def last_name(self):
+        """
+        Return the mean rating from all comments
+        """
+        return self.organizer1.filter(organizer=self.id).values("last_name").first()["last_name"]
 
     def email(self):
         """
@@ -87,6 +97,7 @@ class Organizer(models.Model):
 
     def __str__(self):
         return str(self.id)
+
 
 
 class Person(AbstractBaseUser,PermissionsMixin):
@@ -118,10 +129,10 @@ class Person(AbstractBaseUser,PermissionsMixin):
 
 class Review(models.Model):
     rating = models.IntegerField(null=False)
-    comment=models.CharField(max_length=255,blank=True)
     date = models.DateTimeField(auto_now_add=True,null=True)
     user = models.ForeignKey(User, null=True,on_delete=models.SET_NULL,default=None)
     organizer = models.ForeignKey(Organizer, null=False,on_delete=models.CASCADE,related_name="reviews")
+
 
 
 class BlockRequest(models.Model):
@@ -136,6 +147,8 @@ class Message(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     sentBy = models.ForeignKey(Person, null=False,on_delete=models.CASCADE,related_name='MessageSender')
     sentFor = models.ForeignKey(Person, null=False,on_delete=models.CASCADE,related_name='MessageReceiver')
+
+
 
 class Event(models.Model):
     title = models.CharField(max_length=255,blank=False)
@@ -157,6 +170,18 @@ class Event(models.Model):
     food_description = models.CharField(max_length=1000,blank=True,null=True)
     organizer = models.ForeignKey(Organizer, null=False,on_delete=models.CASCADE,related_name='organizer')
 
+    def __str__(self):
+        return self.title
+    def schedule(self):
+        return self.activity.filter(event=self.id).values()
+
+class EventSchedule(models.Model):
+    day = models.CharField(max_length=50,blank=True)
+    short_description = models.CharField(max_length=100,blank=True)
+    detail_description = models.CharField(max_length=255, blank=True)
+    event = models.ForeignKey(Event,on_delete=models.CASCADE,related_name="activity")
+
+
 class Image(models.Model):
     image = models.ImageField(upload_to ='uploads/events/',null=True)
     event = models.ForeignKey(Event,null=False,on_delete=models.CASCADE,related_name='image')
@@ -173,6 +198,8 @@ class Booking(models.Model):
     event = models.ForeignKey(Event, null=False, on_delete=models.CASCADE)
     user = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
 
-class SessionLogin(models.Model):
-    session_id = models.CharField(max_length=255,primary_key=True)
-    user = models.ForeignKey(Person,on_delete=models.CASCADE)
+class Comment(models.Model):
+    comment=models.CharField(max_length=255,blank=True)
+    date = models.DateTimeField(auto_now_add=True,null=True)
+    event = models.ForeignKey(Event, null=True,on_delete=models.CASCADE)
+    user = models.ForeignKey(Person, null=False,on_delete=models.CASCADE)

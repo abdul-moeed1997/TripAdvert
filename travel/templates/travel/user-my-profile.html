@@ -1,0 +1,192 @@
+{% extends  'base.html' %}
+{% load static %}
+
+
+{% block title %}
+<title>The Travel - My Profile</title>
+{% endblock %}
+
+{% block body  %}
+    <section class="hot-page2-alp hot-page2-pa-sp-top">
+
+    <section>
+    <div class="container">
+			<div class="row inner_banner inner_banner_3 bg-none">
+				<div class="hot-page2-alp-tit">
+                    <span style="margin: 1cm"><h1>Top Travel Packages</h1></span>
+					<ul>
+						<li><a href="#inner-page-title">Home</a> </li>
+						<li><i class="fa fa-angle-right" aria-hidden="true"></i> </li>
+						<li><a href="#inner-page-title" class="bread-acti">Tours & Events</a> </li>
+					</ul>
+					<p> World's leading Tour Booking website,Over 10,000 tours posted by registered tour organizers worldwide. </p>
+				</div>
+			</div>
+		</div>
+    </section>
+	<!--DASHBOARD-->
+	<section>
+		<div class="db">
+			<!--LEFT SECTION-->
+			<div class="db-l">
+				<div class="db-l-1">
+					<ul>
+						<li><img src="{{ request.session.tripadvert_user_image }}" alt="" />
+						</li>
+
+					</ul>
+				</div>
+				<div class="db-l-2">
+					<ul>
+						<li>
+							<a href="/travel/user/dashboard/my-profile/"><img src="{% static 'travel/images/icon/dbl6.png' %}" alt="" /> My Profile</a>
+						</li>
+						<li>
+							<a href="/travel/user/dashboard/event-booking/"><img src="{% static 'travel/images/icon/dbl2.png' %}" alt="" /> Travel Bookings</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!--CENTER SECTION-->
+			<div class="db-2">
+				<div id="root" class="db-2-com db-2-main">
+					<h4>My Profile</h4>
+					<div class="db-2-main-com db-2-main-com-table">
+						<table class="responsive-table">
+							<tbody>
+								<tr>
+									<td>Name</td>
+									<td>:</td>
+									<td>{{data.first_name}} {{ data.last_name }}</td>
+								</tr>
+								<tr>
+									<td>Email</td>
+									<td>:</td>
+									<td>{{data.email}}</td>
+								</tr>
+								<tr>
+									<td>Phone</td>
+									<td>:</td>
+									<td>{{data.phone}}</td>
+								</tr>
+								<tr>
+									<td>Address</td>
+									<td>:</td>
+									<td>{{data.address}}</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="db-mak-pay-bot">
+							 <button onclick="addForm()"  class="waves-effect waves-light btn-large" style="font-family:Ebrima">Edit my profile</button> </div>
+					</div>
+				</div>
+			</div>
+			<!--RIGHT SECTION-->
+			<div class="db-3">
+				<h4>Notifications</h4>
+				<ul>
+					<li>
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr1.jpg' %}" alt="" />
+							<h5>50% Discount Offer</h5>
+							<p>All the Lorem Ipsum generators on the</p>
+						</a>
+					</li>
+					<li>
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr2.jpg' %}" alt="" />
+							<h5>paris travel package</h5>
+							<p>All the Lorem Ipsum generators on the</p>
+						</a>
+					</li>
+					<li>
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr3.jpg' %}" alt="" />
+							<h5>Group Trip - Available</h5>
+							<p>All the Lorem Ipsum generators on the</p>
+						</a>
+					</li>
+					<li>
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr4.jpg' %}" alt="" />
+							<h5>world best travel agency</h5>
+							<p>All the Lorem Ipsum generators on the</p>
+						</a>
+					</li>
+					<li>
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr5.jpg' %}" alt="" />
+							<h5>special travel coupons</h5>
+							<p>All the Lorem Ipsum generators on the</p>
+						</a>
+					</li>
+					<li>
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr6.jpg' %}" alt="" />
+							<h5>70% Offer 2018</h5>
+							<p>All the Lorem Ipsum generators on the</p>
+						</a>
+					</li>
+					<li>
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr7.jpg' %}" alt="" />
+							<h5>Popular Cities</h5>
+							<p>All the Lorem Ipsum generators on the</p>
+						</a>
+					</li>
+					<li>
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr8.jpg' %}" alt="" />
+							<h5>variations of passages</h5>
+							<p>All the Lorem Ipsum generators on the</p>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+	</section>
+	<!--END DASHBOARD-->
+<script>
+    function addForm() {
+        root = document.getElementById("root");
+        root.innerHTML = '';
+        data="<h4> Edit My Profile </h4>"+
+                '<div class="db-2-main-com db2-form-pay db2-form-com" style="padding:0px;">\n' +
+            '\t\t\t\t\t\t<form class="col s12" action="" method="POST" enctype="multipart/form-data">\n{% csrf_token %}' +
+            '                            <div class="row">\n' +
+            '\t\t\t\t\t\t\t\t<div class="input-field col s12 m6">\n' +
+            '\t\t\t\t\t\t\t\t\t<input type="text" value="{{ data.first_name }}" name="first_name" class="validate">\n' +
+            '\t\t\t\t\t\t\t\t</div>\n' +
+            '\t\t\t\t\t\t\t\t<div class="input-field col s12 m6">\n' +
+            '\t\t\t\t\t\t\t\t\t<input type="text" name="last_name" value="{{ data.last_name }}" class="validate">\n' +
+            '\t\t\t\t\t\t\t\t</div>\n' +
+            '\t\t\t\t\t\t\t</div>\n' +
+            '\n' +
+            '                            <div class="row">\n' +
+            '\t\t\t\t\t\t\t\t<div class="input-field col s12">\n' +
+            '\t\t\t\t\t\t\t\t\t<input type="email" name="email" value="{{ data.email }}" class="validate" readonly>\n' +
+            '\t\t\t\t\t\t\t\t</div>\n' +
+            '\t\t\t\t\t\t\t</div>\n' +
+            '\n' +
+            '                            <div class="row">\n' +
+            '\t\t\t\t\t\t\t\t<div class="input-field col s12">\n' +
+            '\t\t\t\t\t\t\t\t\t<input type="text" name="phone" value="{{ data.phone }}" class="validate">\n' +
+            '\t\t\t\t\t\t\t\t</div>\n' +
+            '\t\t\t\t\t\t\t</div>\n' +
+            '                            <div class="row">\n' +
+            '\t\t\t\t\t\t\t\t<div class="input-field col s12">\n' +
+            '\t\t\t\t\t\t\t\t\t<input type="text" name="address" value="{{ data.address }}" class="validate">\n' +
+            '\t\t\t\t\t\t\t\t</div>\n' +
+            '\t\t\t\t\t\t\t</div>\n' +
+            '\t\t\t\t\t\t\t<div class="row db-file-upload">\n' +
+            '\t\t\t\t\t\t\t\t<div class="file-field input-field">\n' +
+            '\t\t\t\t\t\t\t\t\t<div class="db-up-btn"> <span>File</span>\n' +
+            '\t\t\t\t\t\t\t\t\t\t<input name="image" type="file"> </div>\n' +
+            '\t\t\t\t\t\t\t\t\t<div class="file-path-wrapper">\n' +
+            '\t\t\t\t\t\t\t\t\t\t<input class="file-path validate" value="{{ request.session.tripadvert_user_image }}" name="image" type="text"> </div>\n' +
+            '\t\t\t\t\t\t\t\t</div>\n' +
+            '\t\t\t\t\t\t\t</div>\n' +
+            '\t\t\t\t\t\t\t<div class="row">\n' +
+            '\t\t\t\t\t\t\t\t<div class="input-field col s12">\n' +
+            '\t\t\t\t\t\t\t\t\t<input type="submit" value="CONFIRM" class="waves-effect waves-light full-btn my-btn-large" style="background-color:#f4364f">' +
+            '<a href="/travel/user/dashboard/my-profile" class="mt-2 waves-effect waves-light full-btn my-btn-large" >Cancel</a> </div>\n' +
+            '\t\t\t\t\t\t\t</div>\n' +
+            '\t\t\t\t\t\t</form>\n' +
+            '\t\t\t\t\t</div>'
+        root.innerHTML=data;
+    }
+</script>
+{% endblock %}

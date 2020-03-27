@@ -1,0 +1,193 @@
+{% extends  'base.html' %}
+{% load static %}
+
+
+{% block title %}
+<title>The Travel - Tour Travel</title>
+{% endblock %}
+
+{% block body  %}
+
+		<!-- TOP SEARCH BOX -->
+        <div class="search-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="search-form">
+						<form class="tourz-search-form">
+							<div class="input-field">
+								<input type="text" id="select-city" class="autocomplete">
+								<label for="select-city">Enter city</label>
+							</div>
+							<div class="input-field">
+								<input type="text" id="select-search" class="autocomplete">
+								<label for="select-search" class="search-hotel-type">Search over a million tour and travels, sight seeings, hotels and more</label>
+							</div>
+							<div class="input-field">
+								<input type="submit" value="search" class="waves-effect waves-light tourz-sear-btn"> </div>
+						</form>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<!-- END TOP SEARCH BOX -->
+    <!--END HEADER SECTION-->
+	
+	<!--====== HOTELS LIST ==========-->
+	<section class="hot-page2-alp hot-page2-pa-sp-top">
+        <div class="container">
+
+            <section>
+                <div class="row inner_banner inner_banner_3 bg-none">
+                    <div class="hot-page2-alp-tit">
+                        <span style="margin: 1cm"><h1>Top Travel Packages</h1></span>
+                        <ul>
+                            <li><a href="#inner-page-title">Home</a> </li>
+                            <li><i class="fa fa-angle-right" aria-hidden="true"></i> </li>
+                            <li><a href="#inner-page-title" class="bread-acti">Tours & Events</a> </li>
+                        </ul>
+                        <p> World's leading Tour Booking website,Over 10,000 tours posted by registered tour organizers worldwide. </p>
+                    </div>
+                </div>
+            </section>
+        </div>
+            <section>
+                <div class="db">
+			    <!--LEFT SECTION-->
+                    <div class="db-l">
+                        <div class="db-l-1">
+                            <ul>
+                                <li><img src="{% static 'travel/images/Private-Guide.png' %}" alt="" />
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="db-l-2">
+                            <ul>
+                                <li>
+                                    <a href="db-my-profile.html"><img src="images/icon/dbl6.png" alt="" /> My Profile</a>
+                                </li>
+                                <li>
+                                    <a href="my-events.html"><img src="images/icon/dbl4.png" alt="" />My Events</a>
+                                </li>
+                                <li>
+                                    <a href="my-portfolio.html"><img src="images/icon/dbl7.png" alt="" />Portfolio</a>
+                                </li>
+                                <li>
+                                    <a href="add-event.html"><img src="images/icon/dbl2.png" alt="" />Add Event</a>
+                                </li>
+                                <li>
+                                    <a href="chat.html"><img src="images/icon/chat.png" alt="" />messages</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--CENTER SECTION-->
+                    <div class="db-2">
+                        <div class="db-2-com db-2-main">
+                            <h4>My Profile</h4>
+                            <div class="db-2-main-com db-2-main-com-table">
+                                <table class="responsive-table">
+                                    <tbody>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>:</td>
+                                            <td>Sam Anderson</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Company Name</td>
+                                            <td>:</td>
+                                            <td>mypasswordtour</td>
+                                        </tr>
+                                        <tr>
+                                            <td>E-mail</td>
+                                            <td>:</td>
+                                            <td>sam_anderson@gmail.com</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Phone</td>
+                                            <td>:</td>
+                                            <td>+01 4561 3214</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Address</td>
+                                            <td>:</td>
+                                            <td>8800 Orchard Lake Road, Suite 180 Farmington Hills, U.S.A.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Rating</td>
+                                            <td>:</td>
+                                            <td>5 star</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <a href="edit-profile.html" class="waves-effect waves-light btn-large">Edit my profile</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!--RIGHT SECTION-->
+                    <div class="db-3">
+                        <h4>Notifications</h4>
+                        <ul>
+                            <li>
+                                <a href="#!"> <img src="{% static 'travel/images/icon/dbr1.jpg' %}" alt="" />
+                                    <h5>50% Discount Offer</h5>
+                                    <p>All the Lorem Ipsum generators on the</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#!"> <img src="{% static 'travel/images/icon/dbr2.jpg' %}" alt="" />
+                                    <h5>paris travel package</h5>
+                                    <p>All the Lorem Ipsum generators on the</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#!"> <img src="{% static 'travel/images/icon/dbr3.jpg' %}" alt="" />
+                                    <h5>Group Trip - Available</h5>
+                                    <p>All the Lorem Ipsum generators on the</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#!"> <img src="{% static 'travel/images/icon/dbr4.jpg' %}" alt="" />
+                                    <h5>world best travel agency</h5>
+                                    <p>All the Lorem Ipsum generators on the</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#!"> <img src="{% static 'travel/images/icon/dbr5.jpg' %}" alt="" />
+                                    <h5>special travel coupons</h5>
+                                    <p>All the Lorem Ipsum generators on the</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#!"> <img src="{% static 'travel/images/icon/dbr6.jpg' %}" alt="" />
+                                    <h5>70% Offer 2018</h5>
+                                    <p>All the Lorem Ipsum generators on the</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#!"> <img src="{% static 'travel/images/icon/dbr7.jpg' %}" alt="" />
+                                    <h5>Popular Cities</h5>
+                                    <p>All the Lorem Ipsum generators on the</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#!"> <img src="{% static 'travel/images/icon/dbr8.jpg' %}" alt="" />
+                                    <h5>variations of passages</h5>
+                                    <p>All the Lorem Ipsum generators on the</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+		        </div>
+            </section>
+
+
+		</div>
+	</section>
+{% endblock %}

@@ -1,12 +1,13 @@
 from django.contrib import auth
 from django.contrib.auth.hashers import make_password
 import django.contrib.auth.hashers as hasher
+from django.db.transaction import atomic
 from django.shortcuts import render
 
 # Create your views here.
 from rest_framework.response import Response
 from rest_framework import viewsets, status
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view
 
 from django.db.models import Avg, Max, Min, Sum, Count
 from api import serializers, models
@@ -22,14 +23,26 @@ from social_core.exceptions import MissingBackend, AuthTokenError, AuthForbidden
 from . import serializers
 
 
+class ScheduleViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.EventScheduleSerializer
+    queryset = models.EventSchedule.objects.all()
 
-class SessionViewSet(viewsets.ModelViewSet):
-    serializer_class = serializers.SessionSerializer
-    queryset = models.SessionLogin.objects.all()
+class PersonOnlyViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.PersonOnlySerializer
+    queryset = models.Person.objects.all()
+
+class OrganizerViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.OrganizerSerializer
+    queryset = models.Organizer.objects.all()
+
+class UserViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.UserSerializer
+    queryset = models.User.objects.all()
 
 class ImageViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ImageSerializer
     queryset = models.Image.objects.all()
+
 
 class EventViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.EventSerializer
@@ -61,4 +74,33 @@ class PersonViewSet(viewsets.ModelViewSet):
 
         return Response(status=status.HTTP_400_BAD_REQUEST,data="Invalid Email or Password")
 
+@api_view(['PUT',])
+@atomic
+def update_user(request,id):
+    if request.data["user_type"]=="1":
+        user = models.User.objects.get(id=request.data["user"])
+        serializer = serializers.UserSerializer(user,data={"address":request.data["address"]})
+        if serializer.is_valid():
+            serializer.save()
 
+        print(serializer.errors)
+    elif request.data["user_type"]=="2":
+        print("Organizer")
+        organizer = models.Organizer.objects.get(id=request.data["organizer"])
+        serializer = serializers.OrganizerSerializer(organizer,data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+
+        data = str(serializer.errors)
+    person = models.Person.objects.get(id=id)
+    data = {"first_name":request.data["first_name"],"last_name":request.data["last_name"],"phone_no":request.data["phone_no"]}
+    if "image" in request.data:
+        data["image"]=request.data["image"]
+    else:
+        data["image"] = person.image
+    serializer = serializers.PersonOnlySerializer(person,data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(status=status.HTTP_200_OK, data=serializer.data)
+    data += str(serializer.errors)
+    return Response(status=status.HTTP_400_BAD_REQUEST, data=data)
