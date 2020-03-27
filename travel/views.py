@@ -23,16 +23,7 @@ user = True
 
 
 def index(request):
-    global prev_url, user
-    if prev_url==None and user == True and request.user.is_authenticated:
-        user=False
-
-    if request.user.is_authenticated and user:
-        request.session["tripadvert_person_id"] = request.user.id
-        request.session["tripadvert_user_id"] = request.user.user1.id
-        request.session["tripadvert_user_name"] = request.user.first_name + " " + request.user.last_name
-        request.session["tripadvert_user_type"] = 0
-        user=False
+    global prev_url
 
 
     prev_url = request.get_raw_uri()
@@ -189,6 +180,16 @@ def userMyProfile(request):
             request.session["tripadvert_user_image"] = data["image"]
 
         return redirect("/travel/user/dashboard/my-profile")
+
+def fblogin(request):
+    global user
+    if request.user.is_authenticated:
+        request.session["tripadvert_person_id"] = request.user.id
+        request.session["tripadvert_user_id"] = request.user.user1.id
+        request.session["tripadvert_user_name"] = request.user.first_name + " " + request.user.last_name
+        request.session["tripadvert_user_type"] = 0
+        user=False
+    return redirect("/travel")
 
 def eventBooking(request):
     return render(request,'eventBooking.html')

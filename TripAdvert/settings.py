@@ -176,7 +176,7 @@ SOCIALACCOUNT_PROVIDERS = \
 
 SOCIAL_AUTH_FACEBOOK_KEY = '227181361806869'  # App ID
 SOCIAL_AUTH_FACEBOOK_SECRET ='4dce1f5a5e740ab7c5791a62ef846cf5' #app key
-LOGIN_REDIRECT_URL = "/travel/"
+LOGIN_REDIRECT_URL = "/travel/fb-login"
 LOGOUT_REDIRECT_URL = "/travel"
 
 SITE_ID = 1 # for the dev mode, you need to use localhost's id facebook does not support the name 127.0.0.1:8000
