@@ -130,7 +130,7 @@ class Person(AbstractBaseUser,PermissionsMixin):
 class Review(models.Model):
     rating = models.IntegerField(null=False)
     date = models.DateTimeField(auto_now_add=True,null=True)
-    user = models.ForeignKey(User, null=True,on_delete=models.SET_NULL,default=None)
+    user = models.ForeignKey(Person, null=True,on_delete=models.SET_NULL,default=None)
     organizer = models.ForeignKey(Organizer, null=False,on_delete=models.CASCADE,related_name="reviews")
 
 
@@ -159,6 +159,7 @@ class Event(models.Model):
     destination = models.CharField(max_length=255,null=True)
     date_of_departure = models.DateTimeField(null=True)
     date_of_arrival = models.DateTimeField(null=True)
+    date =  models.DateTimeField(auto_now_add=True)
     slots = models.IntegerField(null=False)
     price = models.IntegerField(null=False)
     is_completed = models.BooleanField(default=False)
@@ -168,12 +169,18 @@ class Event(models.Model):
     accomodation_description = models.CharField(max_length=1000,blank=True,null=True)
     sightseeing_description = models.CharField(max_length=1000,blank=True,null=True)
     food_description = models.CharField(max_length=1000,blank=True,null=True)
-    organizer = models.ForeignKey(Organizer, null=False,on_delete=models.CASCADE,related_name='organizer')
+    organizer = models.ForeignKey(Organizer, null=False,on_delete=models.CASCADE,related_name='organizer_event')
 
     def __str__(self):
         return self.title
     def schedule(self):
         return self.activity.filter(event=self.id).values()
+
+    def organizer_details(self):
+        organizer = Organizer.objects.filter(id=self.organizer.id).values().first()
+        organizer["rating"] = Review.objects.filter(organizer=organizer["id"]).all().aggregate(models.Avg('rating'))['rating__avg']
+        return organizer
+
 
 class EventSchedule(models.Model):
     day = models.CharField(max_length=50,blank=True)
@@ -195,8 +202,12 @@ class Notification(models.Model):
 
 class Booking(models.Model):
     date = models.DateTimeField(auto_now_add=True)
-    event = models.ForeignKey(Event, null=False, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, null=False, on_delete=models.CASCADE,related_name="event_booking")
+    is_verified = models.BooleanField(default=False)
+    user = models.ForeignKey(Person, null=False, on_delete=models.CASCADE,related_name="user_booking")
+
+    def event_details(self):
+        return Event.objects.filter(id=self.event.id).values().first()
 
 class Comment(models.Model):
     comment=models.CharField(max_length=255,blank=True)

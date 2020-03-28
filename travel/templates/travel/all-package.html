@@ -176,19 +176,20 @@
                                 <div class="hot-page2-alp-r-list">
 									<div class="col-md-3 hot-page2-alp-r-list-re-sp">
 										<a href="/travel/tour/detail/{{ value.id }}">
-											<div class="hotel-list-score">{{ value.organizer.rating }}</div>
+											<div class="hotel-list-score">{{ value.organizer_details.rating }}</div>
 											<div class="hot-page2-hli-1"> <img src="{% static 'travel/images/package/1.jpg' %}" alt=""> </div>
 										</a>
 									</div>
 									<div class="col-md-6 mt-5">
 										<div class="trav-list-bod">
-										<a href="/travel/tour/detail/{{ value.id }}"><h3>{{value.title}}</h3></a>
-										<p>{{value.description}}</p>
+										    <a href="/travel/tour/detail/{{ value.id }}"><h3>{{value.title}}</h3></a>
+                                            <h4>{{value.organizer_detail}}</h4>
+										    <p>{{value.description}}</p>
 										</div>
 									</div>
 									<div class="col-md-3">
 										<div class="hot-page2-alp-ri-p3 tour-alp-ri-p3">
-											<span class="hot-list-p3-1">Price</span> <span class="hot-list-p3-2">{{value.price}}</span><span class="hot-list-p3-4">
+											<span class="hot-list-p3-1">Price</span> <span class="hot-list-p3-2">Rs.{{value.price}}</span><span class="hot-list-p3-4">
 												<a href="/travel/user/dashboard/eventBooking/" class="hot-page2-alp-quot-btn">Book Now</a>
                                                 <a href="/travel/price-list/" class="hot-page2-alp-quot-btn">Compare</a>
                                             <div>

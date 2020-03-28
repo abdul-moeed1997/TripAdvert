@@ -88,19 +88,23 @@ class EventScheduleSerializer(serializers.ModelSerializer):
         fields="__all__"
 
 class EventSerializer(serializers.ModelSerializer):
-    organizer_details = OrganizerSerializer(many=False,allow_null=False,read_only=True)
-#    schedule = EventScheduleSerializer(many=True,allow_null=True)
     class Meta:
         model=models.Event
-        fields=('id','title','description','date_of_departure','date_of_arrival','slots','pic','price','is_completed','is_accomodation','accomodation_description','is_food','food_description','is_sightseeing','sightseeing_description','organizer','organizer_details','schedule')
-
-        #fields="__all__"
-    # def create(self, validated_data):
-    #     event = models.Event.objects.create(**validated_data)
-    #     return event
+        fields=('id','title','description','date','date_of_departure','date_of_arrival','slots','pic','price','is_completed','is_accomodation','accomodation_description','is_food','food_description','is_sightseeing','sightseeing_description','organizer','organizer_details')
 
 
+class SingleEventSerializer(serializers.ModelSerializer):
+    organizer = OrganizerSerializer(many=False,read_only=True)
+    class Meta:
+        model=models.Event
+        fields=('id','title','description','date','date_of_departure','date_of_arrival','slots','pic','price','is_completed','is_accomodation','accomodation_description','is_food','food_description','is_sightseeing','sightseeing_description','organizer','schedule')
 
+
+
+class BookingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=models.Booking
+        fields=('id','is_verified','user','event','event','event_details')
 
 
 class PersonOnlySerializer(serializers.ModelSerializer):

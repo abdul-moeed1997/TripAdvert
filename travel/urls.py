@@ -14,6 +14,7 @@ urlpatterns = [
     path('ajax/', views.ajax),
     path('organizer/addEvent/', views.addEvent, name='Add-Event'),
     path('tour/detail/<id>', views.tourDetail, name='Tour-Details'),
+    path('booking/delete/<id>', views.deleteBooking, name='Tour-Details'),
     path('organizer/detail/', views.organizerDetail, name='Organizer-Detail'),
     path('organizer/detail/portfolio/', views.organizerPortfolioUser, name='Organizer-Detail'),
     path('login/', views.login, name='Login'),

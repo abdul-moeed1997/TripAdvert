@@ -8,7 +8,10 @@ router.register('person-user',views.PersonOnlyViewSet)
 router.register('organizers',views.OrganizerViewSet)
 router.register('users',views.UserViewSet)
 router.register('events',views.EventViewSet)
+router.register('event',views.SingleEventViewSet)
 router.register('images',views.ImageViewSet)
+router.register('user-bookings',views.UserBookingViewSet)
+router.register('event-bookings',views.EventBookingViewSet)
 router.register('event_schedule',views.ScheduleViewSet)
 urlpatterns=[
     path('',include(router.urls)),

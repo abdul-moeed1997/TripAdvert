@@ -1,3 +1,4 @@
+import django_filters
 from django.contrib import auth
 from django.contrib.auth.hashers import make_password
 import django.contrib.auth.hashers as hasher
@@ -23,6 +24,19 @@ from social_core.exceptions import MissingBackend, AuthTokenError, AuthForbidden
 from . import serializers
 
 
+
+class UserBookingViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.BookingSerializer
+    queryset = models.Booking.objects.all()
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+    filterset_fields = ['user']
+
+class EventBookingViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.BookingSerializer
+    queryset = models.Booking.objects.all()
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+    filterset_fields = ['event']
+
 class ScheduleViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.EventScheduleSerializer
     queryset = models.EventSchedule.objects.all()
@@ -46,9 +60,11 @@ class ImageViewSet(viewsets.ModelViewSet):
 
 class EventViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.EventSerializer
-    queryset = models.Event.objects.filter(is_completed=False)
+    queryset = models.Event.objects.filter(is_completed=False).order_by('-date')
 
-
+class SingleEventViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.SingleEventSerializer
+    queryset = models.Event.objects.all()
 
 class UserViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.UserSerializer

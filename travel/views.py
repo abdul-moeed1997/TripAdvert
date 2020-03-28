@@ -77,7 +77,7 @@ def tourDetail(request,id):
     if events:
         data = events[id]
     else:
-        response = requests.get("http://127.0.0.1:8000/api/events/"+id)
+        response = requests.get("http://127.0.0.1:8000/api/event/"+id)
         data = response.json()
     return render(request,'tour-details.html',{"data":data})
 
@@ -127,6 +127,10 @@ def login(request):
     return render(request,'login.html',{"data":data})
 
 
+def deleteBooking(request,id):
+    response = requests.delete("http://127.0.0.1:8000/api/user-bookings/"+str(id))
+    return redirect("/travel/user/dashboard/event-booking")
+
 def something_wrong(request):
     return render(request,'wrong.html')
 
@@ -157,22 +161,17 @@ def userMyProfile(request):
         person["last_name"] = data["last_name"]
         person["phone_no"] = data["phone"]
         person["address"] = data["address"]
-        print(request.FILES)
         if "image" in request.FILES:
-            print("Hello Worlds =====================")
             image=request.FILES['image']
 
             path = default_storage.save('tmp/somename.mp3', ContentFile(image.read()))
             image_data = os.path.join(settings.MEDIA_ROOT, path)
             with open(image_data, "rb") as img_file:
                 my_string = base64.b64encode(img_file.read())
-                print(my_string)
             person['image'] = my_string
             default_storage.delete(path)
         else:
-            print("No=========================")
             del person['image']
-        print(person)
         response = requests.put("http://127.0.0.1:8000/api/users/update/"+str(request.session["tripadvert_person_id"]),person)
         if response.status_code==200:
             data = response.json()
@@ -191,7 +190,12 @@ def fblogin(request):
     return redirect("/travel")
 
 def eventBooking(request):
-    return render(request,'eventBooking.html')
+    response = requests.get("http://127.0.0.1:8000/api/user-bookings?user=" + str(request.session["tripadvert_person_id"]))
+    if response.status_code == 200:
+        data = response.json()
+    else:
+        data={}
+    return render(request,'user-bookings.html',{"data":data})
 
 def userEditProfile(request):
     return render(request,'edit-profile.html')
