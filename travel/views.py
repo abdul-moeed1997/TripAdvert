@@ -23,33 +23,12 @@ user = True
 
 
 def index(request):
-    global prev_url
-
-
-    prev_url = request.get_raw_uri()
+    if "tripadvert_person_id" not in request.session:
+        global prev_url
+        prev_url = request.get_raw_uri()
     return render(request,'index.html')
 
 
-# def user_profile(request):
-#     if "tripadvert_user_type" in request.session and request.session["tripadvert_user_type"]==1:
-#         response = requests.get("http://127.0.0.1:8000/api/users/"+str(request.session["tripadvert_user_id"]))
-#         if response.status_code==200:
-#             data = response.json()
-#             return render(request,'user-my-profile.html',{"data":data})
-#         else:
-#             return redirect(request,'/travel/something-wrong')
-#     elif "tripadvert_user_type" in request.session and request.session["tripadvert_user_type"]==2:
-#         response = requests.get("http://127.0.0.1:8000/api/organizers/" + str(request.session["tripadvert_user_id"]))
-#         if response.status_code == 200:
-#             data = response.json()
-#             return render(request, 'organizer-my-profile.html', {"data": data})
-#         else:
-#             return redirect(request, '/travel/something-wrong')
-#
-#
-#     global prev_url
-#     prev_url = request.get_raw_uri()
-#     return redirect('/travel/access-denied')
 
 def ajax(request):
     return HttpResponse(events, content_type='application/json')
@@ -61,8 +40,10 @@ def faq(request):
 def specialEvent(request):
     return render(request,'special-event.html')
 def tours(request):
-    global prev_url
-    prev_url = request.get_raw_uri()
+
+    if "tripadvert_person_id" not in request.session:
+        global prev_url
+        prev_url = request.get_raw_uri()
     global events
     response = requests.get("http://127.0.0.1:8000/api/events/")
     data = response.json()
@@ -71,8 +52,9 @@ def tours(request):
     return render(request,'all-package.html',{'data':events})
 
 def tourDetail(request,id):
-    global prev_url
-    prev_url = request.get_raw_uri()
+    if "tripadvert_person_id" not in request.session:
+        global prev_url
+        prev_url = request.get_raw_uri()
     global events
     if events:
         data = events[id]
@@ -87,6 +69,8 @@ def logout(request):
     user=True
     if request.user.is_authenticated:
         auth.logout(request)
+    if request.session.get("tripadvert_person_id",None):
+        del request.session["tripadvert_person_id"]
     if request.session.get("tripadvert_user_name",None):
         del request.session["tripadvert_user_name"]
     if request.session.get("tripadvert_user_type", None):
@@ -113,7 +97,8 @@ def login(request):
             request.session["tripadvert_user_type"] = data["user_type"]
             request.session["tripadvert_user_image"] = data["image"]
 
-            global user
+            global user,prev_url
+            prev_url=None
             user=False
             if prev_url:
                 temp_url = prev_url
@@ -178,24 +163,88 @@ def userMyProfile(request):
             request.session["tripadvert_user_name"] = data["first_name"]
             request.session["tripadvert_user_image"] = data["image"]
 
-        return redirect("/travel/user/dashboard/my-profile")
+        return redirect("/travel/organizer/dashboard/my-profile")
+
+
+
+def organizerMyProfile(request):
+    if request.method == "GET":
+        if "tripadvert_user_type" in request.session and request.session["tripadvert_user_type"]==2:
+            response = requests.get("http://127.0.0.1:8000/api/organizers/"+str(request.session["tripadvert_user_id"]))
+            if response.status_code==200:
+                data = response.json()
+                return render(request,'organizer-my-profile.html',{"data":data})
+            else:
+                return redirect(request,'/travel/something-wrong')
+
+        global prev_url
+        prev_url = request.get_raw_uri()
+        return redirect('/travel/access-denied')
+
+    elif request.method == "POST":
+        data=request.POST
+        person = requests.get("http://127.0.0.1:8000/api/persons/"+str(request.session["tripadvert_person_id"])+"/")
+        person = person.json()
+        person["organizer"]=int(person["organizer"]["id"])
+        person["user"]=None
+        person["first_name"] = data["first_name"]
+        person["last_name"] = data["last_name"]
+        person["phone_no"] = data["phone"]
+        person["address"] = data["address"]
+        person["experience"] = data["experience"]
+        person["organization"] = data["organization"]
+        if "image" in request.FILES:
+            image=request.FILES['image']
+
+            path = default_storage.save('tmp/somename.mp3', ContentFile(image.read()))
+            image_data = os.path.join(settings.MEDIA_ROOT, path)
+            with open(image_data, "rb") as img_file:
+                my_string = base64.b64encode(img_file.read())
+            person['image'] = my_string
+            default_storage.delete(path)
+        else:
+            del person['image']
+        response = requests.put("http://127.0.0.1:8000/api/users/update/"+str(request.session["tripadvert_person_id"]),person)
+        if response.status_code==200:
+            data = response.json()
+            request.session["tripadvert_user_name"] = data["first_name"]
+            request.session["tripadvert_user_image"] = data["image"]
+
+        return redirect("/travel/organizer/dashboard/my-profile")
 
 def fblogin(request):
-    global user
+    global user,prev_url
     if request.user.is_authenticated:
         request.session["tripadvert_person_id"] = request.user.id
         request.session["tripadvert_user_name"] = request.user.first_name + " " + request.user.last_name
         request.session["tripadvert_user_type"] = 0
+        prev_url=None
         user=False
     return redirect("/travel")
 
-def eventBooking(request):
+def userEventBooking(request):
     response = requests.get("http://127.0.0.1:8000/api/user-bookings?user=" + str(request.session["tripadvert_person_id"]))
     if response.status_code == 200:
         data = response.json()
     else:
         data={}
     return render(request,'user-bookings.html',{"data":data})
+
+def fbUserEventBooking(request):
+    response = requests.get("http://127.0.0.1:8000/api/user-bookings?user=" + str(request.session["tripadvert_person_id"]))
+    if response.status_code == 200:
+        data = response.json()
+    else:
+        data={}
+    return render(request,'fb-user-bookings.html',{"data":data})
+
+def OrganizerEventBooking(request):
+    response = requests.get("http://127.0.0.1:8000/api/user-bookings?user=" + str(request.session["tripadvert_person_id"]))
+    if response.status_code == 200:
+        data = response.json()
+    else:
+        data={}
+    return render(request,'organizer-bookings.html',{"data":data})
 
 def userEditProfile(request):
     return render(request,'edit-profile.html')
@@ -216,8 +265,6 @@ def about(request):
 def price_list(request):
     return render(request, 'price-list.html')
 
-def eventBookingDetails(request):
-    return render(request,'eventBookingDetails.html')
 
 def organizerSignUp(request):
     return render(request,'organizer_SignUp.html')
@@ -238,13 +285,53 @@ def editProfileOrganizer(request):
     return render(request, 'editProfileOrg.html')
 
 
-def organizerEvents(request):
-    return render(request, 'orgEvents.html')
+def organizerMyEvents(request):
+    data={}
+    response=requests.get("http://127.0.0.1:8000/api/portfolio?user="+str(request.session["tripadvert_user_id"])+("&is_completed=false"))
+    if response.status_code==200:
+        data = response.json()
+    return render(request, 'organizer-my-events.html',{"data":data})
 
 
 def addEvent(request):
-    return render(request, 'add-event.html')
+    if request.method == 'POST':
+        data=request.POST.dict()
+        if "image" in request.FILES:
+            image=request.FILES['image']
 
+            path = default_storage.save('tmp/somename.mp3', ContentFile(image.read()))
+            image_data = os.path.join(settings.MEDIA_ROOT, path)
+            with open(image_data, "rb") as img_file:
+                my_string = base64.b64encode(img_file.read())
+            is_food=False
+            if request.POST["is_food"]=="1":
+                is_food=True
+            is_accomodation = False
+            if request.POST["is_accomodation"] == "1":
+                is_accomodation = True
+            is_sightseeing = False
+            if request.POST["is_sightseeing"] == "1":
+                is_sightseeing = True
+
+            data["pic"]=my_string
+            data["organizer"]=int(request.session["tripadvert_user_id"])
+            data["is_accomodation"]=is_accomodation
+            data["is_food"]=is_food
+            data["is_sightseeing"]=is_sightseeing
+            default_storage.delete(path)
+            response = requests.post("http://127.0.0.1:8000/api/events/",data)
+
+            return redirect("/travel/organizer/dashboard/my-events")
+    return render(request, 'organizer-add-event.html')
+
+
+def deleteEvent(request,id):
+    requests.delete("http://127.0.0.1:8000/api/events/"+str(id)+"/")
+    return redirect("/travel/organizer/dashboard/events/")
+
+def toggle_isFull(request,id):
+    requests.put("http://127.0.0.1:8000/api/events/update/"+str(id))
+    return redirect("/travel/organizer/dashboard/events/")
 
 def organizerPortfolio(request):
     return render(request, 'my-portfolio.html')

@@ -31,6 +31,13 @@ class UserBookingViewSet(viewsets.ModelViewSet):
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
     filterset_fields = ['user']
 
+
+class PortfolioViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.PortfolioSerializer
+    queryset = models.Event.objects.filter()
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+    filterset_fields = ['organizer','is_completed']
+
 class EventBookingViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.BookingSerializer
     queryset = models.Booking.objects.all()
@@ -60,7 +67,8 @@ class ImageViewSet(viewsets.ModelViewSet):
 
 class EventViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.EventSerializer
-    queryset = models.Event.objects.filter(is_completed=False).order_by('-date')
+    queryset = models.Event.objects.filter(is_completed=False,is_full=False).order_by('-date')
+
 
 class SingleEventViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.SingleEventSerializer
@@ -90,6 +98,19 @@ class PersonViewSet(viewsets.ModelViewSet):
 
         return Response(status=status.HTTP_400_BAD_REQUEST,data="Invalid Email or Password")
 
+
+@api_view(['PUT',])
+def toggle_isFull(request,id):
+    event = models.Event.objects.get(id=id)
+    if event:
+        if event.is_full:
+            event.is_full=False
+        else:
+            event.is_full=True
+        event.save()
+        return Response(status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
+
 @api_view(['PUT',])
 @atomic
 def update_user(request,id):
@@ -99,11 +120,9 @@ def update_user(request,id):
         if serializer.is_valid():
             serializer.save()
 
-        print(serializer.errors)
     elif request.data["user_type"]=="2":
-        print("Organizer")
         organizer = models.Organizer.objects.get(id=request.data["organizer"])
-        serializer = serializers.OrganizerSerializer(organizer,data=request.data)
+        serializer = serializers.OrganizerSerializer(organizer,data={"address":request.data["address"],"experience":request.data["experience"],"organization":request.data["organization"]})
         if serializer.is_valid():
             serializer.save()
 

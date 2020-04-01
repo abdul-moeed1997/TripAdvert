@@ -39,7 +39,7 @@ class Base64ImageField(serializers.ImageField):
 class OrganizerSerializer(serializers.ModelSerializer):
     class Meta:
         model=models.Organizer
-        fields=("id","cnic","address","organization","is_verified","rating","first_name","last_name","email","phone")
+        fields=("id","cnic","address","organization","experience","is_verified","rating","first_name","last_name","email","phone")
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -88,10 +88,17 @@ class EventScheduleSerializer(serializers.ModelSerializer):
         fields="__all__"
 
 class EventSerializer(serializers.ModelSerializer):
+    pic = Base64ImageField(max_length=None, use_url=True)
     class Meta:
         model=models.Event
-        fields=('id','title','description','date','date_of_departure','date_of_arrival','slots','pic','price','is_completed','is_accomodation','accomodation_description','is_food','food_description','is_sightseeing','sightseeing_description','organizer','organizer_details')
+        fields=('id','title','description','home','destination','category','date','date_of_departure','date_of_arrival','slots','pic','price','is_completed','is_accomodation','accomodation_description','is_food','food_description','is_sightseeing','sightseeing_description','organizer','organizer_details')
 
+
+class PortfolioSerializer(serializers.ModelSerializer):
+    pic = Base64ImageField(max_length=None, use_url=True)
+    class Meta:
+        model=models.Event
+        fields = "__all__"
 
 class SingleEventSerializer(serializers.ModelSerializer):
     organizer = OrganizerSerializer(many=False,read_only=True)

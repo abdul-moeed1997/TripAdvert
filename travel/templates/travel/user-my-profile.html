@@ -148,10 +148,10 @@
             '\t\t\t\t\t\t<form class="col s12" action="" method="POST" enctype="multipart/form-data">\n{% csrf_token %}' +
             '                            <div class="row">\n' +
             '\t\t\t\t\t\t\t\t<div class="input-field col s12 m6">\n' +
-            '\t\t\t\t\t\t\t\t\t<input type="text" value="{{ data.first_name }}" name="first_name" class="validate">\n' +
+            '\t\t\t\t\t\t\t\t\t<input type="text" value="{{ data.first_name }}" name="first_name" class="validate" required>\n' +
             '\t\t\t\t\t\t\t\t</div>\n' +
             '\t\t\t\t\t\t\t\t<div class="input-field col s12 m6">\n' +
-            '\t\t\t\t\t\t\t\t\t<input type="text" name="last_name" value="{{ data.last_name }}" class="validate">\n' +
+            '\t\t\t\t\t\t\t\t\t<input type="text" name="last_name" value="{{ data.last_name }}" class="validate" required>\n' +
             '\t\t\t\t\t\t\t\t</div>\n' +
             '\t\t\t\t\t\t\t</div>\n' +
             '\n' +
@@ -163,7 +163,7 @@
             '\n' +
             '                            <div class="row">\n' +
             '\t\t\t\t\t\t\t\t<div class="input-field col s12">\n' +
-            '\t\t\t\t\t\t\t\t\t<input type="text" name="phone" value="{{ data.phone }}" class="validate">\n' +
+            '\t\t\t\t\t\t\t\t\t<input type="text" name="phone" value="{{ data.phone }}" class="validate" required>\n' +
             '\t\t\t\t\t\t\t\t</div>\n' +
             '\t\t\t\t\t\t\t</div>\n' +
             '                            <div class="row">\n' +

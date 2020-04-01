@@ -1,0 +1,259 @@
+{% extends  'base.html' %}
+{% load static %}
+
+
+{% block title %}
+<title>The Travel - My Profile</title>
+{% endblock %}
+
+{% block body  %}
+    <section class="hot-page2-alp hot-page2-pa-sp-top">
+
+    <section>
+    <div class="container">
+			<div class="row inner_banner inner_banner_3 bg-none">
+				<div class="hot-page2-alp-tit">
+                    <span style="margin: 1cm"><h1>Top Travel Packages</h1></span>
+					<ul>
+						<li><a href="#inner-page-title">Home</a> </li>
+						<li><i class="fa fa-angle-right" aria-hidden="true"></i> </li>
+						<li><a href="#inner-page-title" class="bread-acti">Tours & Events</a> </li>
+					</ul>
+					<p> World's leading Tour Booking website,Over 10,000 tours posted by registered tour organizers worldwide. </p>
+				</div>
+			</div>
+		</div>
+    </section>
+	<!--DASHBOARD-->
+	<section>
+		<div class="db">
+			<!--LEFT SECTION-->
+			<div class="db-l">
+				<div class="db-l-1">
+					<ul>
+						<li><img src="{{ request.session.tripadvert_user_image }}" alt="" />
+						</li>
+
+					</ul>
+				</div>
+				<div class="db-l-2">
+					<ul>
+						<li>
+							<a href="/travel/organizer/dashboard/my-profile" ><img src="{% static 'travel/images/icon/dbl6.png' %}" alt="" /> My Profile</a>
+						</li>
+						<li>
+							<a href="/travel/organizer/dashboard/event-bookings/"><img src="{% static 'travel/images/icon/dbl2.png' %}" alt="" /> Travel Bookings</a>
+						</li>
+
+                        <li>
+							<a href="/travel/organizer/dashboard/create-event/"><img src="{% static 'travel/images/icon/dbl4.png' %}" alt="" /> Create Event</a>
+						</li>
+                        <li>
+							<a href="/travel/organizer/dashboard/events/"><img src="{% static 'travel/images/icon/dbl1.png' %}" alt="" /> My Events</a>
+						</li>
+
+                        <li>
+							<a href="/travel/user/dashboard/event-booking/"><img src="{% static 'travel/images/icon/dbl7.png' %}" alt="" /> My Portfolio</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!--CENTER SECTION-->
+			<div class="db-2">
+                <div class="db-2-com db-2-main p-0">
+                    <h4>Add Event </h4>
+                    <div class="db-2-main-com db2-form-pay db2-form-com p-0">
+
+
+                        <form class="col s12" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="input-field col s12">
+									<input type="text"  class="validate" name="title" required>
+									<label>Event Title</label>
+								</div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <textarea style="height: 100px;" name="description"  type="text" class="validate h5" required ></textarea>
+                                    <label>Description</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s6">
+									<input style="text-decoration: none;" name="date_of_departure"  type="text" id="from" onfocusin='(function(){document.getElementById("from").type = "datetime-local";})()'  required >
+									<label for="from">Departure Date</label>
+								</div>
+								<div class="input-field col s6">
+									<input type="text" onfocusin='(function(){
+    document.getElementById("to").type = "datetime-local";
+
+})()' id="to" name="date_of_arrival" required >
+									<label for="to">Return Date</label>
+								</div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s6">
+									<input type="text" id="fromLoc" name="home" required>
+									<label for="home">Hometown</label>
+								</div>
+								<div class="input-field col s6">
+									<input type="text" id="toLoc" name="destination" required>
+									<label for="destination">Destination</label>
+								</div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s6">
+									<input type="number" name="slots" required>
+									<label for="slots">Seats</label>
+								</div>
+								<div class="input-field col s6">
+									<input type="number" name="price" required>
+									<label for="price">Price</label>
+								</div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+									<select name="category" required>
+										<option value="" disabled selected>Select Category</option>
+										<option >One Day Tour</option>
+										<option >Three Day Tour</option>
+										<option >Detailed Tour</option>
+										<option >Cultural/Heritage Tour</option>
+									</select>
+								</div>
+                            </div>
+                            <div class="row">
+
+                                <div class="input-field col s12 m7">
+									<select name="is_accomodation" required>
+										<option value="" disabled selected>Includes Accomodation?</option>
+										<option value="1">Included</option>
+                                        <option value="0">Not Included</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <textarea style="height: 100px"  type="text" name="accomodation_description" aria-multiline="true" class="validate"></textarea>
+                                    <label>Accomodation Details</label>
+                                </div>
+
+                            </div>
+                            <div class="row">
+
+                                <div class="input-field col s12 m7">
+									<select name="is_food" required>
+										<option value="" disabled selected>Includes Meal?</option>
+										<option value="1">Included</option>
+                                        <option value="0">Not Included</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <textarea style="height: 100px"  type="text" name="food_description" aria-multiline="true" class="validate"></textarea>
+                                    <label>Meal Details</label>
+                                </div>
+
+                            </div>
+                                                        <div class="row">
+
+                                <div class="input-field col s12 m7">
+									<select name="is_sightseeing" required>
+										<option value="" disabled selected>Includes Sightseeing?</option>
+										<option value="1">Included</option>
+                                        <option value="0">Not Included</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <textarea style="height: 100px"  type="text" name="sightseeing_description" aria-multiline="true" class="validate"></textarea>
+                                    <label>Sightseeing Details</label>
+                                </div>
+
+                            </div>
+
+                            <div class="row db-file-upload">
+                                <div class="file-field input-field col m12">
+                                    <div class="waves-effect waves-light tourz-sear-btn-blue v2-ser-btn col m2"> <span style="font-size: 12px;;">Picture</span>
+                                        <input type="file" name="image" required> </div>
+                                    <div class="file-path-wrapper col m10">
+                                        <input class="file-path validate" readonly type="text" > </div>
+                                </div>
+                            </div>
+                            <div class="row mt-3 p-2">
+
+									<button type="submit" class="red-btn-large p-3" >SUBMIT</button>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+			</div>
+			<!--RIGHT SECTION-->
+			<div class="db-3">
+				<h4>Notifications</h4>
+				<ul>
+					<li>
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr1.jpg' %}" alt="" />
+							<h5>50% Discount Offer</h5>
+							<p>All the Lorem Ipsum generators on the</p>
+						</a>
+					</li>
+					<li>
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr2.jpg' %}" alt="" />
+							<h5>paris travel package</h5>
+							<p>All the Lorem Ipsum generators on the</p>
+						</a>
+					</li>
+					<li>
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr3.jpg' %}" alt="" />
+							<h5>Group Trip - Available</h5>
+							<p>All the Lorem Ipsum generators on the</p>
+						</a>
+					</li>
+					<li>
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr4.jpg' %}" alt="" />
+							<h5>world best travel agency</h5>
+							<p>All the Lorem Ipsum generators on the</p>
+						</a>
+					</li>
+					<li>
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr5.jpg' %}" alt="" />
+							<h5>special travel coupons</h5>
+							<p>All the Lorem Ipsum generators on the</p>
+						</a>
+					</li>
+					<li>
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr6.jpg' %}" alt="" />
+							<h5>70% Offer 2018</h5>
+							<p>All the Lorem Ipsum generators on the</p>
+						</a>
+					</li>
+					<li>
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr7.jpg' %}" alt="" />
+							<h5>Popular Cities</h5>
+							<p>All the Lorem Ipsum generators on the</p>
+						</a>
+					</li>
+					<li>
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr8.jpg' %}" alt="" />
+							<h5>variations of passages</h5>
+							<p>All the Lorem Ipsum generators on the</p>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+	</section>
+	<!--END DASHBOARD-->
+<script>
+
+</script>
+{% endblock %}

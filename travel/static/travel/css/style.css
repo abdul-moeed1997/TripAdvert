@@ -4631,7 +4631,8 @@
      float: left;
      width: 58%;
      position: relative;
-     overflow: hidden;
+     height: 50%;
+     overflow-y: scroll ;
      background: #fff;
      border: 1px solid #dadada;
     /* margin-bottom: 25px;

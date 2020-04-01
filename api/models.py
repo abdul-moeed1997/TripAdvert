@@ -155,6 +155,7 @@ class Event(models.Model):
     pic = models.ImageField(upload_to ='uploads/events/',null=True)
     description = models.CharField(max_length=1000,blank=False)
     category = models.CharField(max_length=20,null=True)
+    is_full = models.BooleanField(default=False)
     home = models.CharField(max_length=255,null=True)
     destination = models.CharField(max_length=255,null=True)
     date_of_departure = models.DateTimeField(null=True)
