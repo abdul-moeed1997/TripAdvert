@@ -70,17 +70,20 @@ def tours(request):
         global events
         response = requests.get("http://127.0.0.1:8000/api/events/?page="+str(page)+"&"+filter)
         data = response.json()
+        print("url ======================== ","http://127.0.0.1:8000/api/events/?page="+str(page)+"&"+filter)
+        print(data)
         if data["previous"]:
             try:
                 prev = data["previous"].split("?page=")[1]
             except:
-                prev=1
+                prev="1&"+filter
         else:
             prev = data["previous"]
         if data["next"]:
             next = str(data["next"].split("?page=")[1])
         else:
             next = data["next"]
+        print(prev," --------------- ",next)
         global events
         events= { str(i["id"]) : i for i in data["results"] }
         return render(request,'all-package.html',{'data':events,'prev':prev,'next':next,'current':page})
@@ -373,7 +376,6 @@ def organizerPortfolio(request):
         response = requests.get("http://127.0.0.1:8000/api/portfolio?organizer="+str(request.session["tripadvert_user_id"])+"&is_completed=true")
         if response.status_code==200:
             data = response.json()
-            print(data)
             return render(request, 'organizer-my-portfolio.html')
         return redirect("/travel/something-wrong/")
     return redirect("/travel/access-denied/")

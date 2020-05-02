@@ -294,12 +294,10 @@
             filter += 'price__lte=' + max +'&';
         }
         var url = "/api/events?";
-        console.log("url ==================== ",url+"page=1&" + filter);
         $.ajax({
         url: url+"page=1&"+ filter,
         dataType: 'json',
         success: function (data) {
-            console.log(data);
             if (data["results"].length>0) {
                 var data1 = data["results"];
                 var current=1;
@@ -312,16 +310,9 @@
                 }
                 if(data["next"])
                 {
-                    alert("Yes");
-                    alert("page=.".length);
-                    alert(data["next"]);
-                    alert(data["next"].indexOf("page="));
-                    alert(data["next"].indexOf("page=")+"page=".length );
                     next = data["next"][data["next"].indexOf("page=")+"page=".length];
                     current = next-1;
                 }
-                console.log("prev ======= ",prev);
-                console.log("next ======= ",next);
 
                 var root = document.getElementById("root");
                 root.innerHTML = "";

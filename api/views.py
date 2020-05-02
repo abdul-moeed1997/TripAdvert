@@ -66,7 +66,7 @@ class ImageViewSet(viewsets.ModelViewSet):
     queryset = models.Image.objects.all()
 
 class LargeResultsSetPagination(PageNumberPagination):
-    page_size = 1
+    page_size = 8
     page_size_query_param = 'page_size'
 
 class EventViewSet(viewsets.ModelViewSet):
