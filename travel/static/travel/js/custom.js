@@ -174,36 +174,3 @@ function myFunction() {
         }
     }
 }
-
-//DATE PICKER	
-$(function() {
-    var dateFormat = "mm/dd/yy",
-        from = $("#from,#from-1,#from-2,#from-3,#from-4,#from-5")
-        .datepicker({
-            defaultDate: "+1w",
-            changeMonth: false,
-            numberOfMonths: 1
-        })
-        .on("change", function() {
-            to.datepicker("option", "minDate", getDate(this));
-        }),
-        to = $("#to,#to-1,#to-2,#to-3,#to-4,#to-5").datepicker({
-            defaultDate: "+1w",
-            changeMonth: false,
-            numberOfMonths: 1
-        })
-        .on("change", function() {
-            from.datepicker("option", "maxDate", getDate(this));
-        });
-
-    function getDate(element) {
-        var date;
-        try {
-            date = $.datepicker.parseDate(dateFormat, element.value);
-        } catch (error) {
-            date = null;
-        }
-
-        return date;
-    }
-});

@@ -7,6 +7,9 @@
 {% endblock %}
 
 {% block body  %}
+<script>
+var counter = 1
+</script>
     <section class="hot-page2-alp hot-page2-pa-sp-top">
 
     <section>
@@ -53,7 +56,7 @@
 						</li>
 
                         <li>
-							<a href="/travel/organizer/dashboard/portfolio/"><img src="{% static 'travel/images/icon/dbl7.png' %}" alt="" /> My Portfolio</a>
+							<a href="/travel/user/dashboard/event-booking/"><img src="{% static 'travel/images/icon/dbl7.png' %}" alt="" /> My Portfolio</a>
 						</li>
 					</ul>
 				</div>
@@ -61,43 +64,25 @@
 			<!--CENTER SECTION-->
 						<div class="db-2">
 				<div class="db-2-com db-2-main">
-					<h4>My Events</h4>
+
+					<h4>Add Photos</h4>
 					<div class="db-2-main-com db-2-main-com-table">
-                        {% if data|length  %}
+                        <form method="post" enctype="multipart/form-data" id="form">
 
-						<table class="responsive-table">
-							<thead>
-								<tr>
-									<th>Id</th>
-									<th>Name</th>
-									<th>Destination</th>
-									<th>Date</th>
-                                    <th>Price</th>
-                                    <th></th>
-                                    <th></th>
+                            <div id="root">
+                                <div class="box grey-border">
+                                    <img class="getFileLabel" id="prev0">
+                                    <i onclick="clickCross()" style="opacity: 0%;" class="fa fa-times fa-th-large cross" id="cross0" ></i>
+                                    <label  class="getFileLabel" id="label0" for="0"><p><b>Choose Image</b></p></label>
+                                    <input class="getFile getFileLabel" type="file" id="0" name="image" hidden>
+                                </div>
+                                <div class="box my-auto">
+                                <img src="{% static 'travel/images/blue-plus.png' %}" class="plus" >
+                                </div>
+                            </div>
 
-								</tr>
-							</thead>
-							<tbody>
-                            {% for item in data %}
-                                <tr>
-									<td>{{ forloop.counter }}</td>
-									<td><a href="/travel/tour/detail/{{ item.id }}">{{ item.title }}</a></td>
-									<td>{{ item.destination }}</td>
-                                    <td>{{ item.date_of_departure }}</td>
-									<td>{{ item.price }}</td>
-                                    <td><a href="/travel/tour/toggle/{{ item.id }}" style="text-decoration: none" class="db-done">{% if item.is_full %}Mark Open{% else %}Mark Full{% endif %}</a><br><a href="/travel/tour/delete/{{ item.id }}" class="db-not-done ">Delete</a></td>
-                                    <td><div class="row"><a href="#" class="db-down-pdf"><i aria-hidden="true"></i> Bookings</a></div><div class="row mt-1"><a href="#" class="db-down-pdf"><i aria-hidden="true"></i> Schedule</a></div></td>
-
-
-
-								</tr>
-                            {% endfor %}
-							</tbody>
-						</table>
-                            {% else %}
-                            <h3>No Event Available</h3>
-                        {% endif %}
+                            <input type="submit" value="Save" class="blue-btn-large p-3 m-2">
+                        </form>
 					</div>
 				</div>
 			</div>
@@ -159,5 +144,28 @@
 	</section>
 	</section>
 	<!--END DASHBOARD-->
-
+    <script>
+        function clickCross() {
+            alert("Hello")
+        }
+        var imageInput = document.getElementById("0");
+        var label = document.getElementById("label0");
+        var prevContainer = document.getElementById("prev0");
+        var cross = document.getElementById("cross0")
+        imageInput.addEventListener("change",function(){
+           const file = this.files[0];
+            if(file)
+            {
+                const reader = new FileReader();
+                label.style.zIndex="-1000";
+                cross.style.opacity="100%"
+                reader.addEventListener("load",function () {
+                   prevContainer.setAttribute("src",this.result);
+                   prevContainer.style.background="white"
+                });
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+s
 {% endblock %}

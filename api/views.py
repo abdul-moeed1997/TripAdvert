@@ -6,6 +6,7 @@ from django.db.transaction import atomic
 from django.shortcuts import render
 
 # Create your views here.
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework import viewsets, status
 from rest_framework.decorators import action, api_view
@@ -34,7 +35,7 @@ class UserBookingViewSet(viewsets.ModelViewSet):
 
 class PortfolioViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.PortfolioSerializer
-    queryset = models.Event.objects.filter()
+    queryset = models.Event.objects.all()
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
     filterset_fields = ['organizer','is_completed']
 
@@ -64,10 +65,16 @@ class ImageViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ImageSerializer
     queryset = models.Image.objects.all()
 
+class LargeResultsSetPagination(PageNumberPagination):
+    page_size = 1
+    page_size_query_param = 'page_size'
 
 class EventViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.EventSerializer
     queryset = models.Event.objects.filter(is_completed=False,is_full=False).order_by('-date')
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+    filterset_fields = {"home":['exact'],"destination":['exact'],"category":['exact'],"date_of_departure":['exact'],"date_of_arrival":['exact'],"price":["lte","gte"]}
+    pagination_class = LargeResultsSetPagination
 
 
 class SingleEventViewSet(viewsets.ModelViewSet):

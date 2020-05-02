@@ -40,16 +40,51 @@ def faq(request):
 def specialEvent(request):
     return render(request,'special-event.html')
 def tours(request):
-
-    if "tripadvert_person_id" not in request.session:
-        global prev_url
-        prev_url = request.get_raw_uri()
-    global events
-    response = requests.get("http://127.0.0.1:8000/api/events/")
-    data = response.json()
-    global events
-    events= { str(i["id"]) : i for i in data }
-    return render(request,'all-package.html',{'data':events})
+    page=request.GET.get("page",None)
+    filter = ""
+    home = request.GET.get("home",None)
+    destination = request.GET.get("destination",None)
+    arrival = request.GET.get("date_of_arrival",None)
+    departure = request.GET.get("date_of_departure",None)
+    category = request.GET.get("category",None)
+    max = request.GET.get("price__lte",None)
+    min = request.GET.get("price__gte",None)
+    if home:
+        filter += "home="+home+"&"
+    if destination:
+        filter += "destination="+destination+"&"
+    if arrival:
+        filter += "date_of_arrival="+arrival+"&"
+    if departure:
+        filter += "date_of_departure="+departure+"&"
+    if category:
+        filter += "category="+category+"&"
+    if min:
+        filter += "price__gte="+min+"&"
+    if max:
+        filter += "price__lte="+max+"&"
+    if page:
+        if "tripadvert_person_id" not in request.session:
+            global prev_url
+            prev_url = request.get_raw_uri()
+        global events
+        response = requests.get("http://127.0.0.1:8000/api/events/?page="+str(page)+"&"+filter)
+        data = response.json()
+        if data["previous"]:
+            try:
+                prev = data["previous"].split("?page=")[1]
+            except:
+                prev=1
+        else:
+            prev = data["previous"]
+        if data["next"]:
+            next = str(data["next"].split("?page=")[1])
+        else:
+            next = data["next"]
+        global events
+        events= { str(i["id"]) : i for i in data["results"] }
+        return render(request,'all-package.html',{'data':events,'prev':prev,'next':next,'current':page})
+    return redirect("/travel/404/")
 
 def tourDetail(request,id):
     if "tripadvert_person_id" not in request.session:
@@ -334,11 +369,22 @@ def toggle_isFull(request,id):
     return redirect("/travel/organizer/dashboard/events/")
 
 def organizerPortfolio(request):
-    return render(request, 'my-portfolio.html')
+    if request.session["tripadvert_user_type"]==2:
+        response = requests.get("http://127.0.0.1:8000/api/portfolio?organizer="+str(request.session["tripadvert_user_id"])+"&is_completed=true")
+        if response.status_code==200:
+            data = response.json()
+            print(data)
+            return render(request, 'organizer-my-portfolio.html')
+        return redirect("/travel/something-wrong/")
+    return redirect("/travel/access-denied/")
 
 def organizerPortfolioUser(request):
     return render(request, 'my-portfolio-user.html')
 
+
+
+def organizerAddPhotos(request):
+    return render(request,'organizer-portfolio-addphotos.html')
 
 def organizerDetail(request):
     return render(request, 'organizer-detail.html')

@@ -1,10 +1,149 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends  'base.html' %}
+{% load static %}
 
-</body>
-</html>
+
+{% block title %}
+<title>The Travel - My Profile</title>
+{% endblock %}
+
+{% block body  %}
+    <section class="hot-page2-alp hot-page2-pa-sp-top">
+
+    <section>
+    <div class="container">
+			<div class="row inner_banner inner_banner_3 bg-none">
+				<div class="hot-page2-alp-tit">
+                    <span style="margin: 1cm"><h1>Top Travel Packages</h1></span>
+					<ul>
+						<li><a href="#inner-page-title">Home</a> </li>
+						<li><i class="fa fa-angle-right" aria-hidden="true"></i> </li>
+						<li><a href="#inner-page-title" class="bread-acti">Tours & Events</a> </li>
+					</ul>
+					<p> World's leading Tour Booking website,Over 10,000 tours posted by registered tour organizers worldwide. </p>
+				</div>
+			</div>
+		</div>
+    </section>
+	<!--DASHBOARD-->
+	<section>
+		<div class="db">
+			<!--LEFT SECTION-->
+			<div class="db-l">
+				<div class="db-l-1">
+					<ul>
+						<li><img src="{{ request.session.tripadvert_user_image }}" alt="" />
+						</li>
+
+					</ul>
+				</div>
+				<div class="db-l-2">
+					<ul>
+						<li>
+							<a href="/travel/organizer/dashboard/my-profile" ><img src="{% static 'travel/images/icon/dbl6.png' %}" alt="" /> My Profile</a>
+						</li>
+						<li>
+							<a href="/travel/organizer/dashboard/event-bookings/"><img src="{% static 'travel/images/icon/dbl2.png' %}" alt="" /> Travel Bookings</a>
+						</li>
+
+                        <li>
+							<a href="/travel/organizer/dashboard/create-event/"><img src="{% static 'travel/images/icon/dbl4.png' %}" alt="" /> Create Event</a>
+						</li>
+                        <li>
+							<a href="/travel/organizer/dashboard/events/"><img src="{% static 'travel/images/icon/dbl1.png' %}" alt="" /> My Events</a>
+						</li>
+
+                        <li>
+							<a href="/travel/user/dashboard/event-booking/"><img src="{% static 'travel/images/icon/dbl7.png' %}" alt="" /> My Portfolio</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!--CENTER SECTION-->
+						<div class="db-2">
+				<div class="db-2-com db-2-main">
+
+					<h4>My Portfolio</h4>
+					<div class="db-2-main-com db-2-main-com-table">
+                        {% if data %}
+                        <div class="popu-places-home">
+                            {% for item in data %}
+                            <div class="col-md-6 col-sm-6 col-xs-12 place p-5" >
+                            <div class="col-md-4 col-sm-12 col-xs-12"> <img class="p-1" src="{{ item.pic }}" alt="Event Image"> </div>
+                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                <h3><a><span>{{item.title}}</span></a></h3>
+                                <h5>{{item.category}}</h5>
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-xs-12 ml-2" >
+                                <div>{{item.description}}</div>
+                                <br>
+                                <div class="text-center center center-align"><a href="/travel/organizer/dashboard/portfolio/add-photos/{{ item.id }}" class="link-btn">Add info</a></div>
+                            </div>
+                        </div>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                            <h5>No Event in Portfolio</h5>
+                        {% endif %}
+					</div>
+				</div>
+			</div>
+			<!--RIGHT SECTION-->
+			<div class="db-3">
+				<h4>Notifications</h4>
+				<ul>
+					<li>
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr1.jpg' %}" alt="" />
+							<h5>50% Discount Offer</h5>
+							<p>All the Lorem Ipsum generators on the</p>
+						</a>
+					</li>
+					<li>
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr2.jpg' %}" alt="" />
+							<h5>paris travel package</h5>
+							<p>All the Lorem Ipsum generators on the</p>
+						</a>
+					</li>
+					<li>
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr3.jpg' %}" alt="" />
+							<h5>Group Trip - Available</h5>
+							<p>All the Lorem Ipsum generators on the</p>
+						</a>
+					</li>
+					<li>
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr4.jpg' %}" alt="" />
+							<h5>world best travel agency</h5>
+							<p>All the Lorem Ipsum generators on the</p>
+						</a>
+					</li>
+					<li>
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr5.jpg' %}" alt="" />
+							<h5>special travel coupons</h5>
+							<p>All the Lorem Ipsum generators on the</p>
+						</a>
+					</li>
+					<li>
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr6.jpg' %}" alt="" />
+							<h5>70% Offer 2018</h5>
+							<p>All the Lorem Ipsum generators on the</p>
+						</a>
+					</li>
+					<li>
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr7.jpg' %}" alt="" />
+							<h5>Popular Cities</h5>
+							<p>All the Lorem Ipsum generators on the</p>
+						</a>
+					</li>
+					<li>
+						<a href="#!"> <img src="{% static 'travel/images/icon/dbr8.jpg' %}" alt="" />
+							<h5>variations of passages</h5>
+							<p>All the Lorem Ipsum generators on the</p>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+	</section>
+	<!--END DASHBOARD-->
+
+{% endblock %}

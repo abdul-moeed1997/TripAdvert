@@ -4631,8 +4631,7 @@
      float: left;
      width: 58%;
      position: relative;
-     height: 50%;
-     overflow-y: scroll ;
+     overflow:hidden;
      background: #fff;
      border: 1px solid #dadada;
     /* margin-bottom: 25px;
@@ -8087,4 +8086,58 @@
 }
 .btn-grad span{
     text-decoration: none !important;
+}
+.getFile {
+  display: none;
+}
+. grey-border{
+    border: 1px solid #999;
+    border-radius:1px;
+}
+.box{
+    font-size: 30px;
+    text-align: center;
+    width: 150px;
+    height: 150px;
+    overflow: visible;
+    position: relative;
+    margin: 10px;
+    display: inline-block;
+    padding: 0px;
+}
+.getFileLabel {
+    font-size: 12px;
+    height: 100%;
+    width: 100%;
+    padding: 1px !important;
+    margin: 0px!important;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.getFileLabel p{
+    font-size: 10px;
+    color:grey;
+    text-emphasis: black;
+    margin-top: 40%;
+}
+.cross{
+    position: absolute;
+    top: -15px;
+    right: -12px;
+    color:red;
+}
+.plus{
+    width: 70%;
+    height: 70%;
+    border: none!important;
+    text-decoration: none;
+    justify-content: center;
+    align-content: center;
+    border-radius: 0%!important;
+    padding: 0;
+    margin: 0;
+}
+.plus:hover{
+    border:2px solid lightskyblue!important;
 }
