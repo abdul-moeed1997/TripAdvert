@@ -40,6 +40,8 @@ def faq(request):
 def specialEvent(request):
     return render(request,'special-event.html')
 def tours(request):
+
+    print("---------------- ",request.session.get("test",None))
     page=request.GET.get("page",None)
     filter = ""
     home = request.GET.get("home",None)
@@ -70,8 +72,7 @@ def tours(request):
         global events
         response = requests.get("http://127.0.0.1:8000/api/events/?page="+str(page)+"&"+filter)
         data = response.json()
-        print("url ======================== ","http://127.0.0.1:8000/api/events/?page="+str(page)+"&"+filter)
-        print(data)
+
         if data["previous"]:
             try:
                 prev = data["previous"].split("?page=")[1]
@@ -83,7 +84,6 @@ def tours(request):
             next = str(data["next"].split("?page=")[1])
         else:
             next = data["next"]
-        print(prev," --------------- ",next)
         global events
         events= { str(i["id"]) : i for i in data["results"] }
         return render(request,'all-package.html',{'data':events,'prev':prev,'next':next,'current':page})

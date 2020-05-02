@@ -3732,6 +3732,42 @@
      display: block;
      text-align: center;
 }
+
+
+ .hot-page2-alp-quot-btn-red {
+     transition: all 0.5s ease;
+     -webkit-transition: all 0.5s ease;
+     -moz-transition: all 0.5s ease;
+     -ms-transition: all 0.5s ease;
+     -o-transition: all 0.5s ease;
+     margin-top: 5px;
+     border: 1px solid #dc2039;
+    /* -webkit-box-shadow: #B7B8B8 0px 1px 0px inset;
+     */
+     -moz-box-shadow: #B7B8B8 0px 1px 0px inset;
+    /* box-shadow: #B7B8B8 0px 1px 0px inset;
+     */
+     -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+     border-radius: 3px;
+     font-size: 14px;
+     padding: 5px 10px;
+     text-decoration: none;
+     text-shadow: -1px -1px 0 rgba(177, 177, 177, 0.3);
+     font-weight: bold;
+     color: #fff;
+     background-color: #f4364f !important;
+     background-image: -webkit-gradient(linear, left top, left bottom, from(#f4364f), to(#f4364f));
+     background-image: -webkit-linear-gradient(top, #f4364f,#dc2039);
+     background-image: -moz-linear-gradient(top, #f4364f,#dc2039);
+     background-image: -ms-linear-gradient(top, #f4364f,#dc2039);
+     background-image: -o-linear-gradient(top, #f4364f,#dc2039);
+     background-image: linear-gradient(to bottom,#f4364f,#dc2039);
+     display: block;
+     text-align: center;
+
+}
+
 .red-buton{
     transition: all 0.5s ease;
      -webkit-transition: all 0.5s ease;
@@ -3856,7 +3892,7 @@
      box-shadow: 0px 5px 19px -3px rgba(0, 0, 0, 0.23);
      transform: scale(1.02);
 }
- .hot-page2-alp-r-list:hover .hot-page2-alp-quot-btn {
+ .hot-page2-alp-r-list .hot-page2-alp-quot-btn:hover {
      transition: all 0.5s ease;
      -webkit-transition: all 0.5s ease;
      -moz-transition: all 0.5s ease;
@@ -3865,7 +3901,7 @@
     /* border: 1px solid #02abc1;
      */
      text-shadow: -1px -1px 0 rgba(177, 177, 177, 0.3);
-     color: #000000;
+     text-decoration: none;
      background-color: #fff;
      background-image: -webkit-linear-gradient(to bottom, #00bcd4, #05a6bb);
      background-image: -moz-linear-gradient(to bottom, #00bcd4, #05a6bb);
@@ -3874,6 +3910,28 @@
     /* background-image: linear-gradient(to bottom, #00bcd4, #05a6bb);
      */
 }
+
+ .hot-page2-alp-r-list .hot-page2-alp-quot-btn-red:hover {
+     transition: all 0.5s ease;
+     -webkit-transition: all 0.5s ease;
+     -moz-transition: all 0.5s ease;
+     -ms-transition: all 0.5s ease;
+     -o-transition: all 0.5s ease;
+    /* border: 1px solid #02abc1;
+     */
+     text-shadow: -1px -1px 0 rgba(177, 177, 177, 0.3);
+    text-decoration: none;
+     background-color: #fff;
+     color:#4ad93f;
+     background-image: -webkit-linear-gradient(to bottom, #73fc68, #4ad93f);
+     background-image: -moz-linear-gradient(to bottom, #73fc68, #4ad93f);
+     background-image: -ms-linear-gradient(to bottom, #73fc68, #4ad93f);
+     background-image: -o-linear-gradient(to bottom, #73fc68, #4ad93f);
+    /* background-image: linear-gradient(to bottom, #00bcd4, #05a6bb);
+     */
+}
+
+
  .hot-page2-alp-r-hot-page-rat {
      background: #253d52;
      position: absolute;
