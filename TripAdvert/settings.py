@@ -57,6 +57,7 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.MultiPartParser',
     ],
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DATETIME_FORMAT': "%m/%d/%Y %H:%M:%S",
 }
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

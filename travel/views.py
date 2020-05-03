@@ -42,34 +42,12 @@ def specialEvent(request):
 def tours(request):
 
     page=request.GET.get("page",None)
-    filter = ""
-    home = request.GET.get("home",None)
-    destination = request.GET.get("destination",None)
-    arrival = request.GET.get("date_of_arrival",None)
-    departure = request.GET.get("date_of_departure",None)
-    category = request.GET.get("category",None)
-    max = request.GET.get("price__lte",None)
-    min = request.GET.get("price__gte",None)
-    if home:
-        filter += "home="+home+"&"
-    if destination:
-        filter += "destination="+destination+"&"
-    if arrival:
-        filter += "date_of_arrival="+arrival+"&"
-    if departure:
-        filter += "date_of_departure="+departure+"&"
-    if category:
-        filter += "category="+category+"&"
-    if min:
-        filter += "price__gte="+min+"&"
-    if max:
-        filter += "price__lte="+max+"&"
     if page:
         if "tripadvert_person_id" not in request.session:
             global prev_url
             prev_url = request.get_raw_uri()
         global events
-        response = requests.get("http://127.0.0.1:8000/api/events/?page="+str(page)+"&"+filter)
+        response = requests.get("http://127.0.0.1:8000/api/events/?page="+str(page))
         data = response.json()
 
         if data["previous"]:
@@ -300,11 +278,14 @@ def about(request):
     return render(request, 'about.html')
 
 def price_list(request):
-    print(request.POST,"---------------")
-    response = requests.post("http://127.0.0.1:8000/api/event/compare_events/",{"id":request.POST.get("events",None)})
-    if response.status_code==200:
-        print(response.json())
-        return render(request, 'price-list.html')
+    print(request.GET.get("events",None)," ----------- ",type(request.GET.get("events",None)))
+    response = requests.post("http://127.0.0.1:8000/api/event/compare_events/",{"id":request.GET.get("events",None)})
+
+    data=response.json()
+    if data:
+        print(data)
+        return render(request, 'price-list.html', {'data': data})
+
     return redirect("/travel/something-worng/")
 
 

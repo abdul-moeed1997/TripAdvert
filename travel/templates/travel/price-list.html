@@ -41,60 +41,47 @@
 					<p>World's leading tour and travels Booking website,Over 30,000 packages worldwide. Book travel packages and enjoy your holidays with distinctive experience</p>
 				</div>
 				<div class="rows">
-					<!--====== DISCOUNT ==========-->
+                    {% if data %}
+                    {% for item in data %}
 					<div class="col-md-4 col-sm-4">
 						<div class="pack_price">
-							<div class="pack_title" style= 'height: 200px;background:url("{% static 'travel/images/sight/skardu.jpg' %}")'   >
-								<h2 style="color: white">Skardu Tour</h2>
-                                <h3>Rs. 2500 Per Head</h3>
+							<div class="pack_title" style= 'height: 200px;background:url("{{ item.pic }}")'   >
+								<h2 style="color: white">{{item.title}}</h2>
+                                <h3>Rs. {{ item.price }} Per Head</h3>
 							</div>
 							<ul>
-								<li>14th Jan 2020 </li>
-								<li>4 Days and 3 Nights </li>
-								<li>Accommodation <span style="color:darkgreen;">(Included)</span></li>
-								<li>Food<span style="color:red;"> (Excluded)</span></li>
-								<li>Sightseeing<span style="color:darkgreen;"> (Included)</span></li>
+								<li>{{ item.date_of_departure }} </li>
+								<li>{{ item.category }} </li>
+								<li>Accommodation
+                                    {% if item.is_accomodation  %}
+                                        <span style="color:darkgreen;">(Included)</span>
+                                        {% else %}
+                                        <span style="color:red;"> (Excluded)</span>
+                                    {% endif %}
+                                </li>
+								<li>Food
+                                    {% if data.is_food  %}
+                                        <span style="color:darkgreen;">(Included)</span>
+                                        {% else %}
+                                        <span style="color:red;"> (Excluded)</span>
+                                    {% endif %}
+                                </li>
+								<li>Sightseeing
+                                    {% if data.is_sightseeing  %}
+                                        <span style="color:darkgreen;">(Included)</span>
+                                        {% else %}
+                                        <span style="color:red;"> (Excluded)</span>
+                                    {% endif %}
+                                </li>
 
-								<li><a href="/travel/tour/detail/" class="link-btn">View Details</a> </li>
+								<li><a href="/travel/tour/detail/{{ data.id }}" class="link-btn">View Details</a> </li>
 							</ul>
 						</div>
 					</div>
+                        {% endfor %}
+                    {% endif %}
 					<!--====== DISCOUNT ==========-->
-					<div class="col-md-4 col-sm-4">
-						<div class="pack_price">
-							<div class="pack_title" style= 'height: 200px;background:url("{% static 'travel/images/sight/skardu.jpg' %}")'>
-								<h2 style="color: white">Naran Kaghan</h2>
-                                <h3>Rs. 3500 Per Head</h3>
-							</div>
-							<ul>
-								<li>16th Jan 2020 </li>
-								<li>4 Days and 3 Nights</li>
-								<li>Accommodation <span style="color:darkgreen;">(Included)</span></li>
-								<li>Food<span style="color:red;"> (Excluded)</span></li>
-								<li>Sightseeing<span style="color:darkgreen;"> (Included)</span></li>
-
-								<li><a href="/travel/tour/detail/" class="link-btn">View Details</a> </li>
-							</ul>
-						</div>
-					</div>
 					<!--====== DISCOUNT ==========-->
-					<div class="col-md-4 col-sm-4">
-						<div class="pack_price">
-							<div class="pack_title" style= 'height: 200px;background:url("{% static 'travel/images/sight/skardu.jpg' %}")'>
-								<h2 style="color: white">Kashmir</h2>
-                                <h3>Rs. 4500 Per Head</h3>
-							</div>
-							<ul>
-								<li>13th Feb 2020 </li>
-								<li>6 Days and 5 Nights</li>
-								<li>Accommodation <span style="color:darkgreen;">(Included)</span></li>
-								<li>Food<span style="color:red;"> (Excluded)</span></li>
-								<li>Sightseeing<span style="color:darkgreen;"> (Included)</span></li>
-
-								<li><a href="/travel/tour/detail/" class="link-btn">View Details</a> </li>
-							</ul>
-						</div>
-					</div>
 
 				</div>
 			</div>
