@@ -41,7 +41,6 @@ def specialEvent(request):
     return render(request,'special-event.html')
 def tours(request):
 
-    print("---------------- ",request.session.get("test",None))
     page=request.GET.get("page",None)
     filter = ""
     home = request.GET.get("home",None)
@@ -86,7 +85,7 @@ def tours(request):
             next = data["next"]
         global events
         events= { str(i["id"]) : i for i in data["results"] }
-        return render(request,'all-package.html',{'data':events,'prev':prev,'next':next,'current':page})
+        return render(request,'all-package.html',{'data':events,'prev':prev,'next':next,'current':page,'prev_url':data["previous"],'next_url':data["next"]})
     return redirect("/travel/404/")
 
 def tourDetail(request,id):
@@ -301,7 +300,12 @@ def about(request):
     return render(request, 'about.html')
 
 def price_list(request):
-    return render(request, 'price-list.html')
+    print(request.POST,"---------------")
+    response = requests.post("http://127.0.0.1:8000/api/event/compare_events/",{"id":request.POST.get("events",None)})
+    if response.status_code==200:
+        print(response.json())
+        return render(request, 'price-list.html')
+    return redirect("/travel/something-worng/")
 
 
 def organizerSignUp(request):

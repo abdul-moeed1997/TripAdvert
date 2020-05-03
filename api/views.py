@@ -80,6 +80,23 @@ class EventViewSet(viewsets.ModelViewSet):
 class SingleEventViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.SingleEventSerializer
     queryset = models.Event.objects.all()
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+
+    @action(detail=False, methods=['post'])
+    @atomic
+    def compare_events(self, request):
+        ids=request.data["id"]
+        ids = ids.split(",")
+        print(ids)
+        data=[]
+        for id in ids:
+            print(id)
+            item = self.queryset.get(id=id)
+            serializer=serializers.EventSerializer(item,many=False)
+            data.append(serializer.data)
+        print(self.queryset.filter(id__in=ids))
+        return Response(status=status.HTTP_200_OK, data=data)
+        return Response(status=status.HTTP_400_BAD_REQUEST, data="Bad Request")
 
 class UserViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.UserSerializer

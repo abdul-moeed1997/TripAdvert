@@ -7,7 +7,26 @@
 {% endblock %}
 
 {% block body  %}
+        <script>
+        var events = [];
+        function toggleCompare(element,id){
+            if(events.includes(id))
+            {
+                events.pop(id);
+                element.innerHtml="<sup>+</sup>";
+                element.innerText="Compare";
+            }
+            else {
+                element.innerHtml="<sup>-</sup>";
+                element.innerText="Remove";
+                events.push(id);
+            }
 
+            element.classList.toggle("hot-page2-alp-quot-btn-red");
+            element.classList.toggle("hot-page2-alp-quot-btn-dark");
+            $("#compare-events").val(events);
+        }
+        </script>
 		<!-- TOP SEARCH BOX -->
         <div class="search-top">
             <div class="container">
@@ -47,8 +66,10 @@
 						<li><a href="#inner-page-title" class="bread-acti">Tours & Events</a> </li>
 					</ul>
 					<p> World's leading Tour Booking website,Over 10,000 tours posted by registered tour organizers worldwide. </p>
-				    <form class="row float-right justify-content-center mx-5">
-                        <input class="hot-page2-alp-quot-btn px-md-5 py-md-4 mx-4" type="submit" value="Compare" >
+				    <form class="row float-right justify-content-center mx-5" action="/travel/price-list/" method="post" id="compare-form">
+                        {% csrf_token %}
+                        <input type="hidden" id="compare-events" name="events">
+                        <input class="hot-page2-alp-quot-btn-green px-md-5 py-md-4 mx-4" type="submit" value="Compare" >
                     </form>
                 </div>
                 <div >
@@ -182,7 +203,7 @@
                                 {% for key,value in data.items %}
                                 <div class="col-md-12 hot-page2-alp-r-list">
 									<div class="col-md-3 hot-page2-alp-r-list-re-sp">
-										<a href="/travel/tour/detail/{{ value.id }}">
+										<a href="/travel/tour/detail/{{ value.id }}" id="event-id">
 											<div class="hotel-list-score">{{ value.organizer_details.rating }}</div>
 											<div class="hot-page2-hli-1"> <img src="{{value.pic}}" alt=""> </div>
 										</a>
@@ -198,7 +219,7 @@
 										<div class="hot-page2-alp-ri-p3 tour-alp-ri-p3">
 											<span class="hot-list-p3-1">Price</span> <span class="hot-list-p3-2">Rs.{{value.price}}</span><span class="hot-list-p3-4">
                                             <a href="/travel/user/dashboard/eventBooking/" class="hot-page2-alp-quot-btn small"><span class="fa fa-cart-plus"></span><b>Book Now</b></a>
-                                                <a href="/travel/price-list/" class="hot-page2-alp-quot-btn-red small"><span class="fa fa-copy"><b>Compare<sup>+</sup></b></span></a>
+                                                <a href="javascript:;" onclick="toggleCompare(this,{{ value.id }})" class="hot-page2-alp-quot-btn-dark small" ><b>Compare<sup>+</sup></b></a>
                                             <div>
                                             </div>
 											</span> </div>
@@ -229,8 +250,8 @@
                                   <ul class="pagination">
                                       {% if prev %}
                                           <li class="page-item">
-                                            <a class="page-link" href="/travel/tours/?page={{ prev }}" tabindex="-1">Previous</a>
-                                            <li class="page-item"><a class="page-link" href="/travel/tours/?page={{ prev }}">{{ prev|make_list|first }}</a></li>
+                                            <a class="page-link" href="javascript:;" onclick='switchPage("{{ prev_url }}")' tabindex="-1">Previous</a>
+                                            <li class="page-item"><a class="page-link" href="javascript:;" onclick='switchPage("{{ prev_url }}")'>{{ prev|make_list|first }}</a></li>
                                           </li>
                                           {% else %}
                                             <li class="page-item disabled">
@@ -241,10 +262,10 @@
                                       <a class="page-link" href="#">{{ current }}</a>
                                     </li>
                                     {% if next %}
-                                        <li class="page-item"><a class="page-link" href="/travel/tours/?page={{ next }}">{{ next|make_list|first }}</a></li>
+                                        <li class="page-item"><a class="page-link" href="javascript:;" onclick='switchPage("{{ next_url }}")'>{{ next|make_list|first }}</a></li>
 
                                           <li class="page-item">
-                                            <a class="page-link" href="/travel/tours/?page={{ next }}" tabindex="-1">Next</a>
+                                            <a class="page-link" href="javascript:;" onclick='switchPage("{{ next_url }}")' tabindex="-1">Next</a>
                                           </li>
                                           {% else %}
                                             <li class="page-item disabled">
@@ -262,6 +283,134 @@
 		</div>
 	<script>
 
+
+        function switchPage(url) {
+            $.ajax({
+        url: url,
+        dataType: 'json',
+        success: function (data) {
+            if (data["results"].length>0) {
+                var data1 = data["results"];
+                var current=1;
+                var prev;
+                var next;
+                console.log("prev_url",data["previous"]);
+                console.log("next_url",data["next"]);
+                if(data["previous"])
+                {
+                    if (data["previous"].indexOf("page=")<0)
+                    {
+                        prev = 1;
+                    }
+                    else {
+                        prev = data["previous"][data["previous"].indexOf("page=") + "page=".length + 1];
+                    }
+                    current=prev+1;
+                }
+                if(data["next"])
+                {
+                    next = data["next"][data["next"].indexOf("page=")+"page=".length];
+                    console.log("next = ",next);
+                    current = next-1;
+                }
+
+                var root = document.getElementById("root");
+                root.innerHTML = "";
+                list="";
+                for (var i = 0; i < data1.length; i++) {
+                    var element =    '<div class="col-md-12 hot-page2-alp-r-list">'+
+									'<div class="col-md-3 hot-page2-alp-r-list-re-sp">'+
+										'<a href="/travel/tour/detail/'+data1[i]["id"]+' ">'+
+											'<div class="hotel-list-score">'+String(data1[i]["organizer_details"]["rating"])+'</div>'+
+											'<div class="hot-page2-hli-1"> <img src="'+ String(data1[i]["pic"]) + '" alt="Event Image"> </div>'+
+										'</a>'+
+									'</div>'+
+									'<div class="col-md-6 mt-5">'+
+										'<div class="trav-list-bod">'+
+										    '<a href="/travel/tour/detail/'+String(data1[i]["id"])+'"><h3>'+data1[i]["title"]+'</h3></a>'+
+                                            '<h4></h4>'+
+										    '<p>'+data1[i]["description"]+'</p>'+
+										'</div>'+
+									'</div>'+
+									'<div class="col-md-3">'+
+										'<div class="hot-page2-alp-ri-p3 tour-alp-ri-p3">'+
+											'<span class="hot-list-p3-1">Price</span> <span class="hot-list-p3-2">Rs.'+String(data1[i]["price"])+'</span><span class="hot-list-p3-4">'+
+												'<a href="/travel/user/dashboard/eventBooking/" class="hot-page2-alp-quot-btn small"><span class="fa fa-cart-plus"></span><b>Book Now</b></a>'+
+                                                '<a href="javascript:;" onclick="toggleCompare(this,'+data1[i]["id"]+')" class="hot-page2-alp-quot-btn-dark small"><b>Compare<sup>+</sup></b></a>'+
+                                            '<div>'+
+                                            '</div>'+
+											'</span> </div>'+
+									'</div>'+
+									'<div>'+
+										'<div class="trav-ami">'+
+											'<h4>Detail and Includes</h4>'+
+											'<ul>'+
+                                                '<li><img src="/static/travel/images/icon/a16.png" alt=""> <span>Transport</span></li>'+
+												'<li><img src="/static/travel/images/icon/a17.png" alt=""> <span>Luggage</span></li>';
+
+                                                if (data1[i]["is_accomodation"]){
+                                                   element += '<li><img src="/static/travel/images/icon/a15.png" alt=""> <span>Accomodation</span></li>';
+                                                }
+                                                if (data1[i]["is_sightseeing"]){
+
+                                                    element += '<li><img src="/static/travel/images/icon/a14.png" alt=""> <span>Sightseeing</span></li>';
+                                                }
+                                                if (data1[i]["is_food"]){
+
+                                                    element += '<li><img src="/static/travel/images/icon/a19.png" alt=""> <span>Food</span></li>';
+                                                }
+											 element+= '</ul></div></div></div>';
+                    list +=element;
+
+                }
+                                    list += '<nav aria-label="...">\n' +
+                        '                                  <ul class="pagination">\n';
+                                                              if (prev) {
+                                                                  list += '                                          <li class="page-item">\n' +
+                                                                  '                                            <a class="page-link" href="javascript:;" onclick=\'switchPage("'+ data["previous"]+'")\' tabindex="-1">Previous</a>\n'+
+
+                                                                  '                                            <li class="page-item"><a class="page-link" href="javascript:;" onclick=\'switchPage("'+ data["previous"]+'")\'>'+prev+'</a></li>\n'
+                                                                  +
+                                                                  '                                          </li>\n';
+                                                              }
+                                                             else {
+                                                                  list+='                                            <li class="page-item disabled">\n' +
+                                                                  '                                                <a class="page-link" href="#" tabindex="-1">Previous</a>\n'
+                                                                  +
+                                                                  '                                            </li>\n';
+                                                              }
+                        list+='                                    <li class="page-item active">\n' +
+                        '                                      <a class="page-link" href="#">' + current + '</a>\n' +
+                        '                                    </li>\n';
+                                                            if(next) {
+                                                                list+='                                        <li class="page-item"><a class="page-link" href="javascript:;" onclick=\'switchPage("'+ data["next"]+'")\'>'+next+'</a></li>\n'
+                                                                +
+                                                                '\n' +
+                                                                '                                          <li class="page-item">\n' +
+                                                                '                                            <a class="page-link" href="javascript:;" onclick=\'switchPage("'+ data["next"]+'")\' tabindex="-1">Next</a>\n'
+                                                                +
+                                                                '                                          </li>\n';
+                                                            }
+                                                            else {
+                                                                list+='                                            <li class="page-item disabled">\n' +
+                                                                '                                                <a class="page-link" href="#">Next</a>\n' +
+                                                                '                                            </li>\n';
+                                                            }
+                        list+='                                  </ul>\n' +
+                        '                                </nav>';
+                root.innerHTML+=list;
+            }
+            else
+            {
+                document.getElementById("root").innerHTML='<div class="hot-page2-alp-r-list mt-5 mx-auto"><div class="row justify-content-center p-5"><h1 class="text-danger" >No Record Found</h1></div></div>';
+
+            }
+        },
+        error: function (data) {
+
+        }
+      });
+        }
     function filterData() {
         filter = "";
         var home = document.getElementById("home").value;
@@ -342,7 +491,7 @@
 										'<div class="hot-page2-alp-ri-p3 tour-alp-ri-p3">'+
 											'<span class="hot-list-p3-1">Price</span> <span class="hot-list-p3-2">Rs.'+String(data1[i]["price"])+'</span><span class="hot-list-p3-4">'+
 												'<a href="/travel/user/dashboard/eventBooking/" class="hot-page2-alp-quot-btn small"><span class="fa fa-cart-plus"></span><b>Book Now</b></a>'+
-                                                '<a href="/travel/price-list/" class="hot-page2-alp-quot-btn-red small"><span class="fa fa-copy"><b>Compare<sup>+</sup></b></span></a>'+
+                                                '<a href="javascript:;" onclick="toggleCompare(this,'+data1[i]["id"]+')" class="hot-page2-alp-quot-btn-dark small"><b>Compare<sup>+</sup></b></a>'+
                                             '<div>'+
                                             '</div>'+
 											'</span> </div>'+
@@ -367,13 +516,15 @@
                                                 }
 											 element+= '</ul></div></div></div>';
                     list +=element;
-                    list += '<nav aria-label="...">\n' +
+
+                }
+                                    list += '<nav aria-label="...">\n' +
                         '                                  <ul class="pagination">\n';
                                                               if (prev) {
                                                                   list += '                                          <li class="page-item">\n' +
-                                                                  '                                            <a class="page-link" href="/travel/tours/?page='+ prev+'&'+filter +'" tabindex="-1">Previous</a>\n'+
+                                                                  '                                            <a class="page-link" href="javascript:;" onclick=\'switchPage("'+ data["previous"]+'")\' tabindex="-1">Previous</a>\n'+
 
-                                                                  '                                            <li class="page-item"><a class="page-link" href="/travel/tours/?page='+ prev+'&'+filter +'">'+prev+'</a></li>\n'
+                                                                  '                                            <li class="page-item"><a class="page-link" href="javascript:;" onclick=\'switchPage("'+ data["previous"]+'")\'>'+prev+'</a></li>\n'
                                                                   +
                                                                   '                                          </li>\n';
                                                               }
@@ -387,11 +538,11 @@
                         '                                      <a class="page-link" href="#">' + current + '</a>\n' +
                         '                                    </li>\n';
                                                             if(next) {
-                                                                list+='                                        <li class="page-item"><a class="page-link" href="/travel/tours/?page='+ next+'&'+filter +'">'+next+'</a></li>\n'
+                                                                list+='                                        <li class="page-item"><a class="page-link" href="javascript:;" onclick=\'switchPage("'+ data["next"]+'")\'>'+next+'</a></li>\n'
                                                                 +
                                                                 '\n' +
                                                                 '                                          <li class="page-item">\n' +
-                                                                '                                            <a class="page-link" href="/travel/tours/?page='+ next+'&'+filter +'" tabindex="-1">Next</a>\n'
+                                                                '                                            <a class="page-link" href="javascript:;" onclick=\'switchPage("'+ data["next"]+'")\' tabindex="-1">Next</a>\n'
                                                                 +
                                                                 '                                          </li>\n';
                                                             }
@@ -402,7 +553,6 @@
                                                             }
                         list+='                                  </ul>\n' +
                         '                                </nav>';
-                }
                 root.innerHTML+=list;
             }
             else
