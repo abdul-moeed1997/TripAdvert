@@ -41,15 +41,24 @@ class OrganizerSerializer(serializers.ModelSerializer):
         model=models.Organizer
         fields=("id","cnic","address","organization","experience","is_verified","rating","first_name","last_name","email","phone")
 
+class SimpleOrganizerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=models.Organizer
+        fields=("id","cnic","address","organization","experience","is_verified","rating")
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model=models.User
         fields = ("id", "address","first_name","last_name","email","phone")
+class SimpleUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=models.User
+        fields = ("id", "address")
 
 class PersonSerializer(serializers.ModelSerializer):
     image = Base64ImageField(max_length=None, use_url=True)
-    user = UserSerializer(many=False,allow_null=True)
-    organizer = OrganizerSerializer(many=False,allow_null=True)
+    user = SimpleUserSerializer(many=False,allow_null=True)
+    organizer = SimpleOrganizerSerializer(many=False,allow_null=True)
     class Meta:
         model=models.Person
         fields=('id','first_name','last_name','email','password','phone_no','is_blocked','image','date','user_type','user','organizer')

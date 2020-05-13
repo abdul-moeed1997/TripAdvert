@@ -53,6 +53,9 @@ class PersonOnlyViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.PersonOnlySerializer
     queryset = models.Person.objects.all()
 
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+    filterset_fields = ["first_name","last_name","email"]
+
 class OrganizerViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.OrganizerSerializer
     queryset = models.Organizer.objects.all()
@@ -108,6 +111,8 @@ class PersonViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.PersonSerializer
     queryset = models.Person.objects.filter(is_blocked=False)
     search_fields = ('first_name','last_name', 'email',)
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+    filterset_fields = ["first_name","last_name","email"]
 
     @action(detail=False, methods=['post'])
     def login(self, request):
