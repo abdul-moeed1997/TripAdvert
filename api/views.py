@@ -115,10 +115,10 @@ class PersonViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'])
     def login(self, request):
         data=request.data
-        user = self.queryset.filter(email=request.data['email'])
+        user = self.queryset.get(email=request.data['email'])
         if user:
-            if hasher.check_password(request.data['password'],user.first().get_password()):
-                serializer = serializers.PersonSerializer(user,many=True)
+            if hasher.check_password(request.data['password'],user.get_password()):
+                serializer = serializers.PersonSerializer(user)
                 return Response(status=status.HTTP_200_OK, data=serializer.data)
 
         return Response(status=status.HTTP_400_BAD_REQUEST,data="Invalid Email or Password")
