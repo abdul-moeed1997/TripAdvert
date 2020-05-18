@@ -87,7 +87,18 @@
                                     <td>{{ item.date_of_departure }}</td>
 									<td>{{ item.price }}</td>
                                     <td><a href="/travel/tour/toggle/{{ item.id }}" style="text-decoration: none" class="db-done">{% if item.is_full %}Mark Open{% else %}Mark Full{% endif %}</a><br><a href="/travel/tour/delete/{{ item.id }}" class="db-not-done ">Delete</a></td>
-                                    <td><div class="row"><a href="#" class="db-down-pdf"><i aria-hidden="true"></i> Bookings</a></div><div class="row mt-1"><a href="#" class="db-down-pdf"><i aria-hidden="true"></i> Schedule</a></div></td>
+                                    <td>
+                                        <div class="dropdown">
+                                          <div class="db-down-pdf dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            More
+                                          </div>
+                                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item" href="#">Bookings</a>
+                                            <a class="dropdown-item" href="#">Schedule</a>
+                                            <a class="dropdown-item" href="#">Questions</a>
+                                          </div>
+                                        </div>
+                                    </td>
 
 
 

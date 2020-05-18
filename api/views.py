@@ -52,9 +52,8 @@ class ScheduleViewSet(viewsets.ModelViewSet):
 class PersonOnlyViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.PersonOnlySerializer
     queryset = models.Person.objects.all()
-
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
-    filterset_fields = ["first_name","last_name","email"]
+    filterset_fields = {"email":['exact']}
 
 class OrganizerViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.OrganizerSerializer
@@ -110,9 +109,8 @@ class OrganizerView(viewsets.ModelViewSet):
 class PersonViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.PersonSerializer
     queryset = models.Person.objects.filter(is_blocked=False)
-    search_fields = ('first_name','last_name', 'email',)
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
-    filterset_fields = ["first_name","last_name","email"]
+    filterset_fields = ["first_name","last_name","email","user_type"]
 
     @action(detail=False, methods=['post'])
     def login(self, request):
@@ -166,3 +164,12 @@ def update_user(request,id):
         return Response(status=status.HTTP_200_OK, data=serializer.data)
     data += str(serializer.errors)
     return Response(status=status.HTTP_400_BAD_REQUEST, data=data)
+
+
+class QuestionViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.QuestionSerializer
+    queryset = models.Question.objects.all()
+
+class AnswerViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.AnswerSerializer
+    queryset = models.Answer.objects.all()

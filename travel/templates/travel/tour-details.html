@@ -1,6 +1,6 @@
 {% extends  'base.html' %}
 {% load static %}
-
+{% load my_tags %}
 
 {% block title %}
 <title>The Travel - Tour Travel</title>
@@ -72,7 +72,19 @@
 				<div class="col-md-9">
 					<!--====== TOUR TITLE ==========-->
 					<div class="tour_head">
-						<h2>{{data.title}} <span class="tour_star"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-half-o" aria-hidden="true"></i></span><span class="tour_rat">{{ data.organizer.rating }}</span></h2> </div>
+						<h2>{{data.title}}
+                            <span class="tour_star">
+                                {%  for i in data.rating|times  %}
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+
+
+                                {% endfor %}
+                                {% if data.organizer.rating|get_float %}
+
+                                <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                                {% endif %}
+                            </span>
+                            <span class="tour_rat">{{ data.organizer.rating }}</span></h2> </div>
 					<!--====== TOUR DESCRIPTION ==========-->
 					<div class="tour_head1">
 						<h3>Description</h3>
@@ -86,7 +98,7 @@
 
 							<!-- Wrapper for slides -->
 							<div class="carousel-inner carousel-inner1" role="listbox">
-								<div class="item active"> <img src="{% static 'travel/images/gallery/t1.jpg' %}" alt="Chania" width="460" height="345"> </div>
+								<div class="item active"> <img src="{{data.pic}}" alt="Chania" width="460" height="345"> </div>
 								<div class="item"> <img src="{% static 'travel/images/gallery/t2.jpg' %}" alt="Chania" width="460" height="345"> </div>
 								<div class="item"> <img src="{% static 'travel/images/gallery/t3.jpg' %}" alt="Chania" width="460" height="345"> </div>
 								<div class="item"> <img src="{% static 'travel/images/gallery/t4.jpg' %}" alt="Chania" width="460" height="345"> </div>
@@ -105,132 +117,49 @@
 						<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6290415.157581651!2d-93.99661009218904!3d39.661150926343694!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880b2d386f6e2619%3A0x7f15825064115956!2sIllinois%2C+USA!5e0!3m2!1sen!2sin!4v1467884030780" allowfullscreen></iframe>
 					</div>
 					<!--====== ABOUT THE TOUR ==========-->
-					<div class="tour_head1">
-						<h3>About The Tour</h3>
-						<table>
-							<tr>
-								<th>Places covered</th>
-								<th class="event-res">Inclusions</th>
-								<th class="event-res">Exclusions</th>
-								<th>Event Date</th>
-							</tr>
-							<tr>
-								<td>Rio De Janeiro ,Brazil</td>
-								<td class="event-res">Accommodation</td>
-								<td class="event-res">Return Airfare & Taxes</td>
-								<td>Nov 12, 2017</td>
-							</tr>
-							<tr>
-								<td>Iguassu Falls </td>
-								<td class="event-res">8 Breakfast, 3 Dinners</td>
-								<td class="event-res">Arrival & Departure transfers</td>
-								<td>Nov 14, 2017</td>
-							</tr>
-							<tr>
-								<td>Peru,Lima </td>
-								<td class="event-res">First-class Travel</td>
-								<td class="event-res">travel insurance</td>
-								<td>Nov 16, 2017</td>
-							</tr>
-							<tr>
-								<td>Cusco & Buenos Aires </td>
-								<td class="event-res">Free Sightseeing</td>
-								<td class="event-res">Service tax of 4.50%</td>
-								<td>Nov 18, 2017</td>
-							</tr>
-						</table>
-					</div>
+
 					<!--====== DURATION ==========-->
 					<div class="tour_head1 l-info-pack-days days">
 						<h3>Detailed Day Wise Itinerary</h3>
 						<ul>
-							<li class="l-info-pack-plac"> <i class="fa fa-clock-o" aria-hidden="true"></i>
-								<h4><span>Day : 1</span> Arrival and Evening Dhow Cruise</h4>
-								<p>Arrive at the airport and transfer to hotel. Check-in time at the hotel will be at 2:00 PM. In the evening, enjoy a tasty dinner on the Dhow cruise. Later, head back to the hotel for a comfortable overnight stay.</p>
+                            {% for day in data.schedule %}
+                                <li class="l-info-pack-plac"> <i class="fa fa-clock-o" aria-hidden="true"></i>
+								<h4><span>Day : {{ forloop.counter|add_one }}</span> {{day.short_description}}</h4>
+								<p> {{day.detail_description}}</p>
 							</li>
-							<li class="l-info-pack-plac"> <i class="fa fa-clock-o" aria-hidden="true"></i>
-								<h4><span>Day : 2</span> City Tour and Evening Free for Leisure</h4>
-								<p>After breakfast, proceed for tour of Dubai city. Visit Jumeirah Mosque, World Trade Centre, Palaces and Dubai Museum. Enjoy your overnight stay at the hotel.In the evening, enjoy a tasty dinner on the Dhow cruise. Later, head back to the hotel for a comfortable overnight stay.</p>
-							</li>
-							<li class="l-info-pack-plac"> <i class="fa fa-clock-o" aria-hidden="true"></i>
-								<h4><span>Day : 3</span> Desert Safari with Dinner</h4>
-								<p>Relish a yummy breakfast and later, proceed to explore the city on your own. Enjoy shopping at Mercato Shopping Mall, Dubai Mall and Wafi City. In the evening, enjoy the desert safari experience and belly dance performance. Relish a mouth-watering barbecue dinner and enjoy staying overnight in Dubai.</p>
-							</li>
-							<li class="l-info-pack-plac"> <i class="fa fa-clock-o" aria-hidden="true"></i>
-								<h4><span>Day : 4</span> Day at leisure</h4>
-								<p>Savour a satiating breakfast and relax for a while. Day Free for leisure. Overnight stay will be arranged in Dubai. In the evening, enjoy a tasty dinner on the Dhow cruise. Later, head back to the hotel for a comfortable overnight stay.</p>
-							</li>
-							<li class="l-info-pack-plac"> <i class="fa fa-clock-o" aria-hidden="true"></i>
-								<h4><span>Day : 5</span> Departure</h4>
-								<p>Fill your tummy with yummy breakfast and relax for a while. Later, check out from the hotel and proceed for your onward journey.In the evening, enjoy a tasty dinner on the Dhow cruise. Later, head back to the hotel for a comfortable overnight stay.</p>
-							</li>
+                            {% endfor %}
 						</ul>
 					</div>
 					<div>
 						<div class="dir-rat">
 							<div class="dir-rat-inn dir-rat-title">
-								<h3>Write Your Rating Here</h3>
-								<p>If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text</p>
-								<fieldset class="rating">
-									<input type="radio" id="star5" name="rating" value="5" />
-									<label class="full" for="star5" title="Awesome - 5 stars"></label>
-									<input type="radio" id="star4half" name="rating" value="4 and a half" />
-									<label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
-									<input type="radio" id="star4" name="rating" value="4" />
-									<label class="full" for="star4" title="Pretty good - 4 stars"></label>
-									<input type="radio" id="star3half" name="rating" value="3 and a half" />
-									<label class="half" for="star3half" title="Meh - 3.5 stars"></label>
-									<input type="radio" id="star3" name="rating" value="3" />
-									<label class="full" for="star3" title="Meh - 3 stars"></label>
-									<input type="radio" id="star2half" name="rating" value="2 and a half" />
-									<label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>
-									<input type="radio" id="star2" name="rating" value="2" />
-									<label class="full" for="star2" title="Kinda bad - 2 stars"></label>
-									<input type="radio" id="star1half" name="rating" value="1 and a half" />
-									<label class="half" for="star1half" title="Meh - 1.5 stars"></label>
-									<input type="radio" id="star1" name="rating" value="1" />
-									<label class="full" for="star1" title="Sucks big time - 1 star"></label>
-									<input type="radio" id="starhalf" name="rating" value="half" />
-									<label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
-								</fieldset>
+								<h3>Post your question here</h3>
 							</div>
-							<div class="dir-rat-inn">
+							<div class="dir-rat-inn mt-3">
 								<form class="dir-rat-form">
-									<div class="form-group col-md-6 pad-left-o">
-										<input type="text" class="form-control" id="email11" placeholder="Enter Name"> </div>
-									<div class="form-group col-md-6 pad-left-o">
-										<input type="number" class="form-control" id="email12" placeholder="Enter Mobile"> </div>
-									<div class="form-group col-md-6 pad-left-o">
-										<input type="email" class="form-control" id="email13" placeholder="Enter Email id"> </div>
-									<div class="form-group col-md-6 pad-left-o">
-										<input type="text" class="form-control" id="email14" placeholder="Enter your City"> </div>
 									<div class="form-group col-md-12 pad-left-o">
-										<textarea placeholder="Write your message"></textarea>
+										<textarea placeholder="Write your question" name="question"></textarea>
 									</div>
 									<div class="form-group col-md-12 pad-left-o">
-										<input type="submit" value="SUBMIT" class="link-btn"> </div>
+										<input type="submit" value="POST" class="link-btn"> </div>
 								</form>
 							</div>
 							<!--COMMENT RATING-->
 							<div class="dir-rat-inn dir-rat-review">
 								<div class="row">
-									<div class="col-md-3 dir-rat-left"> <img src="{% static 'travel/images/reviewer/4.jpg' %}" alt="">
-										<p>Orange Fab & Weld <span>19th January, 2017</span> </p>
+									<div class="col-md-3 dir-rat-left">
+										<p class="text-danger">Question: </p>
 									</div>
 									<div class="col-md-9 dir-rat-right">
-										<div class="dir-rat-star"> <i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i> </div>
 										<p>Michael & his team have been helping us with our eqiupment finance for the past 5 years - I think that says a quite a lot.. Michael is always ready to go the extra mile, always available, always helpfull that goes the same for his team that work with him - definatley our first phone call.</p>
-										<ul>
-											<li><a href="#"><span>Like</span><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a> </li>
-											<li><a href="#"><span>Dis-Like</span><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a> </li>
-											<li><a href="#"><span>Report</span> <i class="fa fa-flag-o" aria-hidden="true"></i></a> </li>
-											<li><a href="#"><span>Comments</span> <i class="fa fa-commenting-o" aria-hidden="true"></i></a> </li>
-											<li><a href="#"><span>Share Now</span>  <i class="fa fa-facebook" aria-hidden="true"></i></a> </li>
-											<li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a> </li>
-											<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a> </li>
-											<li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a> </li>
-											<li><a href="#"><i class="fa fa-youtube" aria-hidden="true"></i></a> </li>
-										</ul>
+									</div>
+								</div>
+                                <div class="row">
+									<div class="col-md-3 dir-rat-left">
+										<p class="text-primary">Answer: </p>
+									</div>
+									<div class="col-md-9 dir-rat-right">
+										<p>Michael & his team have been helping us with our eqiupment finance for the past 5 years - I think that says a quite a lot.. Michael is always ready to go the extra mile, always available, always helpfull that goes the same for his team that work with him - definatley our first phone call.</p>
 									</div>
 								</div>
 							</div>

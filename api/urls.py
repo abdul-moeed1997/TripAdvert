@@ -4,6 +4,8 @@ from api import views
 
 router=DefaultRouter()
 router.register('persons',views.PersonViewSet)
+router.register('questions',views.QuestionViewSet)
+router.register('answers',views.AnswerViewSet)
 router.register('person-user',views.PersonOnlyViewSet)
 router.register('organizers',views.OrganizerViewSet)
 router.register('users',views.UserViewSet)

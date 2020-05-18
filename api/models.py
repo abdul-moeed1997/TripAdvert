@@ -179,7 +179,9 @@ class Event(models.Model):
 
     def organizer_details(self):
         organizer = Organizer.objects.filter(id=self.organizer.id).values().first()
+        organizer["name"]=Person.objects.filter(organizer = self.organizer.id).first().get_name()
         organizer["rating"] = Review.objects.filter(organizer=organizer["id"]).all().aggregate(models.Avg('rating'))['rating__avg']
+
         return organizer
 
 
@@ -215,3 +217,19 @@ class Comment(models.Model):
     date = models.DateTimeField(auto_now_add=True,null=True)
     event = models.ForeignKey(Event, null=True,on_delete=models.CASCADE)
     user = models.ForeignKey(Person, null=False,on_delete=models.CASCADE)
+
+
+class Question(models.Model):
+    question=models.CharField(max_length=255,blank=True)
+    date = models.DateTimeField(auto_now_add=True,null=True)
+    event = models.ForeignKey(Event, null=True,on_delete=models.CASCADE)
+    user = models.ForeignKey(Person, null=False,on_delete=models.CASCADE)
+
+    def answer(self):
+        return Answer.objects.filter(question=self.id).values().first()
+
+class Answer(models.Model):
+    answer=models.CharField(max_length=255,blank=True)
+    date = models.DateTimeField(auto_now_add=True,null=True)
+    question = models.ForeignKey(Question, null=True,on_delete=models.CASCADE)
+    organizer = models.ForeignKey(Person, null=False,on_delete=models.CASCADE)

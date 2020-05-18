@@ -128,3 +128,15 @@ class PersonOnlySerializer(serializers.ModelSerializer):
     class Meta:
         model=models.Person
         fields=('id','first_name','last_name','phone_no','is_blocked','image','date','user_type','user','organizer')
+
+
+class QuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=models.Question
+        fields=('id','question','date','event','user','answer')
+
+class AnswerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=models.Answer
+        fields=('id','answer','date','organizer','question')
+

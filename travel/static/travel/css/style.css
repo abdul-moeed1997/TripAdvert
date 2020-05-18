@@ -4788,7 +4788,7 @@
      float: left;
      width: 58%;
      position: relative;
-     overflow:hidden;
+     overflow:visible;
      background: #fff;
      border: 1px solid #dadada;
     /* margin-bottom: 25px;
@@ -4936,6 +4936,7 @@
      padding: 12px 0px 0px 0px;
 }
  .db-2-com {
+     overflow: visible;
 }
  .db-2-com h4 {
      margin: 0px;
@@ -4948,7 +4949,7 @@
  .db-2-main-com {
      padding: 20px;
      position: relative;
-     overflow: hidden;
+     overflow: visible;
 }
  .db-2-main-com img {
      display: block;

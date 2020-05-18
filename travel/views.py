@@ -15,7 +15,6 @@ from django.template import context
 
 from TripAdvert import settings
 
-events = None
 prev_url = None
 user = True
 # Create your views here.
@@ -46,7 +45,6 @@ def tours(request):
         if "tripadvert_person_id" not in request.session:
             global prev_url
             prev_url = request.get_raw_uri()
-        global events
         response = requests.get("http://127.0.0.1:8000/api/events/?page="+str(page))
         data = response.json()
 
@@ -61,7 +59,6 @@ def tours(request):
             next = str(data["next"].split("?page=")[1])
         else:
             next = data["next"]
-        global events
         events= { str(i["id"]) : i for i in data["results"] }
         return render(request,'all-package.html',{'data':events,'prev':prev,'next':next,'current':page,'prev_url':data["previous"],'next_url':data["next"]})
     return redirect("/travel/404/")
@@ -70,12 +67,10 @@ def tourDetail(request,id):
     if "tripadvert_person_id" not in request.session:
         global prev_url
         prev_url = request.get_raw_uri()
-    global events
-    if events:
-        data = events[id]
-    else:
-        response = requests.get("http://127.0.0.1:8000/api/event/"+id)
-        data = response.json()
+    response = requests.get("http://127.0.0.1:8000/api/event/"+id)
+    data = response.json()
+    data["rating"] = int(data["organizer"]["rating"])
+    print(data)
     return render(request,'tour-details.html',{"data":data})
 
 
