@@ -90,6 +90,16 @@ class ImageSerializer(serializers.ModelSerializer):
         model=models.Image
         fields="__all__"
 
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=models.Notification
+        fields="__all__"
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=models.Review
+        fields="__all__"
+
 
 class EventScheduleSerializer(serializers.ModelSerializer):
     class Meta:

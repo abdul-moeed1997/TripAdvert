@@ -66,6 +66,20 @@ class UserViewSet(viewsets.ModelViewSet):
 class ImageViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ImageSerializer
     queryset = models.Image.objects.all()
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+    filterset_fields = ['event']
+
+class NotificationViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.NotificationSerializer
+    queryset = models.Notification.objects.all().order_by("-date")
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+    filterset_fields = ['sentFor']
+
+class ReviewViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.ReviewSerializer
+    queryset = models.Review.objects.all().order_by("-date")
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+    filterset_fields = ['organizer','user']
 
 class LargeResultsSetPagination(PageNumberPagination):
     page_size = 8
