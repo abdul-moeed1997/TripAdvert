@@ -182,8 +182,9 @@ def update_user(request,id):
 
 class QuestionViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.QuestionSerializer
-    queryset = models.Question.objects.all()
-
+    queryset = models.Question.objects.all().order_by("-date")
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+    filterset_fields = ['event']
 class AnswerViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.AnswerSerializer
     queryset = models.Answer.objects.all()

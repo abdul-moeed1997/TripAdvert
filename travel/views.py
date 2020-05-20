@@ -64,13 +64,17 @@ def tours(request):
     return redirect("/travel/404/")
 
 def tourDetail(request,id):
-    if "tripadvert_person_id" not in request.session:
-        global prev_url
-        prev_url = request.get_raw_uri()
+    if request.method=="POST":
+        if request.session.get("tripadvert_person_id",None):
+            requests.post("http://"+request.get_host()+"/api/questions/",{"event":request.POST["event"],"question":request.POST["question"],"user":request.session.get("tripadvert_person_id",None)})
+    else:
+        if "tripadvert_person_id" not in request.session:
+            global prev_url
+            prev_url = request.get_raw_uri()
     response = requests.get("http://"+request.get_host()+"/api/event/"+id)
     data = response.json()
     data["rating"] = int(data["organizer"]["rating"])
-    print(data)
+
     return render(request,'tour-details.html',{"data":data})
 
 
@@ -97,7 +101,7 @@ def login(request):
         password = request.POST["password"]
         response = requests.post("http://"+request.get_host()+"/api/persons/login/",{'email':email,'password':password})
         if response.status_code == 200:
-            data = (response.json()[0])
+            data = (response.json())
             request.session["tripadvert_person_id"]=data["id"]
             if data["user_type"]==1:
                 request.session["tripadvert_user_id"]=data["user"]["id"]

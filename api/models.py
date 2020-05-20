@@ -226,7 +226,10 @@ class Question(models.Model):
     user = models.ForeignKey(Person, null=False,on_delete=models.CASCADE)
 
     def answer(self):
-        return Answer.objects.filter(question=self.id).values().first()
+        answer = Answer.objects.filter(question=self.id).values().first()
+        if answer:
+            answer=answer["answer"]
+        return answer
 
 class Answer(models.Model):
     answer=models.CharField(max_length=255,blank=True)
