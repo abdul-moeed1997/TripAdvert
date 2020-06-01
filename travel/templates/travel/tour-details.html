@@ -8,6 +8,32 @@
 
 {% block body  %}
 
+    <!-- The Modal -->
+  <div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Book a seat for event</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          Are you sure you want to book a seat?
+            <p>Policy: Pay atleast 20% of the total amount by JazzCash and contact organizer.</p>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+
+          <button type="submit" class="btn btn-danger mx-auto" data-dismiss="modal">Submit</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
 		<!-- TOP SEARCH BOX -->
         <div class="search-top">
             <div class="container">
@@ -60,7 +86,7 @@
 						<li class="dl2">Price : <span>{{ data.price }}</span></li>
 						<li class="dl3">Departure: <span>{{data.date_of_departure}}</span></li>
                         {% if not data.is_completed %}
-						<li class="dl4"><a href="/travel/user/dashboard/eventBooking/">Book Now</a> </li>
+                            <li class="dl4 bg-danger">Available Slots: <span>{{data.free_slots}}</span> </li>
                         {% endif %}
 					</ul>
 				</div>
@@ -152,7 +178,7 @@
 					<div class="tour_right tour_offer">
 						<p>Price</p>
 						<h4 class="n-td-1" style="color: red" >$500
-							</h4> <a href="booking.html" class="link-btn">Book Now</a> </div>
+							</h4> <a href="booking.html" class="link-btn" data-toggle="modal" data-target="#myModal">Book Now</a> </div>
                 {% endif %}
 					<!--====== TRIP INFORMATION ==========-->
 					<div class="tour_right tour_incl tour-ri-com">

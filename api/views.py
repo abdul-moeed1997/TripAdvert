@@ -137,7 +137,6 @@ class PersonViewSet(viewsets.ModelViewSet):
 
         return Response(status=status.HTTP_400_BAD_REQUEST,data="Invalid Email or Password")
 
-
 @api_view(['PUT',])
 def toggle_isFull(request,id):
     event = models.Event.objects.get(id=id)
@@ -179,12 +178,45 @@ def update_user(request,id):
     data += str(serializer.errors)
     return Response(status=status.HTTP_400_BAD_REQUEST, data=data)
 
-
 class QuestionViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.QuestionSerializer
     queryset = models.Question.objects.all().order_by("-date")
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
     filterset_fields = ['event']
+
 class AnswerViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.AnswerSerializer
     queryset = models.Answer.objects.all()
+
+@api_view(['GET',])
+def reviewed_user_events(request,id):
+
+    reviews = models.Review.objects.filter(user=id)
+    print(reviews)
+    events = []
+    for review in reviews:
+        print("-------------------------", review.get_event())
+        event = models.Event.objects.get(id=review.get_event())
+        event = event.__dict__
+        del event["_state"]
+        if event:
+            events.append(event)
+
+    if events:
+            return Response(status=status.HTTP_200_OK, data=events)
+    return Response(status=status.HTTP_200_OK, data=[])
+
+@api_view(['GET',])
+def pending_user_events(request,id):
+
+
+    bookings = models.Booking.objects.filter(user= id)
+    events = []
+    for booking in bookings:
+        if not models.Review.objects.get(event=booking.get_event(), user=id):
+            event = models.Event.objects.get(event= booking.get_event()).__dict__
+            del event["_state"]
+            events.append(event)
+
+    return Response(status=status.HTTP_200_OK, data=events)
+

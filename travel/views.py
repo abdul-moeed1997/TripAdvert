@@ -73,6 +73,7 @@ def tourDetail(request,id):
             prev_url = request.get_raw_uri()
     response = requests.get("http://"+request.get_host()+"/api/event/"+id)
     data = response.json()
+    print(data)
     data["rating"] = int(data["organizer"]["rating"])
 
     return render(request,'tour-details.html',{"data":data})
@@ -148,6 +149,7 @@ def userMyProfile(request):
 
         global prev_url
         prev_url = request.get_raw_uri()
+        print(request.session["tripadvert_user_type"],"--------------- 3")
         return redirect('/travel/access-denied')
 
     elif request.method == "POST":
@@ -177,11 +179,12 @@ def userMyProfile(request):
             request.session["tripadvert_user_name"] = data["first_name"]
             request.session["tripadvert_user_image"] = data["image"]
 
-        return redirect("/travel/organizer/dashboard/my-profile")
+        return redirect("/travel/user/dashboard/my-profile")
 
 
 
 def organizerMyProfile(request):
+    print("Organizer ---------------")
     if request.method == "GET":
         if "tripadvert_user_type" in request.session and request.session["tripadvert_user_type"]==2:
             response = requests.get("http://"+request.get_host()+"/api/organizers/"+str(request.session["tripadvert_user_id"]))
@@ -189,6 +192,8 @@ def organizerMyProfile(request):
                 data = response.json()
                 return render(request,'organizer-my-profile.html',{"data":data})
             else:
+
+                print("Organizer --------------- 1")
                 return redirect(request,'/travel/something-wrong')
 
         global prev_url

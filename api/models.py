@@ -127,11 +127,6 @@ class Person(AbstractBaseUser,PermissionsMixin):
 
 
 
-class Review(models.Model):
-    rating = models.IntegerField(null=False)
-    date = models.DateTimeField(auto_now_add=True,null=True)
-    user = models.ForeignKey(Person, null=True,on_delete=models.SET_NULL,default=None)
-    organizer = models.ForeignKey(Organizer, null=False,on_delete=models.CASCADE,related_name="reviews")
 
 
 
@@ -177,12 +172,19 @@ class Event(models.Model):
     def schedule(self):
         return self.activity.filter(event=self.id).values()
 
+    def free_slots(self):
+        return (self.slots - Booking.objects.filter(event= self.id).count())
+
     def organizer_details(self):
         organizer = Organizer.objects.filter(id=self.organizer.id).values().first()
         organizer["name"]=Person.objects.filter(organizer = self.organizer.id).first().get_name()
         organizer["rating"] = Review.objects.filter(organizer=organizer["id"]).all().aggregate(models.Avg('rating'))['rating__avg']
 
         return organizer
+
+    def get_id(self):
+        return self.id
+
 
 
 class EventSchedule(models.Model):
@@ -212,6 +214,9 @@ class Booking(models.Model):
     def event_details(self):
         return Event.objects.filter(id=self.event.id).values().first()
 
+    def get_event(self):
+        return self.event.get_id()
+
 class Comment(models.Model):
     comment=models.CharField(max_length=255,blank=True)
     date = models.DateTimeField(auto_now_add=True,null=True)
@@ -236,3 +241,13 @@ class Answer(models.Model):
     date = models.DateTimeField(auto_now_add=True,null=True)
     question = models.ForeignKey(Question, null=True,on_delete=models.CASCADE)
     organizer = models.ForeignKey(Person, null=False,on_delete=models.CASCADE)
+
+class Review(models.Model):
+    rating = models.IntegerField(null=False)
+    date = models.DateTimeField(auto_now_add=True,null=True)
+    user = models.ForeignKey(Person, null=True,on_delete=models.SET_NULL,default=None)
+    organizer = models.ForeignKey(Organizer, null=False,on_delete=models.CASCADE,related_name="reviews")
+    event = models.ForeignKey(Event,on_delete=models.CASCADE)
+
+    def get_event(self):
+        return self.event.get_id()

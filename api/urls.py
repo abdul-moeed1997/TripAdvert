@@ -23,6 +23,8 @@ urlpatterns=[
     path('users/update/<id>', views.update_user,name="Update-User"),
     path('events/update/<id>', views.toggle_isFull,name="Toggle isFull"),
     path('organizers/update/<id>', views.update_user,name="Update-Organizer"),
+    path('events/reviewed/<id>',views.reviewed_user_events,name="reviewed events"),
+    path('events/pending/<id>',views.pending_user_events,name="pending events"),
     path('api-auth/', include('rest_framework.urls')),
 
 ]
