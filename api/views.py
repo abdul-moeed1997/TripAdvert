@@ -1,3 +1,5 @@
+import os
+
 import django_filters
 from django.contrib import auth
 from django.contrib.auth.hashers import make_password
@@ -12,6 +14,8 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action, api_view
 
 from django.db.models import Avg, Max, Min, Sum, Count
+
+from TripAdvert import settings
 from api import serializers, models
 
 from django.http import JsonResponse
@@ -102,11 +106,9 @@ class SingleEventViewSet(viewsets.ModelViewSet):
     @atomic
     def compare_events(self, request):
         ids=request.data["id"]
-        print(type(ids))
         ids = ids.split(",")
         data=[]
         for id in ids:
-            print(id)
             item = self.queryset.get(id=id)
             serializer=serializers.EventSerializer(item,many=False)
             data.append(serializer.data)
@@ -152,30 +154,45 @@ def toggle_isFull(request,id):
 @api_view(['PUT',])
 @atomic
 def update_user(request,id):
-    if request.data["user_type"]=="1":
-        user = models.User.objects.get(id=request.data["user"])
-        serializer = serializers.UserSerializer(user,data={"address":request.data["address"]})
-        if serializer.is_valid():
-            serializer.save()
+    data = {}
+    person = models.Person.objects.get(id=id)
+    if request.data["user_type"] == "1":
+        user = models.User.objects.get(id=person.user_id)
+        address = request.data["address"]
+        if address:
+            serializer = serializers.UserSerializer(user,data={"address":request.data["address"]})
+            if serializer.is_valid():
+                serializer.save()
 
-    elif request.data["user_type"]=="2":
-        organizer = models.Organizer.objects.get(id=request.data["organizer"])
+    elif request.data["user_type"] == "2":
+        organizer = models.Organizer.objects.get(id=person.organizer_id)
         serializer = serializers.OrganizerSerializer(organizer,data={"address":request.data["address"],"experience":request.data["experience"],"organization":request.data["organization"]})
         if serializer.is_valid():
             serializer.save()
 
-        data = str(serializer.errors)
-    person = models.Person.objects.get(id=id)
-    data = {"first_name":request.data["first_name"],"last_name":request.data["last_name"],"phone_no":request.data["phone_no"]}
+        data["errors"] = str(serializer.errors)
+
+    if request.data.get("first_name",None):
+        data["first_name"] = request.data.get("first_name",None)
+
+    if request.data.get("last_name",None):
+        data["last_name"] = request.data.get("last_name",None)
+
+    if request.data.get("phone_no",None):
+        data["phone_no"] = request.data.get("phone_no",None)
+
     if "image" in request.data:
-        data["image"]=request.data["image"]
+        data["image"] = request.data["image"]
     else:
         data["image"] = person.image
-    serializer = serializers.PersonOnlySerializer(person,data=data)
+    serializer = serializers.PersonOnlySerializer(person, data=data)
     if serializer.is_valid():
         serializer.save()
         return Response(status=status.HTTP_200_OK, data=serializer.data)
-    data += str(serializer.errors)
+    if "errors" not in data:
+        data["errors"] = str(serializer.errors)
+    else:
+        data["errors"] += str(serializer.errors)
     return Response(status=status.HTTP_400_BAD_REQUEST, data=data)
 
 class QuestionViewSet(viewsets.ModelViewSet):
@@ -192,10 +209,8 @@ class AnswerViewSet(viewsets.ModelViewSet):
 def reviewed_user_events(request,id):
 
     reviews = models.Review.objects.filter(user=id)
-    print(reviews)
     events = []
     for review in reviews:
-        print("-------------------------", review.get_event())
         event = models.Event.objects.get(id=review.get_event())
         event = event.__dict__
         del event["_state"]

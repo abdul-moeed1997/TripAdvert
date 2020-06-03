@@ -154,10 +154,9 @@ def userMyProfile(request):
 
     elif request.method == "POST":
         data=request.POST
-        person = requests.get("http://"+request.get_host()+"/api/persons/"+str(request.session["tripadvert_person_id"])+"/")
-        person = person.json()
-        person["user"]=int(person["user"]["id"])
-        person["organizer"]=None
+
+        person = {}
+        person["user_type"] = request.session["tripadvert_user_type"]
         person["first_name"] = data["first_name"]
         person["last_name"] = data["last_name"]
         person["phone_no"] = data["phone"]
@@ -184,7 +183,6 @@ def userMyProfile(request):
 
 
 def organizerMyProfile(request):
-    print("Organizer ---------------")
     if request.method == "GET":
         if "tripadvert_user_type" in request.session and request.session["tripadvert_user_type"]==2:
             response = requests.get("http://"+request.get_host()+"/api/organizers/"+str(request.session["tripadvert_user_id"]))
@@ -202,10 +200,8 @@ def organizerMyProfile(request):
 
     elif request.method == "POST":
         data=request.POST
-        person = requests.get("http://"+request.get_host()+"/api/persons/"+str(request.session["tripadvert_person_id"])+"/")
-        person = person.json()
-        person["organizer"]=int(person["organizer"]["id"])
-        person["user"]=None
+        person = {}
+        person["user_type"] = request.session["tripadvert_user_type"]
         person["first_name"] = data["first_name"]
         person["last_name"] = data["last_name"]
         person["phone_no"] = data["phone"]
