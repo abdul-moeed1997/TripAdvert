@@ -184,7 +184,6 @@ def update_user(request,id):
     if "image" in request.data:
         image = str(person.image)
         path = "media\\uploads\\users\\" + image.split("/")[-1]
-        print(path, " ===================+++++++++===")
         os.remove(path)
         data["image"] = request.data["image"]
     else:

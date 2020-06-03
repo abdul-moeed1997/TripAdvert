@@ -73,7 +73,6 @@ def tourDetail(request,id):
             prev_url = request.get_raw_uri()
     response = requests.get("http://"+request.get_host()+"/api/event/"+id)
     data = response.json()
-    print(data)
     data["rating"] = int(data["organizer"]["rating"])
 
     return render(request,'tour-details.html',{"data":data})
@@ -149,7 +148,6 @@ def userMyProfile(request):
 
         global prev_url
         prev_url = request.get_raw_uri()
-        print(request.session["tripadvert_user_type"],"--------------- 3")
         return redirect('/travel/access-denied')
 
     elif request.method == "POST":
@@ -170,7 +168,7 @@ def userMyProfile(request):
                 my_string = base64.b64encode(img_file.read())
             person['image'] = my_string
             default_storage.delete(path)
-            
+
         response = requests.put("http://"+request.get_host()+"/api/users/update/"+str(request.session["tripadvert_person_id"]),person)
         if response.status_code==200:
             data = response.json()
@@ -189,8 +187,6 @@ def organizerMyProfile(request):
                 data = response.json()
                 return render(request,'organizer-my-profile.html',{"data":data})
             else:
-
-                print("Organizer --------------- 1")
                 return redirect(request,'/travel/something-wrong')
 
         global prev_url
@@ -277,12 +273,10 @@ def about(request):
     return render(request, 'about.html')
 
 def price_list(request):
-    print(request.GET.get("events",None)," ----------- ",type(request.GET.get("events",None)))
     response = requests.post("http://"+request.get_host()+"/api/event/compare_events/",{"id":request.GET.get("events",None)})
 
     data=response.json()
     if data:
-        print(data)
         return render(request, 'price-list.html', {'data': data})
 
     return redirect("/travel/something-worng/")
