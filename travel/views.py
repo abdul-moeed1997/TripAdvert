@@ -170,8 +170,7 @@ def userMyProfile(request):
                 my_string = base64.b64encode(img_file.read())
             person['image'] = my_string
             default_storage.delete(path)
-        else:
-            del person['image']
+            
         response = requests.put("http://"+request.get_host()+"/api/users/update/"+str(request.session["tripadvert_person_id"]),person)
         if response.status_code==200:
             data = response.json()

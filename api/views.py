@@ -182,6 +182,10 @@ def update_user(request,id):
         data["phone_no"] = request.data.get("phone_no",None)
 
     if "image" in request.data:
+        image = str(person.image)
+        path = "media\\uploads\\users\\" + image.split("/")[-1]
+        print(path, " ===================+++++++++===")
+        os.remove(path)
         data["image"] = request.data["image"]
     else:
         data["image"] = person.image
