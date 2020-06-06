@@ -103,10 +103,10 @@ class Organizer(models.Model):
 class Person(AbstractBaseUser,PermissionsMixin):
     first_name = models.CharField(max_length=50,blank=True)
     last_name = models.CharField(max_length=50,blank=True)
-    email = models.EmailField(max_length=255,unique=True)
+    email = models.EmailField(max_length=255,unique=True,blank=True, null=True)
     username = models.CharField(max_length=255,blank=True)
-    phone_no = models.CharField(max_length=11)
-    image = models.ImageField(upload_to ='uploads/users',null=True,blank=True,default="images/person.png")
+    phone_no = models.CharField(max_length=11, blank=True, null=True)
+    image = models.ImageField(upload_to ='uploads/users', blank=True, default="person.png")
     password = models.CharField(max_length=255,blank=True)
     user_type = models.IntegerField(default=1)
     user = models.ForeignKey(User,null=True,blank=True,on_delete=models.CASCADE,related_name='user1')
@@ -114,6 +114,7 @@ class Person(AbstractBaseUser,PermissionsMixin):
     date = models.DateField(auto_now_add=True)
     is_blocked = models.BooleanField(default=False,null=True)
     is_staff = models.BooleanField(default=True)
+    firebaseinstancetoken = models.CharField(default=None, max_length=1000, blank=True, null=True)
 
     objects = PersonProfileManager()
 

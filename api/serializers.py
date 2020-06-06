@@ -56,12 +56,12 @@ class SimpleUserSerializer(serializers.ModelSerializer):
         fields = ("id", "address")
 
 class PersonSerializer(serializers.ModelSerializer):
-    image = Base64ImageField(max_length=None, use_url=True)
+    image = Base64ImageField(max_length=None, use_url=True,allow_null=True,)
     user = SimpleUserSerializer(many=False,allow_null=True)
     organizer = SimpleOrganizerSerializer(many=False,allow_null=True)
     class Meta:
         model=models.Person
-        fields=('id','first_name','last_name','email','password','phone_no','is_blocked','image','date','user_type','user','organizer')
+        fields=('id','first_name','last_name','email','password','phone_no', 'firebaseinstancetoken','is_blocked','image','date','user_type','user','organizer')
 
     def create(self, validated_data):
         if 'username' not in validated_data:
@@ -134,10 +134,10 @@ class BookingSerializer(serializers.ModelSerializer):
 
 
 class PersonOnlySerializer(serializers.ModelSerializer):
-    image = Base64ImageField(max_length=None, use_url=True)
+    image = Base64ImageField(max_length=None, use_url=True,allow_null=True, default="person.png")
     class Meta:
         model=models.Person
-        fields=('id','first_name','last_name','phone_no','is_blocked','image','date','user_type','user','organizer')
+        fields=('id','first_name','last_name','phone_no','firebaseinstancetoken','is_blocked','image','date','user_type','user','organizer')
 
 
 class QuestionSerializer(serializers.ModelSerializer):
@@ -149,4 +149,3 @@ class AnswerSerializer(serializers.ModelSerializer):
     class Meta:
         model=models.Answer
         fields=('id','answer','date','organizer','question')
-

@@ -32,7 +32,7 @@ from . import serializers
 
 class UserBookingViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.BookingSerializer
-    queryset = models.Booking.objects.all()
+    queryset = models.Booking.objects.filter(event__is_completed=False)
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
     filterset_fields = ['user']
 
@@ -188,6 +188,9 @@ def update_user(request,id):
         data["image"] = request.data["image"]
     else:
         data["image"] = person.image
+
+    print(" ------------------- ",data)
+
     serializer = serializers.PersonOnlySerializer(person, data=data)
     if serializer.is_valid():
         serializer.save()
@@ -208,6 +211,7 @@ class AnswerViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.AnswerSerializer
     queryset = models.Answer.objects.all()
 
+
 @api_view(['GET',])
 def reviewed_user_events(request,id):
 
@@ -215,10 +219,12 @@ def reviewed_user_events(request,id):
     events = []
     for review in reviews:
         event = models.Event.objects.get(id=review.get_event())
-        event = event.__dict__
-        del event["_state"]
         if event:
-            events.append(event)
+            event = event.__dict__
+            del event["_state"]
+            event["rating"] = review.rating
+            if event not in events:
+                events.append(event)
 
     if events:
             return Response(status=status.HTTP_200_OK, data=events)
@@ -227,14 +233,33 @@ def reviewed_user_events(request,id):
 @api_view(['GET',])
 def pending_user_events(request,id):
 
-
     bookings = models.Booking.objects.filter(user= id)
     events = []
     for booking in bookings:
-        if not models.Review.objects.get(event=booking.get_event(), user=id):
-            event = models.Event.objects.get(event= booking.get_event()).__dict__
-            del event["_state"]
-            events.append(event)
+
+        if not models.Review.objects.filter(event=booking.get_event(), user=id,event__event_booking__is_verified=True):
+            event = models.Event.objects.get(id= booking.get_event(), is_completed= True)
+            if event:
+                event = event.__dict__
+                del event["_state"]
+                if event not in events:
+                    events.append(event)
 
     return Response(status=status.HTTP_200_OK, data=events)
 
+@api_view(['POST',])
+def setFirebaseInstanceToken(request,id):
+    person = models.Person.objects.get(id=id)
+    print(person.__dict__)
+    if person and "firebase_token" in request.data:
+        print(person)
+        data = {}
+        data["firebaseinstancetoken"] = request.data["firebase_token"]
+        print(data)
+        serializer = serializers.PersonOnlySerializer(person, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_200_OK, data=serializer.data)
+        else:
+            print(serializer.errors)
+    return Response(status=status.HTTP_400_BAD_REQUEST, data=[])

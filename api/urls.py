@@ -25,6 +25,7 @@ urlpatterns=[
     path('organizers/update/<id>', views.update_user,name="Update-Organizer"),
     path('events/reviewed/<id>',views.reviewed_user_events,name="reviewed events"),
     path('events/pending/<id>',views.pending_user_events,name="pending events"),
+    path('persons/set_firebase_token/<id>',views.setFirebaseInstanceToken,name="set firebase token"),
     path('api-auth/', include('rest_framework.urls')),
 
 ]
