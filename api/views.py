@@ -192,8 +192,7 @@ def update_user(request,id):
 
         serializer = serializers.PersonOnlySerializer(person, data=data)
         if serializer.is_valid():
-            serializer.save()
-            person = models.Person.objects.get(id=id)
+            person = serializer.save()
             serializer = serializers.PersonSerializer(person)
             return Response(status=status.HTTP_200_OK, data=serializer.data)
 
