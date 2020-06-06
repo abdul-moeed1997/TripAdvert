@@ -156,50 +156,53 @@ def toggle_isFull(request,id):
 def update_user(request,id):
     data = {}
     person = models.Person.objects.get(id=id)
-    if request.data["user_type"] == "1":
-        user = models.User.objects.get(id=person.user_id)
-        address = request.data["address"]
-        if address:
-            serializer = serializers.UserSerializer(user,data={"address":request.data["address"]})
+    if person:
+        if request.data["user_type"] == "1":
+            user = models.User.objects.get(id=person.user_id)
+            address = request.data["address"]
+            if address:
+                serializer = serializers.UserSerializer(user,data={"address":request.data["address"]})
+                if serializer.is_valid():
+                    serializer.save()
+
+        elif request.data["user_type"] == "2":
+            organizer = models.Organizer.objects.get(id=person.organizer_id)
+            serializer = serializers.OrganizerSerializer(organizer,data={"address":request.data["address"],"experience":request.data["experience"],"organization":request.data["organization"]})
             if serializer.is_valid():
                 serializer.save()
 
-    elif request.data["user_type"] == "2":
-        organizer = models.Organizer.objects.get(id=person.organizer_id)
-        serializer = serializers.OrganizerSerializer(organizer,data={"address":request.data["address"],"experience":request.data["experience"],"organization":request.data["organization"]})
+            data["errors"] = str(serializer.errors)
+
+        if request.data.get("first_name",None):
+            data["first_name"] = request.data.get("first_name",None)
+
+        if request.data.get("last_name",None):
+            data["last_name"] = request.data.get("last_name",None)
+
+        if request.data.get("phone_no",None):
+            data["phone_no"] = request.data.get("phone_no",None)
+
+        if "image" in request.data:
+            image = str(person.image)
+            path = "media\\uploads\\users\\" + image.split("/")[-1]
+            os.remove(path)
+            data["image"] = request.data["image"]
+        else:
+            data["image"] = person.image
+
+        serializer = serializers.PersonOnlySerializer(person, data=data)
         if serializer.is_valid():
             serializer.save()
+            person = models.Person.objects.get(id=id)
+            serializer = serializers.PersonSerializer(person)
+            return Response(status=status.HTTP_200_OK, data=serializer.data)
 
-        data["errors"] = str(serializer.errors)
-
-    if request.data.get("first_name",None):
-        data["first_name"] = request.data.get("first_name",None)
-
-    if request.data.get("last_name",None):
-        data["last_name"] = request.data.get("last_name",None)
-
-    if request.data.get("phone_no",None):
-        data["phone_no"] = request.data.get("phone_no",None)
-
-    if "image" in request.data:
-        image = str(person.image)
-        path = "media\\uploads\\users\\" + image.split("/")[-1]
-        os.remove(path)
-        data["image"] = request.data["image"]
-    else:
-        data["image"] = person.image
-
-    print(" ------------------- ",data)
-
-    serializer = serializers.PersonOnlySerializer(person, data=data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(status=status.HTTP_200_OK, data=serializer.data)
-    if "errors" not in data:
-        data["errors"] = str(serializer.errors)
-    else:
-        data["errors"] += str(serializer.errors)
-    return Response(status=status.HTTP_400_BAD_REQUEST, data=data)
+        if "errors" not in data:
+            data["errors"] = str(serializer.errors)
+        else:
+            data["errors"] += str(serializer.errors)
+        return Response(status=status.HTTP_400_BAD_REQUEST, data=data)
+    return Response(status=status.HTTP_400_BAD_REQUEST,data = {})
 
 class QuestionViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.QuestionSerializer
@@ -250,12 +253,9 @@ def pending_user_events(request,id):
 @api_view(['POST',])
 def setFirebaseInstanceToken(request,id):
     person = models.Person.objects.get(id=id)
-    print(person.__dict__)
     if person and "firebase_token" in request.data:
-        print(person)
         data = {}
         data["firebaseinstancetoken"] = request.data["firebase_token"]
-        print(data)
         serializer = serializers.PersonOnlySerializer(person, data=data)
         if serializer.is_valid():
             serializer.save()
