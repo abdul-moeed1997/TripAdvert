@@ -11,7 +11,6 @@ urlpatterns = [
 #    path('user-profile/', views.user_profile, name='User-Profile'),
     path('access-denied/', views.access_denied, name='Access-Denied'),
     path('something-wrong/', views.something_wrong, name='Something-Wrong'),
-    path('ajax/', views.ajax),
     path('organizer/dashboard/create-event/', views.addEvent, name='Add Event'),
     path('tour/detail/<id>', views.tourDetail, name='Tour-Details'),
     path('tour/delete/<id>', views.deleteEvent, name='Delete Event'),
@@ -41,5 +40,6 @@ urlpatterns = [
     path('price-list/',views.price_list, name='Price-Lists'),
     path('organizer/register/',views.organizerSignUp, name='org-signUp'),
     path('forgot-pass/', views.forgotPassword,name='forgot-password'),
-    path('email-forgot-pass/', views.EmailforgotPassword,name='forgot-password')
+    path('email-forgot-pass/', views.EmailforgotPassword,name='forgot-password'),
+    path('book-event/<id>', views.book_event,name='Book Event'),
 ]

@@ -245,6 +245,7 @@ class Answer(models.Model):
 
 class Review(models.Model):
     rating = models.IntegerField(null=False)
+    comment = models.CharField(max_length=255, blank=True, null= True)
     date = models.DateTimeField(auto_now_add=True,null=True)
     user = models.ForeignKey(Person, null=True,on_delete=models.SET_NULL,default=None)
     organizer = models.ForeignKey(Organizer, null=False,on_delete=models.CASCADE,related_name="reviews")

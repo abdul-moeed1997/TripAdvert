@@ -29,8 +29,6 @@ def index(request):
 
 
 
-def ajax(request):
-    return HttpResponse(events, content_type='application/json')
 
 def tips(request):
     return render(request,'tips.html')
@@ -38,8 +36,8 @@ def faq(request):
     return render(request,'faq.html')
 def specialEvent(request):
     return render(request,'special-event.html')
-def tours(request):
 
+def tours(request):
     page=request.GET.get("page",None)
     if page:
         if "tripadvert_person_id" not in request.session:
@@ -73,7 +71,8 @@ def tourDetail(request,id):
             prev_url = request.get_raw_uri()
     response = requests.get("http://"+request.get_host()+"/api/event/"+id)
     data = response.json()
-    data["rating"] = int(data["organizer"]["rating"])
+    if "organizer" in data:
+        data["rating"] = int(data["organizer"]["rating"])
 
     return render(request,'tour-details.html',{"data":data})
 
@@ -265,6 +264,11 @@ def contact(request):
 def not_found(request):
     return render(request, '404.html')
 
+def book_event(request,id):
+    if request.session.get("tripadvert_person_id", None):
+        requests.post("http://" + request.get_host() + "/api/event-bookings/",{"event": id,"user": request.session.get("tripadvert_person_id", None)})
+        return redirect("/travel/tours/?page=1")
+    return redirect("/travel/login/")
 def access_denied(request):
     return render(request, 'access-denied.html')
 

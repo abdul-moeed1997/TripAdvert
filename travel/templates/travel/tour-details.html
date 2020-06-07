@@ -9,56 +9,69 @@
 {% block body  %}
 
     <!-- The Modal -->
-  <div class="modal" id="myModal">
-    <div class="modal-dialog">
-      <div class="modal-content">
+    <div class="modal" id="myModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Book Event</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+                <div class="row">
+                    <table class=" m-2 table table-hover">
+                        <thead>
+                            <tr>
+                                <th class="text-center" >#</th>
+                                <th>Event name</th>
+                                <th class="text-center">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="text-align: center"> {{ data.id }} </td>
+                                <td><em>{{data.title}}</em></td>
+                                <td class="text-center">${{ data.price }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Book a seat for event</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <hr size="2">
+                    <p class="mx-2 text-danger" style="font-size: 12px;">Note: <span style="font-size: 8px;color: black;">Pay atleast 20% of the total amount by JazzCash and contact organizer.</span></p>
+                <hr size="2">
+          </div>
+          <div class="modal-footer">
+                <a href="/travel/book-event/{{ data.id }}" class="btn btn-success btn-block">Confirm Booking</a>
+          </div>
         </div>
-
-        <!-- Modal body -->
-        <div class="modal-body">
-            <p class="text-primary" style="text-align: center;">Are you sure you want to book a seat?</p>
-            <hr size="2">
-            <p>Note: <span style="font-size: 12px;">Pay atleast 20% of the total amount by JazzCash and contact organizer.</span></p>
-        </div>
-
-        <!-- Modal footer -->
-        <div class="modal-footer">
-
-          <button type="submit" class="btn btn-success mx-auto" data-dismiss="modal">Submit</button>
-        </div>
-
       </div>
     </div>
-  </div>
-		<!-- TOP SEARCH BOX -->
-        <div class="search-top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="search-form">
-						<form class="tourz-search-form" >
-							<div class="input-field">
-								<input type="text" id="select-city" class="autocomplete">
-								<label for="select-city">Enter city</label>
-							</div>
-							<div class="input-field">
-								<input type="text" id="select-search" class="autocomplete">
-								<label for="select-search" class="search-hotel-type">Search over a million tour and travels, sight seeings, hotels and more</label>
-							</div>
-							<div class="input-field">
-								<input type="submit" value="search" class="waves-effect waves-light tourz-sear-btn"> </div>
-						</form>
+    <!-- TOP SEARCH BOX -->
+    <div class="search-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="search-form">
+                    <form class="tourz-search-form" >
+                        <div class="input-field">
+                            <input type="text" id="select-city" class="autocomplete">
+                            <label for="select-city">Enter city</label>
                         </div>
+                        <div class="input-field">
+                            <input type="text" id="select-search" class="autocomplete">
+                            <label for="select-search" class="search-hotel-type">Search over a million tour and travels, sight seeings, hotels and more</label>
+                        </div>
+                        <div class="input-field">
+                            <input type="submit" value="search" class="waves-effect waves-light tourz-sear-btn"> </div>
+                    </form>
                     </div>
                 </div>
             </div>
         </div>
-		<!-- END TOP SEARCH BOX -->
+    </div>
+    <!-- END TOP SEARCH BOX -->
         
 		
 	<!--====== BANNER ==========-->
@@ -179,7 +192,7 @@
 					<div class="tour_right tour_offer">
 						<p>Price</p>
 						<h4 class="n-td-1" style="color: red" >$500
-							</h4> <a href="booking.html" class="link-btn" data-toggle="modal" data-target="#myModal">Book Now</a> </div>
+							</h4> <a href="#" class="link-btn" data-toggle="modal" data-target="#myModal">Book Now</a> </div>
                 {% endif %}
 					<!--====== TRIP INFORMATION ==========-->
 					<div class="tour_right tour_incl tour-ri-com">
@@ -234,7 +247,7 @@
                         '\t\t\t\t\t\t\t\t</div>\n' +
                             '<div class="row" ><hr class="col-md-11 mb-5"></div>'+
                         '                                <div class="row">\n' +
-                        '\t\t\t\t\t\t\t\t\t<div class="col-md-3 dir-rat-left">\n' +
+                        '\t\t\t\t\t\t\t\t\t<div class="col-md-3 dir-rat-left p-0">\n' +
                         '\t\t\t\t\t\t\t\t\t\t<p class="text-primary">Answer: </p>\n' +
                         '\t\t\t\t\t\t\t\t\t</div>\n' +
                         '\t\t\t\t\t\t\t\t\t<div class="col-md-9 dir-rat-right">\n' +

@@ -201,6 +201,7 @@
 							<!--LISTINGS-->
 							<div class="row" id="root">
 
+                            {% if data.items %}
                                 {% for key,value in data.items %}
                                 <div class="col-md-12 hot-page2-alp-r-list">
 									<div class="col-md-3 hot-page2-alp-r-list-re-sp">
@@ -219,7 +220,7 @@
 									<div class="col-md-3">
 										<div class="hot-page2-alp-ri-p3 tour-alp-ri-p3">
 											<span class="hot-list-p3-1">Price</span> <span class="hot-list-p3-2">Rs.{{value.price}}</span><span class="hot-list-p3-4">
-                                            <a href="/travel/user/dashboard/eventBooking/" class="hot-page2-alp-quot-btn small"><span class="fa fa-cart-plus"></span><b>Book Now</b></a>
+                                            <a href="/travel/tour/detail/{{ value.id }}" class="hot-page2-alp-quot-btn small"><span class="fa fa-cart-plus"></span><b>Book Now</b></a>
                                                 <a href="javascript:;" onclick="toggleCompare(this,{{ value.id }})" class="hot-page2-alp-quot-btn-dark small" ><b>Compare<sup>+</sup></b></a>
                                             <div>
                                             </div>
@@ -275,6 +276,8 @@
                                         {% endif %}
                                   </ul>
                                 </nav>
+                            {% endif %}
+
 							</div>
 						</div>
 					</div>
@@ -336,7 +339,7 @@
 									'<div class="col-md-3">'+
 										'<div class="hot-page2-alp-ri-p3 tour-alp-ri-p3">'+
 											'<span class="hot-list-p3-1">Price</span> <span class="hot-list-p3-2">Rs.'+String(data1[i]["price"])+'</span><span class="hot-list-p3-4">'+
-												'<a href="/travel/user/dashboard/eventBooking/" class="hot-page2-alp-quot-btn small"><span class="fa fa-cart-plus"></span><b>Book Now</b></a>'+
+												'<a href="/travel/tour/detail/'+String(data1[i]["id"])+'" class="hot-page2-alp-quot-btn small"><span class="fa fa-cart-plus"></span><b>Book Now</b></a>'+
                                                 '<a href="javascript:;" onclick="toggleCompare(this,'+data1[i]["id"]+')" class="hot-page2-alp-quot-btn-dark small"><b>Compare<sup>+</sup></b></a>'+
                                             '<div>'+
                                             '</div>'+
@@ -494,7 +497,7 @@
 									'<div class="col-md-3">'+
 										'<div class="hot-page2-alp-ri-p3 tour-alp-ri-p3">'+
 											'<span class="hot-list-p3-1">Price</span> <span class="hot-list-p3-2">Rs.'+String(data1[i]["price"])+'</span><span class="hot-list-p3-4">'+
-												'<a href="/travel/user/dashboard/eventBooking/" class="hot-page2-alp-quot-btn small"><span class="fa fa-cart-plus"></span><b>Book Now</b></a>'+
+												'<a href="/travel/tour/detail/'+String(data1[i]["id"])+'" class="hot-page2-alp-quot-btn small"><span class="fa fa-cart-plus"></span><b>Book Now</b></a>'+
                                                 '<a href="javascript:;" onclick="toggleCompare(this,'+data1[i]["id"]+')" class="hot-page2-alp-quot-btn-dark small"><b>Compare<sup>+</sup></b></a>'+
                                             '<div>'+
                                             '</div>'+

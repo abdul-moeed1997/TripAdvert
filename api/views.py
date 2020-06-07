@@ -224,9 +224,8 @@ def reviewed_user_events(request,id):
         if event:
             event = event.__dict__
             del event["_state"]
-            event["rating"] = review.rating
             if event not in events:
-                events.append(event)
+                events.append({"event":event,"rating": review.rating})
 
     if events:
             return Response(status=status.HTTP_200_OK, data=events)
