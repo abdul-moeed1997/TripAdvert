@@ -28,40 +28,11 @@
 	<section>
 		<div class="db">
 			<!--LEFT SECTION-->
-			<div class="db-l">
-				<div class="db-l-1">
-					<ul>
-						<li><img src="{{ request.session.tripadvert_user_image }}" alt="" />
-						</li>
-
-					</ul>
-				</div>
-				<div class="db-l-2">
-					<ul>
-						<li>
-							<a href="/travel/organizer/dashboard/my-profile" ><img src="{% static 'travel/images/icon/dbl6.png' %}" alt="" /> My Profile</a>
-						</li>
-						<li>
-							<a href="/travel/organizer/dashboard/event-bookings/"><img src="{% static 'travel/images/icon/dbl2.png' %}" alt="" /> Travel Bookings</a>
-						</li>
-
-                        <li>
-							<a href="/travel/organizer/dashboard/create-event/"><img src="{% static 'travel/images/icon/dbl4.png' %}" alt="" /> Create Event</a>
-						</li>
-                        <li>
-							<a href="/travel/organizer/dashboard/events/"><img src="{% static 'travel/images/icon/dbl1.png' %}" alt="" /> My Events</a>
-						</li>
-
-                        <li>
-							<a href="/travel/organizer/dashboard/portfolio/"><img src="{% static 'travel/images/icon/dbl7.png' %}" alt="" /> My Portfolio</a>
-						</li>
-					</ul>
-				</div>
-			</div>
+            {% include  'organizer-dashboard-menu.html' %}
 			<!--CENTER SECTION-->
-						<div class="db-2">
+            <div class="db-2">
 				<div class="db-2-com db-2-main">
-					<h4>My Bookings</h4>
+					<h4>My Events</h4>
 					<div class="db-2-main-com db-2-main-com-table">
                         {% if data|length  %}
 
@@ -69,11 +40,11 @@
 							<thead>
 								<tr>
 									<th>Id</th>
-									<th>Name</th>
-									<th>Destination</th>
-									<th>Start Date</th>
-									<th>Price</th>
-									<th>status</th>
+									<th>Event</th>
+									<th>User</th>
+									<th>Date</th>
+                                    <th>Price</th>
+                                    <th></th>
 
 								</tr>
 							</thead>
@@ -81,26 +52,21 @@
                             {% for item in data %}
                                 <tr>
 									<td>{{ forloop.counter }}</td>
-									<td><a href="/travel/tour/detail/{{ item.event_details.id }}">{{ item.event_details.title }}</a></td>
-									<td>{{ item.event_details.destination }}</td>
-									<td>{{item.event_details.date_of_departure}}</td>
-									<td>{{ item.event_details.price }}</td>
-                                    {% if item.event_details.is_completed %}
-                                        <td><a style="text-decoration: none" onclick="this.preventDefault()" href="#" class="db-done">Completed</a></td>
-                                        {% elif item.is_verified %}
+									<td><a href="/travel/tour/detail/{{ item.id }}">{{ item.title }}</a></td>
+									<td>{{ item.destination }}</td>
+                                    <td>{{ item.date_of_departure }}</td>
+									<td>{{ item.price }}</td>
+                                    <td><a href="/travel/tour/toggle/{{ item.id }}" style="text-decoration: none" class="db-done">{% if item.is_verified %}Mark Open{% else %}Mark Full{% endif %}</a><br><a href="/travel/tour/delete/{{ item.id }}" class="db-not-done ">Delete</a></td>
 
-                                            <td><a href="#" style="text-decoration: none" onclick="this.preventDefault()" class="db-done">Verified</a></td>
-                                        {% else %}
-                                            <td><a style="text-decoration: none" href="#" onclick="this.preventDefault()" class="db-done">Pending</a></td>
-                                            <td><a href="/travel/booking/delete/{{ item.id }}" class="db-not-done">Cancel</a></td>
-                                    {% endif %}
+
+
 
 								</tr>
                             {% endfor %}
 							</tbody>
 						</table>
                             {% else %}
-                            <h3>No Bookings Available</h3>
+                            <h3>No Event Available</h3>
                         {% endif %}
 					</div>
 				</div>

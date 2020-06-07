@@ -224,6 +224,8 @@ def reviewed_user_events(request,id):
         if event:
             event = event.__dict__
             del event["_state"]
+            event["organizer"] = event["organizer_id"]
+            del event["organizer_id"]
             if event not in events:
                 events.append({"event":event,"rating": review.rating})
 
@@ -243,6 +245,8 @@ def pending_user_events(request,id):
             if event:
                 event = event.__dict__
                 del event["_state"]
+                event["organizer"] = event["organizer_id"]
+                del event["organizer_id"]
                 if event not in events:
                     events.append({"event":event,"rating": None})
 

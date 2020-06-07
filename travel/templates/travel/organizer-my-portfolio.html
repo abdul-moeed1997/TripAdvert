@@ -28,38 +28,9 @@
 	<section>
 		<div class="db">
 			<!--LEFT SECTION-->
-			<div class="db-l">
-				<div class="db-l-1">
-					<ul>
-						<li><img src="{{ request.session.tripadvert_user_image }}" alt="" />
-						</li>
-
-					</ul>
-				</div>
-				<div class="db-l-2">
-					<ul>
-						<li>
-							<a href="/travel/organizer/dashboard/my-profile" ><img src="{% static 'travel/images/icon/dbl6.png' %}" alt="" /> My Profile</a>
-						</li>
-						<li>
-							<a href="/travel/organizer/dashboard/event-bookings/"><img src="{% static 'travel/images/icon/dbl2.png' %}" alt="" /> Travel Bookings</a>
-						</li>
-
-                        <li>
-							<a href="/travel/organizer/dashboard/create-event/"><img src="{% static 'travel/images/icon/dbl4.png' %}" alt="" /> Create Event</a>
-						</li>
-                        <li>
-							<a href="/travel/organizer/dashboard/events/"><img src="{% static 'travel/images/icon/dbl1.png' %}" alt="" /> My Events</a>
-						</li>
-
-                        <li>
-							<a href="/travel/user/dashboard/event-booking/"><img src="{% static 'travel/images/icon/dbl7.png' %}" alt="" /> My Portfolio</a>
-						</li>
-					</ul>
-				</div>
-			</div>
+            {% include  'organizer-dashboard-menu.html' %}
 			<!--CENTER SECTION-->
-						<div class="db-2">
+            <div class="db-2">
 				<div class="db-2-com db-2-main">
 
 					<h4>My Portfolio</h4>
