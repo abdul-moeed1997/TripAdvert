@@ -244,7 +244,7 @@ def pending_user_events(request,id):
                 event = event.__dict__
                 del event["_state"]
                 if event not in events:
-                    events.append(event)
+                    events.append({"event":event,"rating": None})
 
     return Response(status=status.HTTP_200_OK, data=events)
 
