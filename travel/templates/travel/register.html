@@ -15,7 +15,7 @@
 	<section>
 		<div class="tr-register">
 			<div class="tr-regi-form">
-				<h4>Create an User Account</h4>
+				<h4 class="text-muted">Create User Account</h4>
 				<p>It's free and always will be.</p>
 				<form class="col s12" method="post" onsubmit="return validateInput()">
 					{% csrf_token %}
@@ -156,46 +156,6 @@
             if (count>0) {
                 return false;
             }
-            else {
-                {#data = JSON.stringify({#}
-                {#                "first_name": first_name,#}
-                {#                "last_name": last_name,#}
-                {#                "email": email,#}
-                {#                "password": password,#}
-                {#                "phone_no": phone,#}
-                {#                "firebaseinstancetoken": "",#}
-                {#                "is_blocked": false,#}
-                {#                "image": null,#}
-                {#                "user_type": 1,#}
-                {#                "user": {#}
-                {#                    "address": ""#}
-                {#                },#}
-                {#                "organizer": {#}
-                {#                    "cnic": "",#}
-                {#                    "address": "",#}
-                {#                    "organization": "",#}
-                {#                    "experience": "",#}
-                {#                    "is_verified": false#}
-                {#                }#}
-                {#            }) ;#}
-                {#console.log(data);#}
-                {#$.ajax({#}
-                {#        url: "/api/persons/",#}
-                {#        type: 'post',#}
-                {#        async: false,#}
-                {#        data: data,#}
-                {#        dataType: 'json',#}
-                {#        success: function (data) {#}
-                {#            alert("Yes");#}
-                {#        },#}
-                {#        error: function (data) {#}
-                {#            console.log(data["responseText"]);#}
-                {#            document.getElementById("e_password").innerText = "Failed to register User!";#}
-                {#            flag = false;#}
-                {#        }#}
-                {#    });#}
-            }
-            alert("Wait");
             return flag;
         }
     </script>

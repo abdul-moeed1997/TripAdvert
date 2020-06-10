@@ -142,24 +142,24 @@ class PersonViewSet(viewsets.ModelViewSet):
     @atomic
     @action(detail=False, methods=['post'])
     def register(self, request):
-        print("---------------------------------------------------------")
-        print(request.data)
         data = (request.data).dict()
-        print(data)
         person = models.Person()
         person.first_name = data["first_name"]
         person.last_name = data["last_name"]
         person.phone_no = data["phone_no"]
         person.email = data["email"]
         person.image = None
+        person.password = make_password(data["password"])
         if data["user_type"] == '1':
             user = models.User()
+            person.user_type = 1
             user.address = data["address"]
             user.save()
             person.user_id = user.id
             person.organizer_id = None
-        elif data["user_type"] == 2:
+        elif data["user_type"] == '2':
             organizer = models.Organizer()
+            person.user_type = 2
             organizer.address = data["address"]
             organizer.organization = data["organization"]
             organizer.experience = data["experience"]

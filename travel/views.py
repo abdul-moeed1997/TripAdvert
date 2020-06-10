@@ -136,7 +136,6 @@ def something_wrong(request):
 def signUp(request):
     if not request.session.get("tripadvert_person_id", None):
         if request.method == "POST":
-            print(request.POST.dict())
             data = {}
             data["first_name"] = request.POST["first_name"]
             data["last_name"] = request.POST["last_name"]
@@ -147,10 +146,11 @@ def signUp(request):
             data["address"] = request.POST["address"]
             data["organizer"] = None
             data["image"] = None
-            print(data)
+
             response = requests.post("http://"+request.get_host()+"/api/persons/register/",data)
             if response.status_code == 200:
                 data = response.json()
+
                 request.session["tripadvert_person_id"] = data["id"]
                 if data["user_type"] == 1:
                     request.session["tripadvert_user_id"] = data["user"]["id"]
@@ -343,7 +343,37 @@ def organizerEventQuestions(request,id):
     return redirect("/travel/access-denied/")
 
 def organizerSignUp(request):
-    return render(request,'organizer_SignUp.html')
+    if not request.session.get("tripadvert_person_id", None):
+        if request.method == "POST":
+            data = {}
+            data["first_name"] = request.POST["first_name"]
+            data["last_name"] = request.POST["last_name"]
+            data["phone_no"] = request.POST["phone_no"]
+            data["user_type"] = 2
+            data["email"] = request.POST["email"]
+            data["password"] = request.POST["password"]
+            data["address"] = request.POST["address"]
+            data["cnic"] = request.POST["cnic"]
+            data["experience"] = request.POST["experience"]
+            data["organization"] = request.POST["organization"]
+            data["organizer"] = None
+            data["image"] = None
+            response = requests.post("http://"+request.get_host()+"/api/persons/register/",data)
+            if response.status_code == 200:
+                data = response.json()
+
+                request.session["tripadvert_person_id"] = data["id"]
+                if data["user_type"] == 1:
+                    request.session["tripadvert_user_id"] = data["user"]["id"]
+                elif data["user_type"] == 2:
+                    request.session["tripadvert_user_id"] = data["organizer"]["id"]
+                request.session["tripadvert_user_name"] = data["first_name"]
+                request.session["tripadvert_user_type"] = data["user_type"]
+                request.session["tripadvert_user_image"] = data["image"]
+                return redirect("/travel/")
+        return render(request,'organizer_SignUp.html')
+    else:
+        return redirect("/travel/")
 
 def forgotPassword(request):
     return render(request,'forgot-pass.html')

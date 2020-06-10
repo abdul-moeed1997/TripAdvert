@@ -15,62 +15,74 @@ function validateForm() {
 {% endblock %}
 
 {% block body  %}
-
+    <style>
+        .small {
+            font-size: 12px !important;
+        }
+    </style>
 	<section>
 		<div class="tr-register">
 			<div class="tr-regi-form">
-				<h4 class="text-muted">Create an Organizer Account</h4>
+				<h4 class="text-muted">Create Organizer Account</h4>
 				<p class="text-lighten-5">Register and Organize your Event</p>
-				<form class="col s12">
+				<form class="col s12" method="post" onsubmit="return validateInput()">
+                    {% csrf_token %}
 					<div class="row">
 						<div class="input-field col m6 s12">
-							<input type="text" class="validate ">
+							<input type="text" id="first_name" name="first_name" class="validate ">
 							<label>First Name</label>
+                            <p id="e_first_name" class="text-danger small m-0"></p>
 						</div>
 						<div class="input-field col m6 s12">
-							<input type="text" class="validate">
+							<input type="text" name="last_name" id="last_name" class="validate">
 							<label>Last Name</label>
+                            <p id="e_last_name" class="text-danger small m-0"></p>
 						</div>
 					</div>
+                    <div class="row">
+						<div class="input-field col s12">
+							<input type="text" name="address" id="address" class="validate" >
+							<label>Address</label>
+                            <p id="e_address" class="text-danger small m-0"></p>
+						</div>
+                    </div>
 					<div class="row">
 						<div class="input-field col m6 s12">
-							<input type="number" class="validate">
+							<input type="number" name="phone_no" id="phone_no" class="validate">
 							<label>Mobile  (Jazzcash)</label>
+                            <p id="e_phone" class="text-danger small m-0"></p>
 						</div>
                         <div class="input-field col m6 s12">
-							<input type="text" class="validate">
+							<input type="text" name="cnic" id="cnic" class="validate">
 							<label>CNIC</label>
+                            <p id="e_cnic" class="text-danger small m-0"></p>
 						</div>
 					</div>
 					<div class="row">
 						<div class="input-field col m6 s12 ">
-							<input type="email" class="validate">
+							<input type="email" name="email" id="email" class="validate">
 							<label>Email</label>
+                            <p id="e_email" class="text-danger small m-0"></p>
 						</div>
                         <div class="input-field col m6 s12 ">
-							<input type="text" class="validate">
+							<input type="text" name="experience" id="experience" class="validate">
 							<label>Experience</label>
 						</div>
 					</div>
                     <div class="row">
 						<div class="input-field col s12">
-							<input type="text" class="validate">
+							<input type="text" name="organization" id="organization" class="validate">
 							<label>Company Name</label>
 						</div>
-                        <div class="input-field col s12">
-							<input type="text" class="validate">
-							<label>Company Address</label>
-						</div>
 					</div>
 					<div class="row">
-						<div class="input-field col s12">
-							<input type="password" class="validate">
+						<div class="input-field col m6 s12">
+							<input type="password" name="password" id="password" class="validate">
 							<label>Password</label>
+                            <p id="e_password" class="text-danger small m-0"></p>
 						</div>
-					</div>
-					<div class="row">
-						<div class="input-field col s12">
-							<input type="password" class="validate">
+						<div class="input-field col m6 s12">
+							<input type="password" id="c_password" class="validate">
 							<label>Confirm Password</label>
 						</div>
 					</div>
@@ -84,5 +96,105 @@ function validateForm() {
 			</div>
 		</div>
 	</section>
-	END DASHBOARD
+
+    <script>
+
+    function validateInput() {
+            flag = true;
+            first_name = document.getElementById("first_name").value;
+            last_name = document.getElementById("last_name").value;
+            address = document.getElementById("address").value;
+            phone = document.getElementById("phone_no").value;
+            email = document.getElementById("email").value;
+            password = document.getElementById("password").value;
+            cnic = document.getElementById("cnic").value;
+            c_password = document.getElementById("c_password").value;
+            count = 0;
+
+            if (cnic.length<1 || cnic.length>13) {
+                count +=1 ;
+                document.getElementById("e_cnic").innerText = "CNIC can be of 13 digits!";
+            }
+            else {
+                document.getElementById("e_cnic").innerText = "";
+                num_reg = /^\d{13}$/;
+                if(!num_reg.test(cnic))
+                {
+                    count+=1;
+                    document.getElementById("e_cnic").innerText = "CNIC can contain digits only!";
+
+                }
+            }
+
+            if (password.length<1 || password.length>255 || c_password.length<1) {
+                count +=1 ;
+                document.getElementById("e_password").innerText = "Both Password fields are required!";
+            }
+            else {
+                if (password != c_password)
+                {
+                    count +=1 ;
+                    document.getElementById("e_password").innerText = "Both Passwords don't match!";
+                }
+                else {
+                    document.getElementById("e_password").innerText = "";
+                }
+            }
+
+
+            if (first_name.length<1 || first_name.length>50) {
+                count +=1 ;
+                document.getElementById("e_first_name").innerText = "First Name can be of length 1 to 50 characters only!";
+            }
+            else {
+                document.getElementById("e_first_name").innerText = "";
+            }
+
+            if (last_name.length<1 || last_name.length>50) {
+                count +=1 ;
+                document.getElementById("e_last_name").innerText = "Last Name can be of length 1 to 50 characters only!";
+            }
+            else {
+                document.getElementById("e_last_name").innerText = "";
+            }
+
+            if (phone.length<1 || phone.length>50) {
+                count +=1 ;
+                document.getElementById("e_phone").innerText = "Phone no. can be of length 1 to 11 characters only!";
+            }
+            else {
+                document.getElementById("e_phone").innerText = "";
+            }
+
+            if (email.length<1) {
+                count +=1 ;
+                document.getElementById("e_email").innerText = "Email is required!";
+            }
+            else {
+                document.getElementById("e_email").innerText = "";
+                $.ajax({
+                        url: "/api/person-user/?email=" + email,
+                        type: 'get',
+                        async: false,
+                        dataType: 'json',
+                        success: function (data) {
+                            if(data.length>0)
+                            {
+                                count +=1;
+                                document.getElementById("e_email").innerText = "Email already exists!";
+                            }
+                        },
+                        error: function () {
+                            count +=1 ;
+                            document.getElementById("e_email").innerText = "Email connot be verified!";
+                        }
+                    });
+            }
+            if (count>0) {
+                return false;
+            }
+            return flag;
+        }
+
+    </script>
 {% endblock %}
