@@ -7,50 +7,60 @@
 {% endblock %}
 
 {% block body  %}
-
+    <style>
+        .small {
+            font-size: 12px !important;
+        }
+    </style>
 	<section>
 		<div class="tr-register">
 			<div class="tr-regi-form">
-				<h4>Create an Account</h4>
+				<h4>Create an User Account</h4>
 				<p>It's free and always will be.</p>
-				<form class="col s12">
-					<div class="row">
+				<form class="col s12" method="post" onsubmit="return validateInput()">
+					{% csrf_token %}
+                    <div class="row">
 						<div class="input-field col m6 s12">
-							<input type="text" class="validate" required>
+							<input type="text" name="first_name" id="first_name" class="validate" >
 							<label>First Name</label>
+                            <p id="e_first_name" class="text-danger small m-0"></p>
 						</div>
 						<div class="input-field col m6 s12">
-							<input type="text" class="validate" required>
+							<input type="text" name="last_name" id="last_name" class="validate">
 							<label>Last Name</label>
+                            <p id="e_last_name" class="text-danger small m-0"></p>
 						</div>
                     </div>
 					<div class="row">
 						<div class="input-field col s12">
-							<input type="text" class="validate" required>
-							<label>User Name</label>
+							<input type="text" name="address" id="address" class="validate" >
+							<label>Address</label>
+                            <p id="e_address" class="text-danger small m-0"></p>
 						</div>
                     </div>
-                        <div class="row">
+                    <div class="row">
 						<div class="input-field col s12">
-							<input type="number" class="validate" required>
-							<label>Mobile</label>
+							<input type="number" name="phone_no" id="phone_no" class="validate">
+							<label>Phone No</label>
+                            <p id="e_phone" class="text-danger small m-0"></p>
 						</div>
 					</div>
 					<div class="row">
 						<div class="input-field col s12">
-							<input type="email" class="validate" required>
+							<input type="email" name="email" id="email" class="validate">
 							<label>Email</label>
+                            <p id="e_email" class="text-danger small m-0"></p>
 						</div>
 					</div>
 					<div class="row">
-						<div class="input-field col s12">
-							<input type="password" class="validate" required>
+						<div class="input-field col s6">
+							<input type="password" name="password" id="password" class="validate">
 							<label>Password</label>
+
+                            <p id="e_password" class="text-danger small m-0"></p>
 						</div>
-					</div>
-					<div class="row">
-						<div class="input-field col s12">
-							<input type="password" class="validate" required>
+						<div class="input-field col s6">
+							<input type="password" name="c_password" id="c_password" class="validate">
 							<label>Confirm Password</label>
 						</div>
 					</div>
@@ -59,12 +69,134 @@
 							<input type="submit" value="Login" class="waves-effect waves-light btn-large full-btn"> </div>
 					</div>
 				</form>
-				<p>Are you a already member ? <a href="/travel/login/">Click to Login</a>
+				<p>Are you already registered ? <a href="/travel/login/">Click to Login</a>
 				</p>
-				<p>Want to Organize a Event ? <a href="http://127.0.0.1:8000/travel/organizer/register">Click to be a Organizer</a>
+				<p>Want to Organize an Event ? <a href="/travel/organizer/register">Click to be an Organizer</a>
 				</p>
 			</div>
 		</div>
 	</section>
-	END DASHBOARD
+
+    <script>
+        function validateInput() {
+            flag = true;
+            first_name = document.getElementById("first_name").value;
+            last_name = document.getElementById("last_name").value;
+            address = document.getElementById("address").value;
+            phone = document.getElementById("phone_no").value;
+            email = document.getElementById("email").value;
+            password = document.getElementById("password").value;
+            c_password = document.getElementById("c_password").value;
+            count = 0;
+
+            if (password.length<1 || password.length>255 || c_password.length<1) {
+                count +=1 ;
+                document.getElementById("e_password").innerText = "Both Password fields are required!";
+            }
+            else {
+                if (password != c_password)
+                {
+                    count +=1 ;
+                    document.getElementById("e_password").innerText = "Both Passwords don't match!";
+                }
+                else {
+                    document.getElementById("e_password").innerText = "";
+                }
+            }
+
+
+            if (first_name.length<1 || first_name.length>50) {
+                count +=1 ;
+                document.getElementById("e_first_name").innerText = "First Name can be of length 1 to 50 characters only!";
+            }
+            else {
+                document.getElementById("e_first_name").innerText = "";
+            }
+
+            if (last_name.length<1 || last_name.length>50) {
+                count +=1 ;
+                document.getElementById("e_last_name").innerText = "Last Name can be of length 1 to 50 characters only!";
+            }
+            else {
+                document.getElementById("e_last_name").innerText = "";
+            }
+
+            if (phone.length<1 || phone.length>50) {
+                count +=1 ;
+                document.getElementById("e_phone").innerText = "Phone no. can be of length 1 to 11 characters only!";
+            }
+            else {
+                document.getElementById("e_phone").innerText = "";
+            }
+
+            if (email.length<1) {
+                count +=1 ;
+                document.getElementById("e_email").innerText = "Email is required!";
+            }
+            else {
+                document.getElementById("e_email").innerText = "";
+                $.ajax({
+                        url: "/api/person-user/?email=" + email,
+                        type: 'get',
+                        async: false,
+                        dataType: 'json',
+                        success: function (data) {
+                            if(data.length>0)
+                            {
+                                count +=1;
+                                document.getElementById("e_email").innerText = "Email already exists!";
+                            }
+                        },
+                        error: function () {
+                            count +=1 ;
+                            document.getElementById("e_email").innerText = "Email connot be verified!";
+                        }
+                    });
+            }
+            if (count>0) {
+                return false;
+            }
+            else {
+                {#data = JSON.stringify({#}
+                {#                "first_name": first_name,#}
+                {#                "last_name": last_name,#}
+                {#                "email": email,#}
+                {#                "password": password,#}
+                {#                "phone_no": phone,#}
+                {#                "firebaseinstancetoken": "",#}
+                {#                "is_blocked": false,#}
+                {#                "image": null,#}
+                {#                "user_type": 1,#}
+                {#                "user": {#}
+                {#                    "address": ""#}
+                {#                },#}
+                {#                "organizer": {#}
+                {#                    "cnic": "",#}
+                {#                    "address": "",#}
+                {#                    "organization": "",#}
+                {#                    "experience": "",#}
+                {#                    "is_verified": false#}
+                {#                }#}
+                {#            }) ;#}
+                {#console.log(data);#}
+                {#$.ajax({#}
+                {#        url: "/api/persons/",#}
+                {#        type: 'post',#}
+                {#        async: false,#}
+                {#        data: data,#}
+                {#        dataType: 'json',#}
+                {#        success: function (data) {#}
+                {#            alert("Yes");#}
+                {#        },#}
+                {#        error: function (data) {#}
+                {#            console.log(data["responseText"]);#}
+                {#            document.getElementById("e_password").innerText = "Failed to register User!";#}
+                {#            flag = false;#}
+                {#        }#}
+                {#    });#}
+            }
+            alert("Wait");
+            return flag;
+        }
+    </script>
 {% endblock %}

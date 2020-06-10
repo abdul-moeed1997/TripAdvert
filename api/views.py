@@ -45,19 +45,30 @@ class PortfolioViewSet(viewsets.ModelViewSet):
 
 class EventBookingViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.BookingSerializer
-    queryset = models.Booking.objects.all()
+    queryset = models.Booking.objects.filter(event__is_full=False).order_by("is_verified","date")
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
     filterset_fields = ['event']
 
+    def get_queryset(self):
+        organizer = self.request.query_params.get('organizer',None)
+        if organizer:
+            queryset = models.Booking.objects.filter(event__organizer=organizer,event__is_full=False).order_by("is_verified","date")
+        else:
+            queryset = models.Booking.objects.filter(event__is_full=False).order_by("is_verified","date")
+        return queryset
+
+
 class ScheduleViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.EventScheduleSerializer
-    queryset = models.EventSchedule.objects.all()
+    queryset = models.EventSchedule.objects.all().order_by("id")
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+    filterset_fields = ['event']
 
 class PersonOnlyViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.PersonOnlySerializer
     queryset = models.Person.objects.all()
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
-    filterset_fields = {"email":['exact']}
+    filterset_fields = ['email']
 
 class OrganizerViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.OrganizerSerializer
@@ -128,6 +139,39 @@ class PersonViewSet(viewsets.ModelViewSet):
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
     filterset_fields = ["first_name","last_name","email","user_type"]
 
+    @atomic
+    @action(detail=False, methods=['post'])
+    def register(self, request):
+        print("---------------------------------------------------------")
+        print(request.data)
+        data = (request.data).dict()
+        print(data)
+        person = models.Person()
+        person.first_name = data["first_name"]
+        person.last_name = data["last_name"]
+        person.phone_no = data["phone_no"]
+        person.email = data["email"]
+        person.image = None
+        if data["user_type"] == '1':
+            user = models.User()
+            user.address = data["address"]
+            user.save()
+            person.user_id = user.id
+            person.organizer_id = None
+        elif data["user_type"] == 2:
+            organizer = models.Organizer()
+            organizer.address = data["address"]
+            organizer.organization = data["organization"]
+            organizer.experience = data["experience"]
+            organizer.cnic = data["cnic"]
+            organizer.save()
+            person.organizer_id = organizer.id
+            person.user_id = None
+
+        person.save()
+        serializer = serializers.PersonSerializer(person)
+        return Response(status=status.HTTP_200_OK, data = serializer.data)
+
     @action(detail=False, methods=['post'])
     def login(self, request):
         data=request.data
@@ -148,6 +192,18 @@ def toggle_isFull(request,id):
         else:
             event.is_full=True
         event.save()
+        return Response(status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['PUT',])
+def toggle_isVerified(request,id):
+    booking = models.Booking.objects.get(id=id)
+    if booking:
+        if booking.is_verified:
+            booking.is_verified=False
+        else:
+            booking.is_verified=True
+        booking.save()
         return Response(status=status.HTTP_200_OK)
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -255,13 +311,12 @@ def pending_user_events(request,id):
 @api_view(['POST',])
 def setFirebaseInstanceToken(request,id):
     person = models.Person.objects.get(id=id)
-    if person and "firebase_token" in request.data:
+
+    if person:
         data = {}
-        data["firebaseinstancetoken"] = request.data["firebase_token"]
-        serializer = serializers.PersonOnlySerializer(person, data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(status=status.HTTP_200_OK, data=serializer.data)
-        else:
-            print(serializer.errors)
+        person.firebaseinstancetoken = request.data.get("firebase_token",None)
+        person.save()
+        serializer = serializers.PersonSerializer(person)
+
+        return Response(status=status.HTTP_200_OK, data=serializer.data)
     return Response(status=status.HTTP_400_BAD_REQUEST, data=[])

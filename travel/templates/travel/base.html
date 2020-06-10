@@ -132,7 +132,14 @@
                                     </li>
 
                                 {% elif request.session.tripadvert_user_type == 1 %}
-                                    <li class="cour-menu right-align ml-5"><img src="{{ request.session.tripadvert_user_image }}" alt="Avatar" class="my_avatar ml-5 mr-3"><a href="#" >{{request.session.tripadvert_user_name}}</a>
+                                    <li class="cour-menu right-align ml-5">
+                                        {% if request.session.tripadvert_user_image %}
+                                            <img src="{{ request.session.tripadvert_user_image }}" alt="Avatar!" class="my_avatar ml-5 mr-3">
+                                        {% else %}
+                                            <img src="/static/travel/images/person.png" alt="NoNe" class="my_avatar ml-5 mr-3">
+                                        {% endif %}
+
+                                        <a href="#" >{{request.session.tripadvert_user_name}}</a>
                                         <div class="cour-mm m-menu mm1-cour-com">
                                             <ul class="ml-5" style="border-left: lightgrey 1px solid;" >
                                                         <li class="fa fa-user" style="color:#e23464" ><a href="/travel/user/dashboard/my-profile/" class="ml-3" style="padding-top: 1px;padding-left:0px;color: grey">Dashboard</a></li>
@@ -142,7 +149,14 @@
                                     </li>
                                     </li>
                                 {% elif request.session.tripadvert_user_type == 2 %}
-                                    <li class="cour-menu right-align ml-5"><img src="{{ request.session.tripadvert_user_image }}" alt="Avatar" class="my_avatar ml-5 mr-3"><a href="#" >{{request.session.tripadvert_user_name}}</a>
+                                    <li class="cour-menu right-align ml-5">
+                                        {% if request.session.tripadvert_user_image %}
+                                            <img src="{{ request.session.tripadvert_user_image }}" alt="Avatar!" class="my_avatar ml-5 mr-3">
+                                        {% else %}
+                                            <img src="/static/travel/images/person.png" alt="NoNe" class="my_avatar ml-5 mr-3">
+                                        {% endif %}
+
+                                        <a href="#" >{{request.session.tripadvert_user_name}}</a>
                                         <div class="cour-mm m-menu mm1-cour-com">
                                             <ul class="ml-5" style="border-left: lightgrey 1px solid;" >
                                                         <li class="fa fa-user" style="color:#e23464" ><a href="/travel/organizer/dashboard/my-profile" class="ml-3" style="padding-top: 1px;padding-left:0px;color: grey">My Profile</a></li>

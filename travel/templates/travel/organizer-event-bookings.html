@@ -59,109 +59,60 @@
                     {% include  'organizer-dashboard-menu.html' %}
                     <!--CENTER SECTION-->
                     <div class="db-2">
-                        <div class="db-2-com db-2-main">
-                            <h4>My Profile</h4>
-                            <div class="db-2-main-com db-2-main-com-table">
-                                <table class="responsive-table">
-                                    <tbody>
-                                        <tr>
-                                            <td>Name</td>
-                                            <td>:</td>
-                                            <td>Sam Anderson</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Company Name</td>
-                                            <td>:</td>
-                                            <td>mypasswordtour</td>
-                                        </tr>
-                                        <tr>
-                                            <td>E-mail</td>
-                                            <td>:</td>
-                                            <td>sam_anderson@gmail.com</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Phone</td>
-                                            <td>:</td>
-                                            <td>+01 4561 3214</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Address</td>
-                                            <td>:</td>
-                                            <td>8800 Orchard Lake Road, Suite 180 Farmington Hills, U.S.A.</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Rating</td>
-                                            <td>:</td>
-                                            <td>5 star</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <a href="edit-profile.html" class="waves-effect waves-light btn-large">Edit my profile</a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                    <div class="db-2-com db-2-main">
+                        <h4>My Events</h4>
+                        <div class="db-2-main-com db-2-main-com-table">
+                            {% if data|length  %}
+
+                            <table class="responsive-table">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Event</th>
+                                        <th>Date</th>
+                                        <th>User</th>
+                                        <th>Price</th>
+                                        <th>Status</th>
+                                        <th></th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for item in data %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td><a href="/travel/tour/detail/{{ item.event_details.id }}">{{ item.event_details.title }}</a></td>
+                                        <td>{{ item.date }}</td>
+                                        <td>{{ item.user_details.first_name }} {{ item.user_details.first_name }}</td>
+                                        <td>Rs. {{ item.event_details.price }}/-</td>
+                                        <td>
+                                            {% if item.is_verified %}
+                                                <a href="/travel/tour/booking/toggle/{{ item.id }}" style="text-decoration: none" class="db-done">Accepted</a>
+                                            {% else %}
+                                                <a href="/travel/tour/booking/toggle/{{ item.id }}" style="text-decoration: none" class="db-not-done">Rejected</a>
+                                            {% endif %}
+                                        </td>
+
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                                {% else %}
+                                <h3>No Event Available</h3>
+                            {% endif %}
                         </div>
                     </div>
+                </div>
                     <!--RIGHT SECTION-->
-                    <div class="db-3">
-                        <h4>Notifications</h4>
-                        <ul>
-                            <li>
-                                <a href="#!"> <img src="{% static 'travel/images/icon/dbr1.jpg' %}" alt="" />
-                                    <h5>50% Discount Offer</h5>
-                                    <p>All the Lorem Ipsum generators on the</p>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#!"> <img src="{% static 'travel/images/icon/dbr2.jpg' %}" alt="" />
-                                    <h5>paris travel package</h5>
-                                    <p>All the Lorem Ipsum generators on the</p>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#!"> <img src="{% static 'travel/images/icon/dbr3.jpg' %}" alt="" />
-                                    <h5>Group Trip - Available</h5>
-                                    <p>All the Lorem Ipsum generators on the</p>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#!"> <img src="{% static 'travel/images/icon/dbr4.jpg' %}" alt="" />
-                                    <h5>world best travel agency</h5>
-                                    <p>All the Lorem Ipsum generators on the</p>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#!"> <img src="{% static 'travel/images/icon/dbr5.jpg' %}" alt="" />
-                                    <h5>special travel coupons</h5>
-                                    <p>All the Lorem Ipsum generators on the</p>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#!"> <img src="{% static 'travel/images/icon/dbr6.jpg' %}" alt="" />
-                                    <h5>70% Offer 2018</h5>
-                                    <p>All the Lorem Ipsum generators on the</p>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#!"> <img src="{% static 'travel/images/icon/dbr7.jpg' %}" alt="" />
-                                    <h5>Popular Cities</h5>
-                                    <p>All the Lorem Ipsum generators on the</p>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#!"> <img src="{% static 'travel/images/icon/dbr8.jpg' %}" alt="" />
-                                    <h5>variations of passages</h5>
-                                    <p>All the Lorem Ipsum generators on the</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                   {% include  'organizer-dashboard-notifications.html' %}
 		        </div>
             </section>
 
 
 		</div>
 	</section>
+
+    <script>
+     function toggle
+    </script>
 {% endblock %}

@@ -32,7 +32,7 @@
 			<!--CENTER SECTION-->
             <div class="db-2">
 				<div class="db-2-com db-2-main">
-					<h4>My Events</h4>
+					<h4>My Bookings</h4>
 					<div class="db-2-main-com db-2-main-com-table">
                         {% if data|length  %}
 
@@ -40,11 +40,11 @@
 							<thead>
 								<tr>
 									<th>Id</th>
-									<th>Event</th>
-									<th>User</th>
-									<th>Date</th>
-                                    <th>Price</th>
-                                    <th></th>
+									<th>Name</th>
+									<th>Destination</th>
+									<th>Start Date</th>
+									<th>Price</th>
+									<th>status</th>
 
 								</tr>
 							</thead>
@@ -52,79 +52,32 @@
                             {% for item in data %}
                                 <tr>
 									<td>{{ forloop.counter }}</td>
-									<td><a href="/travel/tour/detail/{{ item.id }}">{{ item.title }}</a></td>
-									<td>{{ item.destination }}</td>
-                                    <td>{{ item.date_of_departure }}</td>
-									<td>{{ item.price }}</td>
-                                    <td><a href="/travel/tour/toggle/{{ item.id }}" style="text-decoration: none" class="db-done">{% if item.is_verified %}Mark Open{% else %}Mark Full{% endif %}</a><br><a href="/travel/tour/delete/{{ item.id }}" class="db-not-done ">Delete</a></td>
+									<td><a href="/travel/tour/detail/{{ item.event_details.id }}">{{ item.event_details.title }}</a></td>
+									<td>{{ item.event_details.destination }}</td>
+									<td>{{item.event_details.date_of_departure}}</td>
+									<td>{{ item.event_details.price }}</td>
+                                    {% if item.event_details.is_completed %}
+                                        <td><a style="text-decoration: none" onclick="this.preventDefault()" href="#" class="db-done">Completed</a></td>
+                                        {% elif item.is_verified %}
 
-
-
+                                            <td><a href="#" style="text-decoration: none" onclick="this.preventDefault()" class="db-done">Verified</a></td>
+                                        {% else %}
+                                            <td><a style="text-decoration: none" href="#" onclick="this.preventDefault()" class="db-done">Pending</a></td>
+                                            <td><a href="/travel/booking/delete/{{ item.id }}" class="db-not-done">Cancel</a></td>
+                                    {% endif %}
 
 								</tr>
                             {% endfor %}
 							</tbody>
 						</table>
                             {% else %}
-                            <h3>No Event Available</h3>
+                            <h3>No Bookings Available</h3>
                         {% endif %}
 					</div>
 				</div>
 			</div>
 			<!--RIGHT SECTION-->
-			<div class="db-3">
-				<h4>Notifications</h4>
-				<ul>
-					<li>
-						<a href="#!"> <img src="{% static 'travel/images/icon/dbr1.jpg' %}" alt="" />
-							<h5>50% Discount Offer</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="{% static 'travel/images/icon/dbr2.jpg' %}" alt="" />
-							<h5>paris travel package</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="{% static 'travel/images/icon/dbr3.jpg' %}" alt="" />
-							<h5>Group Trip - Available</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="{% static 'travel/images/icon/dbr4.jpg' %}" alt="" />
-							<h5>world best travel agency</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="{% static 'travel/images/icon/dbr5.jpg' %}" alt="" />
-							<h5>special travel coupons</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="{% static 'travel/images/icon/dbr6.jpg' %}" alt="" />
-							<h5>70% Offer 2018</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="{% static 'travel/images/icon/dbr7.jpg' %}" alt="" />
-							<h5>Popular Cities</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="{% static 'travel/images/icon/dbr8.jpg' %}" alt="" />
-							<h5>variations of passages</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-				</ul>
-			</div>
+           {% include  'organizer-dashboard-notifications.html' %}
 		</div>
 	</section>
 	</section>

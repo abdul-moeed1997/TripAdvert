@@ -17,11 +17,12 @@ router.register('reviews',views.ReviewViewSet)
 router.register('user-bookings',views.UserBookingViewSet)
 router.register('portfolio',views.PortfolioViewSet)
 router.register('event-bookings',views.EventBookingViewSet)
-router.register('event_schedule',views.ScheduleViewSet)
+router.register('event-schedule',views.ScheduleViewSet)
 urlpatterns=[
     path('',include(router.urls)),
     path('users/update/<id>', views.update_user,name="Update-User"),
     path('events/update/<id>', views.toggle_isFull,name="Toggle isFull"),
+    path('bookings/update/<id>', views.toggle_isVerified, name="Toggle isVerified"),
     path('organizers/update/<id>', views.update_user,name="Update-Organizer"),
     path('events/reviewed/<id>',views.reviewed_user_events,name="reviewed events"),
     path('events/pending/<id>',views.pending_user_events,name="pending events"),

@@ -57,16 +57,16 @@
 									<td>{{ item.destination }}</td>
                                     <td>{{ item.date_of_departure }}</td>
 									<td>{{ item.price }}</td>
-                                    <td><a href="/travel/tour/toggle/{{ item.id }}" style="text-decoration: none" class="db-done">{% if item.is_full %}Mark Open{% else %}Mark Full{% endif %}</a><br><a href="/travel/tour/delete/{{ item.id }}" class="db-not-done ">Delete</a></td>
+                                    <td><a href="/travel/tour/event/toggle/{{ item.id }}" style="text-decoration: none" class="db-done">{% if item.is_full %}Mark Open{% else %}Mark Full{% endif %}</a><br><a href="/travel/tour/delete/{{ item.id }}" class="db-not-done ">Delete</a></td>
                                     <td>
                                         <div class="dropdown">
                                           <div class="db-down-pdf dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             More
                                           </div>
                                           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" href="#">Bookings</a>
-                                            <a class="dropdown-item" href="#">Schedule</a>
-                                            <a class="dropdown-item" href="#">Questions</a>
+                                            <a class="dropdown-item" href="/travel/organizer/events/bookings">Bookings</a>
+                                            <a class="dropdown-item" href="/travel/organizer/event/schedule/{{ item.id }}">Schedule</a>
+                                            <a class="dropdown-item" href="/travel/organizer/event/questions/{{ item.id }}">Questions</a>
                                           </div>
                                         </div>
                                     </td>
@@ -84,59 +84,7 @@
 				</div>
 			</div>
 			<!--RIGHT SECTION-->
-			<div class="db-3">
-				<h4>Notifications</h4>
-				<ul>
-					<li>
-						<a href="#!"> <img src="{% static 'travel/images/icon/dbr1.jpg' %}" alt="" />
-							<h5>50% Discount Offer</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="{% static 'travel/images/icon/dbr2.jpg' %}" alt="" />
-							<h5>paris travel package</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="{% static 'travel/images/icon/dbr3.jpg' %}" alt="" />
-							<h5>Group Trip - Available</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="{% static 'travel/images/icon/dbr4.jpg' %}" alt="" />
-							<h5>world best travel agency</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="{% static 'travel/images/icon/dbr5.jpg' %}" alt="" />
-							<h5>special travel coupons</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="{% static 'travel/images/icon/dbr6.jpg' %}" alt="" />
-							<h5>70% Offer 2018</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="{% static 'travel/images/icon/dbr7.jpg' %}" alt="" />
-							<h5>Popular Cities</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="{% static 'travel/images/icon/dbr8.jpg' %}" alt="" />
-							<h5>variations of passages</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-				</ul>
-			</div>
+            {% include  'organizer-dashboard-notifications.html' %}
 		</div>
 	</section>
 	</section>

@@ -56,20 +56,22 @@ class SimpleUserSerializer(serializers.ModelSerializer):
         fields = ("id", "address")
 
 class PersonSerializer(serializers.ModelSerializer):
-    image = Base64ImageField(max_length=None, use_url=True,allow_null=True,)
-    user = SimpleUserSerializer(many=False,allow_null=True)
-    organizer = SimpleOrganizerSerializer(many=False,allow_null=True)
+    image = Base64ImageField(max_length=None, use_url=True,allow_null=True,default=None)
+    user = SimpleUserSerializer(many=False,allow_null=True, default=None)
+    organizer = SimpleOrganizerSerializer(many=False,allow_null=True,default=None)
     class Meta:
         model=models.Person
         fields=('id','first_name','last_name','email','password','phone_no', 'firebaseinstancetoken','is_blocked','image','date','user_type','user','organizer')
 
     def create(self, validated_data):
+        print(validated_data)
         if 'username' not in validated_data:
             validated_data['username'] = validated_data['email']
         validated_data['password'] = make_password(validated_data.get('password'))
         user = validated_data.pop('user',None)
         organizer = validated_data.pop('organizer',None)
         user_type = validated_data.get('user_type',None)
+
         if user_type==1 :
             userID = models.User.objects.create(**user)
 
@@ -130,22 +132,22 @@ class SingleEventSerializer(serializers.ModelSerializer):
 class BookingSerializer(serializers.ModelSerializer):
     class Meta:
         model=models.Booking
-        fields=('id','is_verified','user','event','event','event_details')
+        fields=('id','is_verified','date', 'user','event','event','event_details','user_details')
 
 
 class PersonOnlySerializer(serializers.ModelSerializer):
     image = Base64ImageField(max_length=None, use_url=True,allow_null=True, default="person.png")
     class Meta:
         model=models.Person
-        fields=('id','first_name','last_name','phone_no','firebaseinstancetoken','is_blocked','image','date','user_type','user','organizer')
+        fields=('id','first_name','last_name','email','phone_no','firebaseinstancetoken','is_blocked','image','date','user_type','user','organizer')
 
 
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model=models.Question
-        fields=('id','question','date','event','user','answer')
+        fields=('id','question','date','event','user','answers')
 
 class AnswerSerializer(serializers.ModelSerializer):
     class Meta:
         model=models.Answer
-        fields=('id','answer','date','organizer','question')
+        fields=('id','answer','date','question')

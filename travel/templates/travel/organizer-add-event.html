@@ -28,36 +28,7 @@
 	<section>
 		<div class="db">
 			<!--LEFT SECTION-->
-			<div class="db-l">
-				<div class="db-l-1">
-					<ul>
-						<li><img src="{{ request.session.tripadvert_user_image }}" alt="" />
-						</li>
-
-					</ul>
-				</div>
-				<div class="db-l-2">
-					<ul>
-						<li>
-							<a href="/travel/organizer/dashboard/my-profile" ><img src="{% static 'travel/images/icon/dbl6.png' %}" alt="" /> My Profile</a>
-						</li>
-						<li>
-							<a href="/travel/organizer/dashboard/event-bookings/"><img src="{% static 'travel/images/icon/dbl2.png' %}" alt="" /> Travel Bookings</a>
-						</li>
-
-                        <li>
-							<a href="/travel/organizer/dashboard/create-event/"><img src="{% static 'travel/images/icon/dbl4.png' %}" alt="" /> Create Event</a>
-						</li>
-                        <li>
-							<a href="/travel/organizer/dashboard/events/"><img src="{% static 'travel/images/icon/dbl1.png' %}" alt="" /> My Events</a>
-						</li>
-
-                        <li>
-							<a href="/travel/organizer/dashboard/portfolio/"><img src="{% static 'travel/images/icon/dbl7.png' %}" alt="" /> My Portfolio</a>
-						</li>
-					</ul>
-				</div>
-			</div>
+           {% include  'organizer-dashboard-menu.html' %}
 			<!--CENTER SECTION-->
 			<div class="db-2">
                 <div class="db-2-com db-2-main p-0">
@@ -196,64 +167,9 @@
                 </div>
 			</div>
 			<!--RIGHT SECTION-->
-			<div class="db-3">
-				<h4>Notifications</h4>
-				<ul>
-					<li>
-						<a href="#!"> <img src="{% static 'travel/images/icon/dbr1.jpg' %}" alt="" />
-							<h5>50% Discount Offer</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="{% static 'travel/images/icon/dbr2.jpg' %}" alt="" />
-							<h5>paris travel package</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="{% static 'travel/images/icon/dbr3.jpg' %}" alt="" />
-							<h5>Group Trip - Available</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="{% static 'travel/images/icon/dbr4.jpg' %}" alt="" />
-							<h5>world best travel agency</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="{% static 'travel/images/icon/dbr5.jpg' %}" alt="" />
-							<h5>special travel coupons</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="{% static 'travel/images/icon/dbr6.jpg' %}" alt="" />
-							<h5>70% Offer 2018</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="{% static 'travel/images/icon/dbr7.jpg' %}" alt="" />
-							<h5>Popular Cities</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-					<li>
-						<a href="#!"> <img src="{% static 'travel/images/icon/dbr8.jpg' %}" alt="" />
-							<h5>variations of passages</h5>
-							<p>All the Lorem Ipsum generators on the</p>
-						</a>
-					</li>
-				</ul>
-			</div>
+           {% include  'organizer-dashboard-notifications.html' %}
 		</div>
 	</section>
 	</section>
 	<!--END DASHBOARD-->
-<script>
-
-</script>
 {% endblock %}

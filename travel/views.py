@@ -1,3 +1,4 @@
+import json
 import os
 
 from django import template
@@ -133,7 +134,35 @@ def something_wrong(request):
     return render(request,'wrong.html')
 
 def signUp(request):
-    return render(request,'register.html')
+    if not request.session.get("tripadvert_person_id", None):
+        if request.method == "POST":
+            print(request.POST.dict())
+            data = {}
+            data["first_name"] = request.POST["first_name"]
+            data["last_name"] = request.POST["last_name"]
+            data["phone_no"] = request.POST["phone_no"]
+            data["user_type"] = 1
+            data["email"] = request.POST["email"]
+            data["password"] = request.POST["password"]
+            data["address"] = request.POST["address"]
+            data["organizer"] = None
+            data["image"] = None
+            print(data)
+            response = requests.post("http://"+request.get_host()+"/api/persons/register/",data)
+            if response.status_code == 200:
+                data = response.json()
+                request.session["tripadvert_person_id"] = data["id"]
+                if data["user_type"] == 1:
+                    request.session["tripadvert_user_id"] = data["user"]["id"]
+                elif data["user_type"] == 2:
+                    request.session["tripadvert_user_id"] = data["organizer"]["id"]
+                request.session["tripadvert_user_name"] = data["first_name"]
+                request.session["tripadvert_user_type"] = data["user_type"]
+                request.session["tripadvert_user_image"] = data["image"]
+                return redirect("/travel/")
+        return render(request,'register.html')
+    else:
+        return redirect("/travel/")
 
 def userMyProfile(request):
     if request.method == "GET":
@@ -285,6 +314,33 @@ def price_list(request):
 
     return redirect("/travel/something-worng/")
 
+def organizerEventBookings(request):
+    if request.session.get("tripadvert_user_type", None) and request.session.get("tripadvert_user_type", None)==2:
+        response = requests.get("http://" + request.get_host() + "/api/event-bookings/?organizer="+str(request.session.get("tripadvert_user_id", None)))
+        if response.status_code == 200:
+            data = response.json()
+            return render(request, 'organizer-event-bookings.html',{'data':data})
+    return redirect("/travel/organizer/dashboard/event-bookings/")
+
+def organizerEventSchedule(request,id):
+    if request.session.get("tripadvert_user_type", None) and request.session.get("tripadvert_user_type", None)==2:
+        response = requests.get("http://" + request.get_host() + "/api/event-schedule/?event="+str(id))
+        if response.status_code == 200:
+            data = response.json()
+            return render(request, 'organizer-event-schedule.html',{'data':data})
+        else:
+            return render(request, 'organizer-event-schedule.html', {})
+    return redirect("/travel/access-denied/")
+
+def organizerEventQuestions(request,id):
+    if request.session.get("tripadvert_user_type", None) and request.session.get("tripadvert_user_type", None)==2:
+        response = requests.get("http://" + request.get_host() + "/api/questions/?event="+str(id))
+        if response.status_code == 200:
+            data = response.json()
+            return render(request, 'organizer-event-questions.html',{'data':data})
+        else:
+            return render(request, 'organizer-event-questions.html', {})
+    return redirect("/travel/access-denied/")
 
 def organizerSignUp(request):
     return render(request,'organizer_SignUp.html')
@@ -352,6 +408,10 @@ def deleteEvent(request,id):
 def toggle_isFull(request,id):
     requests.put("http://"+request.get_host()+"/api/events/update/"+str(id))
     return redirect("/travel/organizer/dashboard/events/")
+
+def toggle_isVerified(request,id):
+    requests.put("http://"+request.get_host()+"/api/bookings/update/"+str(id))
+    return redirect("/travel/organizer/events/bookings")
 
 def organizerPortfolio(request):
     if request.session["tripadvert_user_type"]==2:

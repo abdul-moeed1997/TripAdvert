@@ -30,27 +30,30 @@ class User(models.Model):
         """
         Return the mean rating from all comments
         """
-        return self.user1.filter(user=self.id).values("first_name").first()["first_name"]
+        if self.user1.filter(user=self.id):
+            return self.user1.filter(user=self.id).values("first_name").first()["first_name"]
 
     def last_name(self):
         """
         Return the mean rating from all comments
         """
-        return self.user1.filter(user=self.id).values("last_name").first()["last_name"]
+        if self.user1.filter(user=self.id):
+            return self.user1.filter(user=self.id).values("last_name").first()["last_name"]
 
 
     def email(self):
         """
         Return the mean rating from all comments
         """
-
-        return self.user1.filter(user=self.id).values("email").first()["email"]
+        if self.user1.filter(user=self.id):
+            return self.user1.filter(user=self.id).values("email").first()["email"]
 
     def phone(self):
         """
         Return the mean rating from all comments
         """
-        return self.user1.filter(user=self.id).values("phone_no").first()["phone_no"]
+        if self.user1.filter(user=self.id):
+            return self.user1.filter(user=self.id).values("phone_no").first()["phone_no"]
 
 class Organizer(models.Model):
     cnic = models.CharField(max_length=13,blank=True,unique=True)
@@ -106,11 +109,11 @@ class Person(AbstractBaseUser,PermissionsMixin):
     email = models.EmailField(max_length=255,unique=True,blank=True, null=True)
     username = models.CharField(max_length=255,blank=True)
     phone_no = models.CharField(max_length=11, blank=True, null=True)
-    image = models.ImageField(upload_to ='uploads/users', blank=True, default="person.png")
+    image = models.ImageField(upload_to ='uploads/users',null=True, blank=True, default="person.png")
     password = models.CharField(max_length=255,blank=True)
     user_type = models.IntegerField(default=1)
-    user = models.ForeignKey(User,null=True,blank=True,on_delete=models.CASCADE,related_name='user1')
-    organizer = models.ForeignKey(Organizer,null=True,blank=True,on_delete=models.CASCADE,related_name='organizer1')
+    user = models.ForeignKey(User,null=True,blank=True,on_delete=models.CASCADE,related_name='user1',default=None)
+    organizer = models.ForeignKey(Organizer,null=True,blank=True,on_delete=models.CASCADE,related_name='organizer1',default=None)
     date = models.DateField(auto_now_add=True)
     is_blocked = models.BooleanField(default=False,null=True)
     is_staff = models.BooleanField(default=True)
@@ -192,7 +195,7 @@ class EventSchedule(models.Model):
     day = models.CharField(max_length=50,blank=True)
     short_description = models.CharField(max_length=100,blank=True)
     detail_description = models.CharField(max_length=255, blank=True)
-    event = models.ForeignKey(Event,on_delete=models.CASCADE,related_name="activity")
+    event = models.ForeignKey(Event,on_delete=models.CASCADE,related_name="activity",null=True, blank=True)
 
 
 class Image(models.Model):
@@ -215,6 +218,9 @@ class Booking(models.Model):
     def event_details(self):
         return Event.objects.filter(id=self.event.id).values().first()
 
+    def user_details(self):
+        return Person.objects.filter(id=self.user.id).values().first()
+
     def get_event(self):
         return self.event.get_id()
 
@@ -231,17 +237,16 @@ class Question(models.Model):
     event = models.ForeignKey(Event, null=True,on_delete=models.CASCADE)
     user = models.ForeignKey(Person, null=False,on_delete=models.CASCADE)
 
-    def answer(self):
+    def answers(self):
         answer = Answer.objects.filter(question=self.id).values().first()
         if answer:
-            answer=answer["answer"]
+            answer={"id":answer["id"],"answer":answer["answer"]}
         return answer
 
 class Answer(models.Model):
     answer=models.CharField(max_length=255,blank=True)
     date = models.DateTimeField(auto_now_add=True,null=True)
     question = models.ForeignKey(Question, null=True,on_delete=models.CASCADE)
-    organizer = models.ForeignKey(Person, null=False,on_delete=models.CASCADE)
 
 class Review(models.Model):
     rating = models.IntegerField(null=False)

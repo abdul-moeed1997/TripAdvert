@@ -1,0 +1,191 @@
+{% extends  'base.html' %}
+{% load static %}
+
+
+{% block title %}
+<title>The Travel - My Profile</title>
+{% endblock %}
+
+{% block body  %}
+    <style>
+     .input {
+         position: relative;
+         border: 1px solid #9e9e9e !important;
+         border-radius: 2px !important;
+         padding: 2px!important;
+     }
+
+     .input:focus {
+         border: 2px solid #9e9e9e !important;
+     }
+
+    .label {
+        position: absolute;
+        margin-top: 10px;
+    }
+    .row-div {
+        margin:10px;
+    }
+    .mt-10 {
+        margin-top: 10px !important;
+    }
+
+     .mt-20 {
+        margin-top: 18px !important;
+    }
+    .pb-20 {
+        padding-bottom: 20px !important;
+    }
+    .para{
+        overflow: hidden !important;
+        text-overflow: ellipsis;
+    }
+    .para span {
+        font-weight: normal !important;
+        font-size: 18px;
+    }
+    </style>
+    <section class="hot-page2-alp hot-page2-pa-sp-top">
+
+        <section>
+        <div class="container">
+                <div class="row inner_banner inner_banner_3 bg-none">
+                    <div class="hot-page2-alp-tit">
+                        <span style="margin: 1cm"><h1>Top Travel Packages</h1></span>
+                        <ul>
+                            <li><a href="#inner-page-title">Home</a> </li>
+                            <li><i class="fa fa-angle-right" aria-hidden="true"></i> </li>
+                            <li><a href="#inner-page-title" class="bread-acti">Tours & Events</a> </li>
+                        </ul>
+                        <p> World's leading Tour Booking website,Over 10,000 tours posted by registered tour organizers worldwide. </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--DASHBOARD-->
+        <section>
+            <div class="db">
+                <!--LEFT SECTION-->
+               {% include  'organizer-dashboard-menu.html' %}
+                <!--CENTER SECTION-->
+                <div class="db-2 pb-20">
+                <div class="alert alert-success" role="alert" id="success" style="display: none">
+                  Record Successfully added/updated!
+                </div>
+
+                <div class="alert alert-danger" id="failure" role="alert" style="display: none">
+                  Failed to added/updated Record!
+                </div>
+                    <div class="db-2-com db-2-main">
+                        <h4>Event Questions </h4>
+                        <div class="db-2-main-com db2-form-pay db2-form-com">
+                            <div id="root" >
+                                {% for item in data %}
+                                    <script>
+                                        var event = {{ item.event }}
+                                    </script>
+                                    <div class="row-div mt-10 col col-md-12" id=" {{ item.id }}">
+                                        <div class="col-md-12 p-0 mb-3">
+                                            <p class="para p-0 m-0 px-3"> <span class="text-primary small" >Q:</span> {{ item.question }}</p>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label>Answer:</label>
+                                            <textarea name="description" class="input"  type="text" required >{% if item.answers %}{{ item.answers.answer}}{% endif %}</textarea>
+                                            <p id="answerError" class="text-danger small" ></p>
+                                        </div>
+                                        <button class="btn btn-primary col-md-1 mt-20" id="{% if item.answers %}{{ item.answers.id}}{% endif %}" onclick="saveAnswer(this)" >Save</button>
+                                    </div>
+                                    </br>
+
+                                {% endfor %}
+                            </div>
+                            <div class="mt-10">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!--RIGHT SECTION-->
+               {% include  'organizer-dashboard-notifications.html' %}
+            </div>
+        </section>
+    </section>
+
+    <script>
+
+        function saveAnswer(target) {
+            row = target.parentElement;
+            console.log(row);
+            qid = row.id;
+            aid = target.id;
+            ans = row.getElementsByTagName("textarea")[0].value;
+            flag = true;
+            if (ans.length == 0 || ans.length>255) {
+                row.getElementsByTagName("p")[1].innerText = "Answer cannot be blank!";
+                flag = false;
+            } else {
+                row.getElementsByTagName("p")[1].innerText = "";
+                flag = true;
+            }
+
+            if (aid) {
+                if (flag) {
+                    $.ajax({
+                        url: "/api/answers/" + aid + "/",
+                        type: 'put',
+                        dataType: 'json',
+                        data: {'answer': ans, 'question': qid},
+                        success: function () {
+                            alert("Success");
+                            box = document.getElementById("success");
+                            box.style.display = "block";
+                            setTimeout(function () {
+                                box.style.display = "none";
+                            }, 5000);
+                        },
+                        error: function () {
+                            alert("Failure");
+                            box = document.getElementById("failure");
+                            box.style.display = "block";
+                            setTimeout(function () {
+                                box.style.display = "none";
+                            }, 5000);
+
+                        }
+                    });
+                }
+            }
+            else {
+                alert("NO");
+                if (flag) {
+                    $.ajax({
+                    url: "/api/answers/",
+                    type: 'post',
+                    dataType: 'json',
+                    data: {'answer': ans, 'question': qid},
+                    success: function (data) {
+                            ans.value = '';
+                            row.getElementsByTagName("button")[0].id = data["id"];
+                            box = document.getElementById("success");
+                            box.style.display = "block";
+                            setTimeout(function () {
+                                box.style.display = "none";
+                            }, 5000);
+                    },
+                    error: function () {
+                        box = document.getElementById("failure");
+                        box.style.display = "block";
+                        setTimeout(function () {
+                            box.style.display = "none";
+                        }, 5000);
+
+                    }
+                });
+                }
+            }
+
+        }
+    </script>
+	<!--END DASHBOARD-->
+{% endblock %}
