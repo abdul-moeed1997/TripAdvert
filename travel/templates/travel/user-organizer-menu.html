@@ -1,0 +1,41 @@
+{% load static %}
+<div class="db-l" style="margin-left: 8%;">
+    <div class="db-l-1">
+        <ul>
+            {% if request.session.organizer_pic %}
+                <li><img src="{{ request.session.organizer_pic }}" alt="" />
+                </li>
+                {% else %}
+                <li><img src="{% static '/travel/images/person.png' %}" alt="" />
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="db-l-2">
+        <ul>
+            {% if data.organizer %}
+                <li>
+                    <a href="/travel/organizer/detail/{{ data.organizer.id }}"><img src="{% static 'travel/images/icon/dbl6.png' %}" alt="" /> Organizer's Profile</a>
+                </li>
+                <li>
+                    <a href="/travel/organizer/portfolio/{{ data.organizer.id }}"><img src="{% static 'travel/images/icon/dbl3.png' %}" alt="" />Organizer's Portfolio</a>
+                </li>
+                <li>
+                    <a href="/travel/organizer/events/{{ data.organizer.id }}"><img src="{% static 'travel/images/icon/dbl1.png' %}" alt="" /> Organizer's Events</a>
+                </li>
+                {% elif data|length > 1 and not data.organizer %}
+                    {% with data|first as item %}
+                        <li>
+                            <a href="/travel/organizer/detail/{{ item.organizer.id }}"><img src="{% static 'travel/images/icon/dbl6.png' %}" alt="" /> Organizer's Profile</a>
+                        </li>
+                        <li>
+                            <a href="/travel/organizer/portfolio/{{ item.organizer.id }}"><img src="{% static 'travel/images/icon/dbl3.png' %}" alt="" />Organizer's Portfolio</a>
+                        </li>
+                        <li>
+                            <a href="/travel/organizer/events/{{ item.organizer.id }}"><img src="{% static 'travel/images/icon/dbl1.png' %}" alt="" /> Organizer's Events</a>
+                        </li>
+                    {% endwith %}
+            {% endif %}
+        </ul>
+    </div>
+</div>

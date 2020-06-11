@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
     'django_filters',
+    'send',
 
 ]
 REST_FRAMEWORK = {
@@ -191,3 +192,10 @@ SITE_ID = 1 # for the dev mode, you need to use localhost's id facebook does not
 #little options for your page's signup.
 ACCOUNT_EMAIL_REQUIRED=True
 ACCOUNT_USERNAME_REQURIED=True
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'abdullamajid45@gmail.com'
+EMAIL_HOST_PASSWORD = 'Pakistan8808'
+EMAIL_USE_TLS = True

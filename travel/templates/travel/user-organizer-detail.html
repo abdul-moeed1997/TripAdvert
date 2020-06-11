@@ -1,0 +1,86 @@
+{% extends  'base.html' %}
+{% load static %}
+
+{% block title %}
+<title>Organizer Detail</title>
+{% endblock %}
+
+{% block body  %}
+
+
+    <section class="hot-page2-alp hot-page2-pa-sp-top">
+
+    <section>
+    <div class="container">
+			<div class="row inner_banner inner_banner_3 bg-none">
+				<div class="hot-page2-alp-tit">
+                    <span style="margin: 1cm"><h1>Top Travel Packages</h1></span>
+					<ul>
+						<li><a href="/travel/">Home</a> </li>
+						<li><i class="fa fa-angle-right" aria-hidden="true"></i> </li>
+						<li><a href="#" class="bread-acti">Organizer's Profile</a> </li>
+					</ul>
+					<p> World's leading Tour Booking website,Over 10,000 tours posted by registered tour organizers worldwide. </p>
+				</div>
+			</div>
+		</div>
+    </section>
+	<!--DASHBOARD-->
+	<section>
+		<div class="db">
+			<!--LEFT SECTION-->
+            {% include  'user-organizer-menu.html' %}
+			<!--CENTER SECTION-->
+
+			<div class="db-2">
+				<div class="db-2-com db-2-main">
+					<h4>Organizer's Profile</h4>
+					<div class="db-2-main-com db-2-main-com-table">
+						<table class="responsive-table">
+							<tbody>
+								<tr>
+									<td>Name</td>
+									<td>:</td>
+									<td>{{data.first_name}} {{ data.last_name }}</td>
+								</tr>
+								<tr>
+									<td>Company Name</td>
+									<td>:</td>
+									<td>{{data.organizer.organization}}</td>
+								</tr>
+                                <tr>
+									<td>Experience</td>
+									<td>:</td>
+									<td>{{data.organizer.experience}}</td>
+								</tr>
+								<tr>
+									<td>Email</td>
+									<td>:</td>
+									<td>{{data.email}}</td>
+								</tr>
+								<tr>
+									<td>Phone</td>
+									<td>:</td>
+									<td>{{data.phone_no}}</td>
+								</tr>
+								<tr>
+									<td>Address</td>
+									<td>:</td>
+									<td>{{data.organizer.address}}</td>
+                                </tr>
+                                <tr>
+									<td>Rating</td>
+									<td>:</td>
+									<td><span class="db-done">{{data.organizer.rating}} star</span></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	</section>
+
+	
+	{% endblock %}

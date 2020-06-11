@@ -14,11 +14,18 @@
 
 			<div class="tr-regi-form " >
 				<h4 class="text-primary " >Reset  password</h4>
-				<form class="col s12" action="/travel/forgot-pass/">
+                <p>Verify Email</p>
+				<form class="col s12" method="post" onsubmit="return validateEmail()">
+				{% csrf_token %}
 					<div class="row">
-                        <div class="input-field col s12">
-							<input type="text" class="validate" required>
-							<label>Enter your User Name</label>
+						<div class="input-field col s12">
+							<input type="email" id="email" name="email" class="validate" required>
+							<label>Enter your Email</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s12">
+                            <p class="ml-0 text-danger" id="error" style="font-size: 12px;"></p>
 						</div>
 					</div>
 					<div class="row">
@@ -32,6 +39,29 @@
 
 	</section>
 	<!--END DASHBOARD-->
-
+    <script>
+        function validateEmail() {
+            flag = false;
+            email = document.getElementById("email").value;
+            url =  "/api/persons/?email="+email;
+            $.ajax({
+                 url: url,
+                 dataType: 'json',
+                 async: false,
+                 success: function (data) {
+                     if (data.length > 0) {
+                        flag = true
+                     }
+                     else {
+                         document.getElementById("error").innerText = "Email is not registered!";
+                     }
+                 },
+                 error: function() {
+                         document.getElementById("error").innerText = "Something went wrong";
+                 }
+             });
+            return flag;
+        }
+    </script>
 
 {% endblock %}

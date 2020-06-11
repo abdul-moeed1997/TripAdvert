@@ -3,8 +3,13 @@
 <div class="db-l">
 				<div class="db-l-1">
 					<ul>
-						<li><img src="{{ request.session.tripadvert_user_image }}" alt="" />
-						</li>
+                        {% if request.session.tripadvert_user_image %}
+                            <li><img src="{{ request.session.tripadvert_user_image }}" alt="" />
+                            </li>
+                            {% else %}
+                            <li><img src="{% static '/travel/images/person.png' %}" alt="" />
+                            </li>
+                        {% endif %}
 
 					</ul>
 				</div>

@@ -75,25 +75,29 @@ class Organizer(models.Model):
         """
         Return the mean rating from all comments
         """
-        return self.organizer1.filter(organizer=self.id).values("first_name").first()["first_name"]
+        if self.organizer1.filter(organizer=self.id):
+            return self.organizer1.filter(organizer=self.id).values("first_name").first()["first_name"]
 
     def last_name(self):
         """
         Return the mean rating from all comments
         """
-        return self.organizer1.filter(organizer=self.id).values("last_name").first()["last_name"]
+        if self.organizer1.filter(organizer=self.id):
+            return self.organizer1.filter(organizer=self.id).values("last_name").first()["last_name"]
 
     def email(self):
         """
         Return the mean rating from all comments
         """
-        return self.organizer1.filter(organizer=self.id).values("email").first()["email"]
+        if self.organizer1.filter(organizer=self.id):
+            return self.organizer1.filter(organizer=self.id).values("email").first()["email"]
 
     def phone(self):
         """
         Return the mean rating from all comments
         """
-        return self.organizer1.filter(organizer=self.id).values("phone_no").first()["phone_no"]
+        if self.organizer1.filter(organizer=self.id):
+            return self.organizer1.filter(organizer=self.id).values("phone_no").first()["phone_no"]
     #
     # def get_rating(self):
     #     return self.reviews.aggragate(models.Avg("rating"))["rating__avg"]

@@ -1,8 +1,7 @@
 import json
 import os
-
-from django import template
-from django.contrib.auth import authenticate
+from django.core.mail import send_mail
+from django.utils.crypto import get_random_string
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from django.http import HttpResponse
@@ -15,6 +14,7 @@ import base64
 from django.template import context
 
 from TripAdvert import settings
+from TripAdvert.settings import EMAIL_HOST_USER
 
 prev_url = None
 user = True
@@ -104,7 +104,8 @@ def login(request):
             data = (response.json())
             request.session["tripadvert_person_id"]=data["id"]
             if data["user_type"]==1:
-                request.session["tripadvert_user_id"]=data["user"]["id"]
+                if data["user"] and data["user"]["id"]:
+                    request.session["tripadvert_user_id"]=data["user"]["id"]
             elif data["user_type"]==2:
                 request.session["tripadvert_user_id"]=data["organizer"]["id"]
             request.session["tripadvert_user_name"] = data["first_name"]
@@ -284,8 +285,7 @@ def OrganizerEventBooking(request):
         data={}
     return render(request,'organizer-bookings.html',{"data":data})
 
-def userEditProfile(request):
-    return render(request,'edit-profile.html')
+
 
 def contact(request):
     return render(request,'contact.html')
@@ -376,20 +376,30 @@ def organizerSignUp(request):
         return redirect("/travel/")
 
 def forgotPassword(request):
-    return render(request,'forgot-pass.html')
+    if request.method == "POST":
+        if "email" in request.POST and "password" in request.POST:
+            response = requests.post("http://" + request.get_host() + "/api/persons/updatePass/", {"email":request.POST["email"],"password":request.POST["password"]})
+            if response.status_code == 200:
+                data = response.json()
+                del request.session[request.POST["email"]]
+                return redirect("/travel/login")
+        return redirect("/travel/something-wrong/")
+
+    if "email" not in request.GET or "token" not in request.GET or request.GET["email"] not in request.session or request.session[request.GET["email"]]!=request.GET["token"]:
+        return redirect("/travel/404/")
+
+    return render(request,'forgot-pass.html',{"email":request.GET["email"]})
 
 
 def EmailforgotPassword(request):
-    return render(request, 'emailForgotPass.html')
-
-
-def organizerProfile(request):
-    return render(request, 'organizerProfile.html')
-
-
-def editProfileOrganizer(request):
-    return render(request, 'editProfileOrg.html')
-
+    if not request.session.get("tripadvert_user_type",None):
+        if request.method == 'POST':
+            unique_id = get_random_string(length=32)
+            request.session[request.POST["email"]]=unique_id
+            send_mail("Reset Password Link", "Your reset password link is: http://"+request.get_host()+"/travel/forgot-pass/?email="+request.POST["email"]+"&token="+str(unique_id),EMAIL_HOST_USER,[request.POST["email"]],fail_silently=False)
+            return render(request, 'emailForgotMessage.html')
+        return render(request, 'emailForgotPass.html')
+    return redirect("/travel/")
 
 def organizerMyEvents(request):
     data={}
@@ -452,13 +462,47 @@ def organizerPortfolio(request):
         return redirect("/travel/something-wrong/")
     return redirect("/travel/access-denied/")
 
-def organizerPortfolioUser(request):
-    return render(request, 'my-portfolio-user.html')
-
-
+def organizerPortfolioUser(request,id):
+    if request.session.get("tripadvert_user_type",None):
+        response = requests.get("http://" + request.get_host() + "/api/portfolio?organizer=" + str(id) + ("&is_completed=false"))
+        if response.status_code == 200:
+            data = response.json()
+            if data:
+                return render(request, 'user-my-portfolio.html', {"data": data})
+        return render(request, 'user-myportfolio.html', {"data": {}})
+    return redirect("/travel/login/")
 
 def organizerAddPhotos(request):
-    return render(request,'organizer-portfolio-addphotos.html')
+    if request.session.get("tripadvert_user_type",None):
+        response = requests.get("http://" + request.get_host() + "/api/portfolio?organizer=" + str(id) + ("&is_completed=false"))
+        if response.status_code == 200:
+            data = response.json()
+            if data:
+                return render(request, 'organizer-portfolio-addphotos.html')
+        return render(request, 'user-myportfolio.html', {"data": {}})
+    return redirect("/travel/login/")
 
-def organizerDetail(request):
-    return render(request, 'organizer-detail.html')
+def organizerDetail(request,id):
+    if request.session.get("tripadvert_user_type",None):
+        response = requests.get("http://"+request.get_host()+"/api/persons/?organizer="+str(id))
+        if response.status_code == 200:
+            data = response.json()
+
+            if len(data):
+                data = data[0]
+                request.session["organizer_pic"] = data["image"]
+                return render(request, 'user-organizer-detail.html',{"data":data})
+
+        return render(request, 'user-organizer-detail.html',{"data":{}})
+    return redirect("/travel/login/")
+
+
+def userOrganizerEvents(request,id):
+    if request.session.get("tripadvert_user_type",None):
+        response = requests.get("http://"+request.get_host()+"/api/event/?organizer="+str(id))
+        if response.status_code == 200:
+            data = response.json()
+            return render(request, 'user-organizer-events.html',{"data":data})
+
+        return render(request, 'user-organizer-events.html',{"data":[]})
+    return redirect("/travel/login/")

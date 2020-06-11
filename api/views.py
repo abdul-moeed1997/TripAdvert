@@ -112,7 +112,7 @@ class SingleEventViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.SingleEventSerializer
     queryset = models.Event.objects.all()
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
-
+    filterset_fields = ['organizer']
     @action(detail=False, methods=['post'])
     @atomic
     def compare_events(self, request):
@@ -137,8 +137,19 @@ class PersonViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.PersonSerializer
     queryset = models.Person.objects.filter(is_blocked=False)
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
-    filterset_fields = ["first_name","last_name","email","user_type"]
+    filterset_fields = ["first_name","last_name","email","user_type","organizer"]
 
+    @action(detail=False, methods=['post'])
+    def updatePass(self, request):
+        if request.data.get("email",None) and request.data.get("password",None):
+            person = models.Person.objects.get(email=request.data.get("email",None))
+            new = make_password(request.data.get("password",None))
+            person.password = new
+            person.save()
+            serializer = serializers.PersonSerializer(person)
+            return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+        return Response(status=status.HTTP_400_BAD_REQUEST, data = [])
     @atomic
     @action(detail=False, methods=['post'])
     def register(self, request):
@@ -176,12 +187,14 @@ class PersonViewSet(viewsets.ModelViewSet):
     def login(self, request):
         data=request.data
         user = self.queryset.get(email=request.data['email'])
-        if user:
-            if hasher.check_password(request.data['password'],user.get_password()):
-                serializer = serializers.PersonSerializer(user)
-                return Response(status=status.HTTP_200_OK, data=serializer.data)
-
-        return Response(status=status.HTTP_400_BAD_REQUEST,data="Invalid Email or Password")
+        if user.user_id or user.organizer_id:
+            if user:
+                if hasher.check_password(request.data['password'],user.get_password()):
+                    serializer = serializers.PersonSerializer(user)
+                    return Response(status=status.HTTP_200_OK, data=serializer.data)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data="This Email is registered as Social Login! Please use Social login option")
+        return Response(status=status.HTTP_400_BAD_REQUEST,data="Invalid Email or Password!")
 
 @api_view(['PUT',])
 def toggle_isFull(request,id):

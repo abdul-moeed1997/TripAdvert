@@ -15,23 +15,26 @@
 			<div class="tr-regi-form " >
 				<h4 class="text-primary " >Reset  password</h4>
                 <p>Enter your new password </p>
-				<form class="col s12">
+				<form class="col s12" method="post" onsubmit="return validatePassword()">
+                    {% csrf_token %}
 					<div class="row">
 						<div class="input-field col s12">
-							<input type="password" class="validate">
+							<input type="password" name="password" id="pass" class="validate">
 							<label>New Password</label>
 						</div>
 					</div>
 					<div class="row">
 						<div class="input-field col s12">
-							<input type="password" class="validate">
-							<label>ReEnter New Password</label>
+							<input type="password" id="cpass" class="validate">
+							<label>Re-enter New Password</label>
 						</div>
 					</div>
+                    <input type="hidden" name="email" value="{{ email }}">
 					<div class="row">
 						<div class="input-field col s12">
 							<input type="submit" value="Confirm Change" class=" btn-large full-btn"> </div>
 					</div>
+                    <p class="text-danger ml-0" style="font-size: 12px;" id="error"> </p>
 				</form>
 
 
@@ -39,6 +42,15 @@
 
 	</section>
 	<!--END DASHBOARD-->
-
+    <script>
+        function validatePassword() {
+            if (document.getElementById("pass").value != document.getElementById("cpass").value)
+            {
+                document.getElementById("error").innerText="Both passwords must match!";
+                return false;
+            }
+            return true;
+        }
+    </script>
 
 {% endblock %}

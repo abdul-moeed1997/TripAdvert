@@ -127,6 +127,8 @@
                                 {% endif %}
                             </span>
                             <span class="tour_rat">{{ data.organizer.rating }}</span></h2> </div>
+
+                        <a href="/travel/organizer/detail/{{ data.organizer.id }}" class="text-danger">{{data.organizer.first_name}} {{data.organizer.last_name}}</a> -{{data.organizer.organization}}
 					<!--====== TOUR DESCRIPTION ==========-->
 					<div class="tour_head1">
 						<h3>Description</h3>
@@ -153,8 +155,8 @@
 						<ul>
                             {% for day in data.schedule %}
                                 <li class="l-info-pack-plac"> <i class="fa fa-clock-o" aria-hidden="true"></i>
-								<h4><span>Day : {{ forloop.counter|add_one }}</span> {{day.short_description}}</h4>
-								<p> {{day.detail_description}}</p>
+								<h4><span>Day : {{ forloop.counter|add_one }}</span> {{day.day}}</h4>
+								<p> {{day.short_description}}</p>
 							</li>
                             {% endfor %}
 						</ul>
@@ -252,9 +254,9 @@
                         '\t\t\t\t\t\t\t\t\t</div>\n' +
                         '\t\t\t\t\t\t\t\t\t<div class="col-md-9 dir-rat-right">\n' +
                         '\t\t\t\t\t\t\t\t\t\t<p>';
-                    if (data[i]["answer"])
+                    if (data[i]["answers"])
                     {
-                        element+=String(data[i]["answer"]);
+                        element+=String(data[i]["answers"]["answer"]);
                     }
 
                         element+='</p>\n' +

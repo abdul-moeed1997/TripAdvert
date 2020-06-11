@@ -3,7 +3,7 @@
 
 
 {% block title %}
-<title>The Travel - My Profile</title>
+<title>The Travel - Tour Travel</title>
 {% endblock %}
 
 {% block body  %}
@@ -19,6 +19,7 @@
        -webkit-box-orient: vertical;
     }
     </style>
+
     <section class="hot-page2-alp hot-page2-pa-sp-top">
 
     <section>
@@ -29,7 +30,7 @@
 					<ul>
 						<li><a href="/travel/">Home</a> </li>
 						<li><i class="fa fa-angle-right" aria-hidden="true"></i> </li>
-						<li><a href="#" class="bread-acti">My Portfolio</a> </li>
+						<li><a href="#" class="bread-acti">Organizer's Portfolio</a> </li>
 					</ul>
 					<p> World's leading Tour Booking website,Over 10,000 tours posted by registered tour organizers worldwide. </p>
 				</div>
@@ -40,25 +41,26 @@
 	<section>
 		<div class="db">
 			<!--LEFT SECTION-->
-            {% include  'organizer-dashboard-menu.html' %}
+            {% include  'user-organizer-menu.html' %}
 			<!--CENTER SECTION-->
-            <div class="db-2">
+			<div class="db-2">
 				<div class="db-2-com db-2-main">
-					<h4>My Portfolio</h4>
+					<h4>Organizer's Portfolio</h4>
 					<div class="db-2-main-com db-2-main-com-table">
                         {% if data %}
+
                         <div class="popu-places-home">
                             {% for item in data %}
                             <div class="col-md-6 col-sm-6 col-xs-12 place p-5" >
                             <div class="col-md-4 col-sm-12 col-xs-12"> <img class="p-1" src="{{ item.pic }}" alt="Event Image"> </div>
                             <div class="col-md-6 col-sm-12 col-xs-12">
-                                <h3><a href="/travel/tour/detail/{{ item.id }}" ><span>{{item.title}}</span></a></h3>
+                                <h3><a><span>{{item.title}}</span></a></h3>
                                 <h5>{{item.category}}</h5>
                             </div>
                             <div class="col-md-12 col-sm-12 col-xs-12 ml-2" >
                                 <p class="para">{{item.description}}</p>
                                 <br>
-                                <div class="text-center center center-align"><a href="/travel/organizer/dashboard/portfolio/add-photos/{{ item.id }}" class="link-btn">Add info</a></div>
+                                <div class="text-center center center-align"><a href="/travel/tour/detail/{{ item.id }}" class="link-btn">View Details</a></div>
                             </div>
                         </div>
                             {% endfor %}
@@ -69,11 +71,12 @@
 					</div>
 				</div>
 			</div>
+			
 			<!--RIGHT SECTION-->
-           {% include  'organizer-dashboard-notifications.html' %}
+			
 		</div>
-	</section>
-	</section>
-	<!--END DASHBOARD-->
-
+	
+</div>
+    </section>
+    </section>
 {% endblock %}
