@@ -951,4 +951,55 @@ $(window).on('keydown', function(e) {
 });
 //# sourceURL=pen.js
 </script>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-database.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyAN2V4PnCts39201LGZtTwkc4VSpJEkd_o",
+    authDomain: "tripadvert-ec38b.firebaseapp.com",
+    databaseURL: "https://tripadvert-ec38b.firebaseio.com",
+    projectId: "tripadvert-ec38b",
+    storageBucket: "tripadvert-ec38b.appspot.com",
+    messagingSenderId: "988626184138",
+    appId: "1:988626184138:web:d3ff794629a1ff77ad1133",
+    measurementId: "G-HBXG37F8NG"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+
+  var myId = 6;
+  var receiverId = 1;
+
+  var a = Math.min(myId,receiverId);
+  var b = Math.max(myId,receiverId);
+
+  // Get a reference to the database service
+  var database = firebase.database();
+    firebase.database().ref('messages/' + a + ':' + b )
+    .on('value', function(snapshot) {
+        for(msg in snapshot.val() )
+        {
+            console.log(msg)
+        }
+    });
+
+
+    firebase.database().ref('messages/' + a + ':' + b ).push().set({
+            "senderUserId" : "1",
+            "receiverUserId" : "2",
+            "receiverUserName": "attiq",
+            "senderUserName" : "Aziz",
+            "message" : "hi",
+            "date" : "2020-06-09T16:32:008Z"
+
+    })
+</script>
 </body></html>

@@ -506,3 +506,6 @@ def userOrganizerEvents(request,id):
 
         return render(request, 'user-organizer-events.html',{"data":[]})
     return redirect("/travel/login/")
+
+def chat(request):
+    return render(request,"chat.html")

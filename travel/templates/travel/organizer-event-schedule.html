@@ -149,7 +149,6 @@
                     $.ajax({
                         url: "/api/event-schedule/" + id + "/",
                         type: 'put',
-                        dataType: 'json',
                         data: {'day': day, 'short_description': desc},
                         success: function () {
                             box = document.getElementById("success");
@@ -190,46 +189,48 @@
                 }
 
                 if (flag) {
+                    console.log({"day":day,"short_description":desc,"event":event});
                     $.ajax({
-                    url: "/api/event-schedule/",
-                    type: 'post',
-                    dataType: 'json',
-                    data:  {'day': day, 'short_description': desc, 'event':event},
-                    success: function (data) {
-                        box = document.getElementById("success");
-                            tag = "" + '<div class="row-div mt-10 col col-md-12" id="'+ String(data["id"]) +'">\n' +
-                                '                                        <div class="col-md-3 p-0">\n' +
-                                '                                            <label>Day Title</label>\n' +
-                                '                                            <input type="text" class="input" value="'+ String(data["day"]) +'"  name="title" required>\n' +
-                                '                                            <p id="input'+ String(data["id"]) +'" class="text-danger small" ></p>\n' +
-                                '                                        </div>\n' +
-                                '\n' +
-                                '                                        <div class="col-md-6">\n' +
-                                '                                            <label>Description</label>\n' +
-                                '                                            <textarea name="description" class="input"  type="text" required >'+ String(data["short_description"]) +'</textarea>\n' +
-                                '                                            <p id="text'+ String(data["id"]) +'" class="text-danger small" ></p>\n' +
-                                '                                        </div>\n' +
-                                '                                        <button class="btn btn-primary col-md-1 mt-20" onclick="saveSchedule(this)" >Save</button>\n' +
-                                '                                        <button class="btn btn-danger col-md-1 mt-20 ml-3" onclick="deleteSchedule('+ String(data["id"]) +')" >Delete</button>\n' +
-                                '                                    </div>\n' +
-                                '                                    </br>';
-                            document.getElementById("root").innerHTML += tag;
-                            day.value = '';
-                            desc.value = '';
-                            box.style.display = "block";
-                            setTimeout(function () {
-                                box.style.display = "none";
-                            }, 5000);
-                    },
-                    error: function () {
-                        box = document.getElementById("failure");
-                        box.style.display = "block";
-                        setTimeout(function () {
-                            box.style.display = "none";
-                        }, 5000);
+                            type: "POST",
+                            url: "/api/event-schedule/",
+                            data: {
+                                 "day":day,"short_description":desc,"event":event
+                            },
+                            success: function (data) {
+                                box = document.getElementById("success");
+                                    tag = "" + '<div class="row-div mt-10 col col-md-12" id="'+ String(data["id"]) +'">\n' +
+                                        '                                        <div class="col-md-3 p-0">\n' +
+                                        '                                            <label>Day Title</label>\n' +
+                                        '                                            <input type="text" class="input" value="'+ String(data["day"]) +'"  name="title" required>\n' +
+                                        '                                            <p id="input'+ String(data["id"]) +'" class="text-danger small" ></p>\n' +
+                                        '                                        </div>\n' +
+                                        '\n' +
+                                        '                                        <div class="col-md-6">\n' +
+                                        '                                            <label>Description</label>\n' +
+                                        '                                            <textarea name="description" class="input"  type="text" required >'+ String(data["short_description"]) +'</textarea>\n' +
+                                        '                                            <p id="text'+ String(data["id"]) +'" class="text-danger small" ></p>\n' +
+                                        '                                        </div>\n' +
+                                        '                                        <button class="btn btn-primary col-md-1 mt-20" onclick="saveSchedule(this)" >Save</button>\n' +
+                                        '                                        <button class="btn btn-danger col-md-1 mt-20 ml-3" onclick="deleteSchedule('+ String(data["id"]) +')" >Delete</button>\n' +
+                                        '                                    </div>\n' +
+                                        '                                    </br>';
+                                    document.getElementById("root").innerHTML += tag;
+                                    row.getElementsByTagName("input")[0].value = '';
+                                    row.getElementsByTagName("textarea")[0].value = '';
+                                    box.style.display = "block";
+                                    setTimeout(function () {
+                                        box.style.display = "none";
+                                    }, 5000);
+                            },
+                            error: function () {
+                                box = document.getElementById("failure");
+                                box.style.display = "block";
+                                setTimeout(function () {
+                                    box.style.display = "none";
+                                }, 5000);
 
-                    }
-                });
+                            }
+                        });
                 }
             }
 

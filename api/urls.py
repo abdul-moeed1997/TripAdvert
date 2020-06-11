@@ -3,10 +3,10 @@ from rest_framework.routers import DefaultRouter
 from api import views
 
 router=DefaultRouter()
-router.register('persons',views.PersonViewSet)
+router.register('person-user',views.PersonOnlyViewSet,basename="person user")
+router.register('persons',views.PersonViewSet,basename=" persons")
 router.register('questions',views.QuestionViewSet)
 router.register('answers',views.AnswerViewSet)
-router.register('person-user',views.PersonOnlyViewSet)
 router.register('organizers',views.OrganizerViewSet)
 router.register('users',views.UserViewSet)
 router.register('events',views.EventViewSet)

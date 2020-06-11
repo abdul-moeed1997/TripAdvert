@@ -60,21 +60,21 @@
                                     {% endif %}
                                 </li>
 								<li>Food
-                                    {% if data.is_food  %}
+                                    {% if item.is_food  %}
                                         <span style="color:darkgreen;">(Included)</span>
                                         {% else %}
                                         <span style="color:red;"> (Excluded)</span>
                                     {% endif %}
                                 </li>
 								<li>Sightseeing
-                                    {% if data.is_sightseeing  %}
+                                    {% if item.is_sightseeing  %}
                                         <span style="color:darkgreen;">(Included)</span>
                                         {% else %}
                                         <span style="color:red;"> (Excluded)</span>
                                     {% endif %}
                                 </li>
 
-								<li><a href="/travel/tour/detail/{{ data.id }}" class="link-btn">View Details</a> </li>
+								<li><a href="/travel/tour/detail/{{ item.id }}" class="link-btn">View Details</a> </li>
 							</ul>
 						</div>
 					</div>

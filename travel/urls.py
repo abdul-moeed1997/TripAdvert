@@ -46,4 +46,5 @@ urlpatterns = [
     path('organizer/event/schedule/<id>', views.organizerEventSchedule, name='Event Schedule'),
     path('organizer/event/questions/<id>', views.organizerEventQuestions, name='Event Questions'),
     path('organizer/events/<id>', views.userOrganizerEvents, name='Event Questions'),
+    path('chat/', views.chat, name='Event Questions'),
 ]

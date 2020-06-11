@@ -125,7 +125,7 @@ class SingleEventSerializer(serializers.ModelSerializer):
     organizer = OrganizerSerializer(many=False,read_only=True)
     class Meta:
         model=models.Event
-        fields=('id','title','description','date','date_of_departure','date_of_arrival','slots','pic','price','is_completed','is_accomodation','accomodation_description','is_food','food_description','is_sightseeing','sightseeing_description','organizer','schedule','free_slots')
+        fields=('id','title','description','home','destination','date','date_of_departure','date_of_arrival','slots','pic','price','is_completed','is_accomodation','accomodation_description','is_food','food_description','is_sightseeing','sightseeing_description','organizer','schedule','free_slots')
 
 
 

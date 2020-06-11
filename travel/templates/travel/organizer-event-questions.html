@@ -137,7 +137,6 @@
                         dataType: 'json',
                         data: {'answer': ans, 'question': qid},
                         success: function () {
-                            alert("Success");
                             box = document.getElementById("success");
                             box.style.display = "block";
                             setTimeout(function () {
@@ -145,7 +144,6 @@
                             }, 5000);
                         },
                         error: function () {
-                            alert("Failure");
                             box = document.getElementById("failure");
                             box.style.display = "block";
                             setTimeout(function () {
@@ -157,7 +155,6 @@
                 }
             }
             else {
-                alert("NO");
                 if (flag) {
                     $.ajax({
                     url: "/api/answers/",

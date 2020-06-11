@@ -83,7 +83,7 @@
                                         <td>{{ forloop.counter }}</td>
                                         <td><a href="/travel/tour/detail/{{ item.event_details.id }}">{{ item.event_details.title }}</a></td>
                                         <td>{{ item.date }}</td>
-                                        <td>{{ item.user_details.first_name }} {{ item.user_details.first_name }}</td>
+                                        <td>{{ item.user_details.first_name }} {{ item.user_details.last_name }}</td>
                                         <td>Rs. {{ item.event_details.price }}/-</td>
                                         <td>
                                             {% if item.is_verified %}
