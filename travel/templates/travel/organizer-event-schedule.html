@@ -70,12 +70,11 @@
                 </div>
                     <div class="db-2-com db-2-main">
                         <h4>Event Schedule </h4>
+
                         <div class="db-2-main-com db2-form-pay db2-form-com">
                             <div id="root" >
                                 {% for item in data %}
-                                    <script>
-                                        var event = {{ item.event }}
-                                    </script>
+
                                     <div class="row-div mt-10 col col-md-12" id="{{ item.id }}">
                                         <div class="col-md-3 p-0">
                                             <label>Day Title</label>
@@ -124,6 +123,7 @@
     <script>
 
         function saveSchedule(target) {
+
             row = target.parentElement;
             id = row.id;
             if (id) {
@@ -189,12 +189,12 @@
                 }
 
                 if (flag) {
-                    console.log({"day":day,"short_description":desc,"event":event});
+                    console.log({"day":day,"short_description":desc,"event":{{event}} });
                     $.ajax({
                             type: "POST",
                             url: "/api/event-schedule/",
                             data: {
-                                 "day":day,"short_description":desc,"event":event
+                                 "day":day,"short_description":desc,"event":{{event}}
                             },
                             success: function (data) {
                                 box = document.getElementById("success");

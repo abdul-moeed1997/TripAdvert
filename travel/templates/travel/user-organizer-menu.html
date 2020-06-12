@@ -13,29 +13,15 @@
     </div>
     <div class="db-l-2">
         <ul>
-            {% if data.organizer %}
-                <li>
-                    <a href="/travel/organizer/detail/{{ data.organizer.id }}"><img src="{% static 'travel/images/icon/dbl6.png' %}" alt="" /> Organizer's Profile</a>
-                </li>
-                <li>
-                    <a href="/travel/organizer/portfolio/{{ data.organizer.id }}"><img src="{% static 'travel/images/icon/dbl3.png' %}" alt="" />Organizer's Portfolio</a>
-                </li>
-                <li>
-                    <a href="/travel/organizer/events/{{ data.organizer.id }}"><img src="{% static 'travel/images/icon/dbl1.png' %}" alt="" /> Organizer's Events</a>
-                </li>
-                {% elif data|length > 1 and not data.organizer %}
-                    {% with data|first as item %}
-                        <li>
-                            <a href="/travel/organizer/detail/{{ item.organizer.id }}"><img src="{% static 'travel/images/icon/dbl6.png' %}" alt="" /> Organizer's Profile</a>
-                        </li>
-                        <li>
-                            <a href="/travel/organizer/portfolio/{{ item.organizer.id }}"><img src="{% static 'travel/images/icon/dbl3.png' %}" alt="" />Organizer's Portfolio</a>
-                        </li>
-                        <li>
-                            <a href="/travel/organizer/events/{{ item.organizer.id }}"><img src="{% static 'travel/images/icon/dbl1.png' %}" alt="" /> Organizer's Events</a>
-                        </li>
-                    {% endwith %}
-            {% endif %}
+            <li>
+                <a href="/travel/organizer/detail/{{ organizer }}"><img src="{% static 'travel/images/icon/dbl6.png' %}" alt="" /> Organizer's Profile</a>
+            </li>
+            <li>
+                <a href="/travel/organizer/portfolio/{{ organizer }}"><img src="{% static 'travel/images/icon/dbl3.png' %}" alt="" />Organizer's Portfolio</a>
+            </li>
+            <li>
+                <a href="/travel/organizer/events/{{ organizer }}"><img src="{% static 'travel/images/icon/dbl1.png' %}" alt="" /> Organizer's Events</a>
+            </li>
         </ul>
     </div>
 </div>

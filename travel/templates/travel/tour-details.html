@@ -72,8 +72,8 @@
         </div>
     </div>
     <!-- END TOP SEARCH BOX -->
-        
-		
+
+
 	<!--====== BANNER ==========-->
 	<section>
 		<div class="rows inner_banner inner_banner_4">
@@ -96,7 +96,7 @@
 			<div class="container">
 				<div class="banner_book_1">
 					<ul>
-						<li class="dl1">Location : <span>{{ data.destination }}</span></li>
+						<li class="dl1">Location : <span>{{ data.destination}}</span></li>
 						<li class="dl2">Price : <span>{{ data.price }}</span></li>
 						<li class="dl3">Departure: <span>{{data.date_of_departure}}</span></li>
                         {% if not data.is_completed %}
@@ -115,8 +115,9 @@
 					<!--====== TOUR TITLE ==========-->
 					<div class="tour_head">
 						<h2>{{data.title}}
+                        {% if data.organizer.rating %}
                             <span class="tour_star">
-                                {%  for i in data.rating|times  %}
+                                {%  for i in data.organizer.rating|times  %}
                                     <i class="fa fa-star" aria-hidden="true"></i>
 
 
@@ -126,6 +127,7 @@
                                 <i class="fa fa-star-half-o" aria-hidden="true"></i>
                                 {% endif %}
                             </span>
+                        {% endif %}
                             <span class="tour_rat">{{ data.organizer.rating }}</span></h2> </div>
 
                         <a href="/travel/organizer/detail/{{ data.organizer.id }}" class="text-danger">{{data.organizer.first_name}} {{data.organizer.last_name}}</a> -{{data.organizer.organization}}
@@ -150,7 +152,8 @@
 					<!--====== TOUR LOCATION ==========-->
 
 					<!--====== DURATION ==========-->
-					<div class="tour_head1 l-info-pack-days days">
+					{% if data.schedule %}
+                    <div class="tour_head1 l-info-pack-days days">
 						<h3>Detailed Day Wise Itinerary</h3>
 						<ul>
                             {% for day in data.schedule %}
@@ -161,6 +164,7 @@
                             {% endfor %}
 						</ul>
 					</div>
+                    {% endif %}
 					<div>
                         {% if request.session.tripadvert_person_id and not data.is_completed %}
 						<div class="dir-rat">
@@ -193,7 +197,7 @@
                 {% if not data.is_completed %}
 					<div class="tour_right tour_offer">
 						<p>Price</p>
-						<h4 class="n-td-1" style="color: red" >$500
+						<h4 class="n-td-1" style="color: red" >${{ data.price }}
 							</h4> <a href="#" class="link-btn" data-toggle="modal" data-target="#myModal">Book Now</a> </div>
                 {% endif %}
 					<!--====== TRIP INFORMATION ==========-->

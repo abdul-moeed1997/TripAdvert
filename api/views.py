@@ -107,6 +107,14 @@ class EventViewSet(viewsets.ModelViewSet):
     filterset_fields = {"home":['exact'],"destination":['exact'],"category":['exact'],"date_of_departure":['exact'],"date_of_arrival":['exact'],"price":["lte","gte"]}
     pagination_class = LargeResultsSetPagination
 
+    @action(detail=False, methods=['get'])
+    def top_events(self, request):
+        newlist = []
+        serializer = serializers.SingleEventSerializer(self.queryset, many=True)
+        if serializer.data:
+            newlist = sorted(serializer.data, key=lambda k: k['free_slots'])[:10]
+        return Response(status=status.HTTP_200_OK, data=newlist)
+
 
 class SingleEventViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.SingleEventSerializer
@@ -138,6 +146,15 @@ class PersonViewSet(viewsets.ModelViewSet):
     queryset = models.Person.objects.filter(is_blocked=False)
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
     filterset_fields = ["first_name","last_name","email","user_type","organizer"]
+
+    @action(detail=False, methods=['get'])
+    def top_organizers(self, request):
+        newlist = []
+        organizers = self.queryset.filter(user_type=2)
+        serializer = serializers.PersonSerializer(organizers,many=True)
+        if serializer.data:
+            newlist = sorted(serializer.data, key=lambda k: k['organizer']['rating'])[:10]
+        return Response(status=status.HTTP_200_OK, data=newlist)
 
     @action(detail=False, methods=['post'])
     def updatePass(self, request):

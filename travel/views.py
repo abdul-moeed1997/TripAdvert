@@ -327,7 +327,7 @@ def organizerEventSchedule(request,id):
         response = requests.get("http://" + request.get_host() + "/api/event-schedule/?event="+str(id))
         if response.status_code == 200:
             data = response.json()
-            return render(request, 'organizer-event-schedule.html',{'data':data})
+            return render(request, 'organizer-event-schedule.html',{'data':data,'event':id})
         else:
             return render(request, 'organizer-event-schedule.html', {})
     return redirect("/travel/access-denied/")
@@ -437,7 +437,7 @@ def addEvent(request):
             default_storage.delete(path)
             response = requests.post("http://"+request.get_host()+"/api/events/",data)
 
-            return redirect("/travel/organizer/dashboard/my-events")
+            return redirect("/travel/organizer/dashboard/events")
     return render(request, 'organizer-add-event.html')
 
 
@@ -468,8 +468,8 @@ def organizerPortfolioUser(request,id):
         if response.status_code == 200:
             data = response.json()
             if data:
-                return render(request, 'user-my-portfolio.html', {"data": data})
-        return render(request, 'user-myportfolio.html', {"data": {}})
+                return render(request, 'user-my-portfolio.html', {"data": data,"organizer":id})
+        return render(request, 'user-myportfolio.html', {"data": {},"organizer":id})
     return redirect("/travel/login/")
 
 def organizerAddPhotos(request):
@@ -479,7 +479,7 @@ def organizerAddPhotos(request):
             data = response.json()
             if data:
                 return render(request, 'organizer-portfolio-addphotos.html')
-        return render(request, 'user-myportfolio.html', {"data": {}})
+        return render(request, 'user-myportfolio.html', {"data": {},"organizer":id})
     return redirect("/travel/login/")
 
 def organizerDetail(request,id):
@@ -491,9 +491,9 @@ def organizerDetail(request,id):
             if len(data):
                 data = data[0]
                 request.session["organizer_pic"] = data["image"]
-                return render(request, 'user-organizer-detail.html',{"data":data})
+                return render(request, 'user-organizer-detail.html',{"data":data,"organizer":id})
 
-        return render(request, 'user-organizer-detail.html',{"data":{}})
+        return render(request, 'user-organizer-detail.html',{"data":{},"organizer":id})
     return redirect("/travel/login/")
 
 
@@ -502,9 +502,9 @@ def userOrganizerEvents(request,id):
         response = requests.get("http://"+request.get_host()+"/api/event/?organizer="+str(id))
         if response.status_code == 200:
             data = response.json()
-            return render(request, 'user-organizer-events.html',{"data":data})
+            return render(request, 'user-organizer-events.html',{"data":data,"organizer":id})
 
-        return render(request, 'user-organizer-events.html',{"data":[]})
+        return render(request, 'user-organizer-events.html',{"data":[],"organizer":id})
     return redirect("/travel/login/")
 
 def chat(request):

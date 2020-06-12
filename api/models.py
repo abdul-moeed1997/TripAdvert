@@ -220,7 +220,10 @@ class Booking(models.Model):
     user = models.ForeignKey(Person, null=False, on_delete=models.CASCADE,related_name="user_booking")
 
     def event_details(self):
-        return Event.objects.filter(id=self.event.id).values().first()
+        event = Event.objects.filter(id=self.event.id).values()
+        if event:
+            return event.first()
+        return event
 
     def user_details(self):
         return Person.objects.filter(id=self.user.id).values().first()
