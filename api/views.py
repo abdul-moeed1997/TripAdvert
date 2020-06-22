@@ -1,3 +1,4 @@
+import datetime
 import os
 
 import django_filters
@@ -10,7 +11,7 @@ from django.shortcuts import render
 # Create your views here.
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, filters
 from rest_framework.decorators import action, api_view
 
 from django.db.models import Avg, Max, Min, Sum, Count
@@ -34,7 +35,7 @@ class UserBookingViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.BookingSerializer
     queryset = models.Booking.objects.filter(event__is_completed=False)
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
-    filterset_fields = ['user']
+    filterset_fields = ['user','event']
 
 
 class PortfolioViewSet(viewsets.ModelViewSet):
@@ -107,11 +108,20 @@ class EventViewSet(viewsets.ModelViewSet):
     filterset_fields = {"home":['exact'],"destination":['exact'],"category":['exact'],"date_of_departure":['exact'],"date_of_arrival":['exact'],"price":["lte","gte"]}
     pagination_class = LargeResultsSetPagination
 
+class GeneralEventViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.EventSerializer
+    queryset = models.Event.objects.filter(is_completed=False, is_full=False).order_by('-date')
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['title','home','destination']
+    pagination_class = LargeResultsSetPagination
+
     @action(detail=False, methods=['get'])
     def top_events(self, request):
         newlist = []
+        print(self.queryset)
         serializer = serializers.SingleEventSerializer(self.queryset, many=True)
         if serializer.data:
+            print(serializer.data)
             newlist = sorted(serializer.data, key=lambda k: k['free_slots'])[:10]
         return Response(status=status.HTTP_200_OK, data=newlist)
 
@@ -234,7 +244,8 @@ def toggle_isVerified(request,id):
         else:
             booking.is_verified=True
         booking.save()
-        return Response(status=status.HTTP_200_OK)
+        serializer = serializers.BookingSerializer(booking)
+        return Response(status=status.HTTP_200_OK,data=serializer.data)
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['PUT',])
@@ -313,6 +324,8 @@ def reviewed_user_events(request,id):
             del event["_state"]
             event["organizer"] = event["organizer_id"]
             del event["organizer_id"]
+            if event["date_of_departure"]:
+                event["date_of_departure"] = str(event["date_of_departure"]).split(" ")[0]
             if event not in events:
                 events.append({"event":event,"rating": review.rating})
 
@@ -323,17 +336,21 @@ def reviewed_user_events(request,id):
 @api_view(['GET',])
 def pending_user_events(request,id):
 
-    bookings = models.Booking.objects.filter(user= id)
+    bookings = models.Booking.objects.filter(user=id,is_verified=True,event__is_completed=True)
+    print(bookings)
     events = []
     for booking in bookings:
-
-        if not models.Review.objects.filter(event=booking.get_event(), user=id,event__event_booking__is_verified=True):
+        print(booking.get_event())
+        print(len(models.Review.objects.filter(event=booking.get_event(), user=id)))
+        if len(models.Review.objects.filter(event=booking.get_event(), user=id)) == 0:
             event = models.Event.objects.get(id= booking.get_event(), is_completed= True)
             if event:
                 event = event.__dict__
                 del event["_state"]
                 event["organizer"] = event["organizer_id"]
                 del event["organizer_id"]
+                if event["date_of_departure"]:
+                    event["date_of_departure"] = str(event["date_of_departure"]).split(" ")[0]
                 if event not in events:
                     events.append({"event":event,"rating": None})
 

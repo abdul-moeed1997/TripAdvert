@@ -8,23 +8,22 @@
 
 {% block body  %}
 <!-- TOP SEARCH BOX -->
+    <section>
         <div class="search-top">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="search-form">
-						<form class="tourz-search-form">
-							<div class="input-field">
-								<input type="text" id="select-city" class="autocomplete">
-								<label for="select-city">Enter city</label>
-							</div>
-							<div class="input-field">
-								<input type="text" id="select-search" class="autocomplete">
-								<label for="select-search" class="search-hotel-type">Search over a million tour and travels, sight seeings, hotels and more</label>
-							</div>
-							<div class="input-field">
-								<input type="submit" value="search" class="waves-effect waves-light tourz-sear-btn"> </div>
-						</form>
+						 <form class="tourz-search-form" action="/travel/tours/" method="post" style="margin-left: 16%">
+                            {% csrf_token %}
+
+                            <div class="input-field">
+                                <input type="text" id="select-search" name="common_filter" class="autocomplete">
+                                <label for="select-search" class="search-hotel-type">Search over a million tour and travels, sight seeings, hotels and more</label>
+                            </div>
+                            <div class="input-field">
+                                <input type="submit" value="search" class="waves-effect waves-light tourz-sear-btn"> </div>
+                        </form>
                         </div>
                     </div>
                 </div>
@@ -39,10 +38,10 @@
 			<div class="container">
 				<h2><span>About us -</span> World's leading tour Booking</h2>
 				<ul>
-					<li><a href="#inner-page-title">Home</a>
+					<li><a href="/travel/">Home</a>
 					</li>
 					<li><i class="fa fa-angle-right" aria-hidden="true"></i> </li>
-					<li><a href="#inner-page-title" class="bread-acti">About Us</a>
+					<li><a href="#" class="bread-acti">About Us</a>
 					</li>
 				</ul>
 				<p>Book travel packages and enjoy your holidays with distinctive experience</p>

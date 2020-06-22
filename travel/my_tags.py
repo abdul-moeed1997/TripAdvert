@@ -4,7 +4,7 @@ register = template.Library()
 @register.filter(name='times')
 def times(number):
     if number:
-        return range(number)
+        return range(int(number))
     return number
 
 @register.filter(name='get_int')
@@ -20,3 +20,4 @@ def get_float(number):
         while number>=1:
             number -=1;
     return number
+

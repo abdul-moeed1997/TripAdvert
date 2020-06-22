@@ -1,54 +1,29 @@
 {% load static %}
 <div class="db-3">
     <h4>Notifications</h4>
-    <ul>
-        <li>
-            <a href="#!"> <img src="{% static 'travel/images/icon/dbr1.jpg' %}" alt="" />
-                <h5>50% Discount Offer</h5>
-                <p>All the Lorem Ipsum generators on the</p>
-            </a>
-        </li>
-        <li>
-            <a href="#!"> <img src="{% static 'travel/images/icon/dbr2.jpg' %}" alt="" />
-                <h5>paris travel package</h5>
-                <p>All the Lorem Ipsum generators on the</p>
-            </a>
-        </li>
-        <li>
-            <a href="#!"> <img src="{% static 'travel/images/icon/dbr3.jpg' %}" alt="" />
-                <h5>Group Trip - Available</h5>
-                <p>All the Lorem Ipsum generators on the</p>
-            </a>
-        </li>
-        <li>
-            <a href="#!"> <img src="{% static 'travel/images/icon/dbr4.jpg' %}" alt="" />
-                <h5>world best travel agency</h5>
-                <p>All the Lorem Ipsum generators on the</p>
-            </a>
-        </li>
-        <li>
-            <a href="#!"> <img src="{% static 'travel/images/icon/dbr5.jpg' %}" alt="" />
-                <h5>special travel coupons</h5>
-                <p>All the Lorem Ipsum generators on the</p>
-            </a>
-        </li>
-        <li>
-            <a href="#!"> <img src="{% static 'travel/images/icon/dbr6.jpg' %}" alt="" />
-                <h5>70% Offer 2018</h5>
-                <p>All the Lorem Ipsum generators on the</p>
-            </a>
-        </li>
-        <li>
-            <a href="#!"> <img src="{% static 'travel/images/icon/dbr7.jpg' %}" alt="" />
-                <h5>Popular Cities</h5>
-                <p>All the Lorem Ipsum generators on the</p>
-            </a>
-        </li>
-        <li>
-            <a href="#!"> <img src="{% static 'travel/images/icon/dbr8.jpg' %}" alt="" />
-                <h5>variations of passages</h5>
-                <p>All the Lorem Ipsum generators on the</p>
-            </a>
-        </li>
+    <ul id="notification_root">
+
+
     </ul>
 </div>
+
+<script>
+    $( document ).ready(function() {
+        $.ajax({
+            url: "/api/notifications/?sentFor={{ request.session.tripadvert_person_id }}",
+            dataType: 'json',
+            success: function (data) {
+                for(i=0;i<data.length;i++)
+                {
+                    li = "" + '<li>\n' +
+                        '            <a href="'+data[i]["url"]+'"> <img src="/static/travel/images/icon/dbr1.jpg" alt="" />' +
+                        '                <h5>'+data[i]["category"]+'</h5>\n' +
+                        '                <p class="pl-0">'+data[i]["description"]+'</p>\n' +
+                        '            </a>\n' +
+                        '        </li>';
+                    document.getElementById("notification_root").innerHTML += li;
+                }
+            }
+        });
+    });
+</script>

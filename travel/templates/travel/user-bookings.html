@@ -7,6 +7,29 @@
 {% endblock %}
 
 {% block body  %}
+    <section>
+        <div class="search-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="search-form">
+						 <form class="tourz-search-form" action="/travel/tours/" method="post" style="margin-left: 16%">
+                            {% csrf_token %}
+
+                            <div class="input-field">
+                                <input type="text" id="select-search" name="common_filter" class="autocomplete">
+                                <label for="select-search" class="search-hotel-type">Search over a million tour and travels, sight seeings, hotels and more</label>
+                            </div>
+                            <div class="input-field">
+                                <input type="submit" value="search" class="waves-effect waves-light tourz-sear-btn"> </div>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<!-- END TOP SEARCH BOX -->
+    </section>
     <section class="hot-page2-alp hot-page2-pa-sp-top">
 
     <section>
@@ -50,7 +73,7 @@
 							<a href="/travel/user/dashboard/event-booking/"><img src="{% static 'travel/images/icon/dbl2.png' %}" alt="" /> Travel Bookings</a>
 						</li>
                         <li>
-							<a href="/travel/user/dashboard/completed-events/"><img src="{% static 'travel/images/icon/dbl4.png' %}" alt="" /> Travel Bookings</a>
+							<a href="/travel/user/dashboard/completed-events/"><img src="{% static 'travel/images/icon/dbl4.png' %}" alt="" />Completed Events</a>
 						</li>
 					</ul>
 				</div>
@@ -84,11 +107,11 @@
 									<td>{{ item.event_details.price }}</td>
                                     {% if item.event_details.is_completed %}
                                         <td><a style="text-decoration: none" onclick="this.preventDefault()" href="#" class="db-done">Completed</a></td>
-                                        {% elif item.is_verified %}
+                                        {% elif item.is_verified == True %}
 
                                             <td><a href="#" style="text-decoration: none" onclick="this.preventDefault()" class="db-done">Verified</a></td>
-                                        {% else %}
-                                            <td><a style="text-decoration: none" href="#" onclick="this.preventDefault()" class="db-done">Pending</a></td>
+                                        {% elif item.is_verified == False %}
+                                            <td><a style="text-decoration: none" href="#" onclick="this.preventDefault()" class="db-done">Rejected</a></td>
                                             <td><a href="/travel/booking/delete/{{ item.id }}" class="db-not-done">Cancel</a></td>
                                     {% endif %}
 

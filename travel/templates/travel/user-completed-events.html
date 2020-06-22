@@ -1,0 +1,199 @@
+{% extends  'base.html' %}
+{% load static %}
+
+{% load my_tags %}
+
+{% block title %}
+<title>The Travel - My Profile</title>
+{% endblock %}
+
+{% block body  %}
+    <section>
+        <div class="search-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="search-form">
+						 <form class="tourz-search-form" action="/travel/tours/" method="post" style="margin-left: 16%">
+                            {% csrf_token %}
+
+                            <div class="input-field">
+                                <input type="text" id="select-search" name="common_filter" class="autocomplete">
+                                <label for="select-search" class="search-hotel-type">Search over a million tour and travels, sight seeings, hotels and more</label>
+                            </div>
+                            <div class="input-field">
+                                <input type="submit" value="search" class="waves-effect waves-light tourz-sear-btn"> </div>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<!-- END TOP SEARCH BOX -->
+    </section>
+    <section class="hot-page2-alp hot-page2-pa-sp-top">
+
+    <section>
+    <div class="container">
+			<div class="row inner_banner inner_banner_3 bg-none">
+				<div class="hot-page2-alp-tit">
+                    <span style="margin: 1cm"><h1>Top Travel Packages</h1></span>
+					<ul>
+						<li><a href="/travel/">Home</a> </li>
+						<li><i class="fa fa-angle-right" aria-hidden="true"></i> </li>
+						<li><a href="#" class="bread-acti">Completed Events</a> </li>
+					</ul>
+					<p> World's leading Tour Booking website,Over 10,000 tours posted by registered tour organizers worldwide. </p>
+				</div>
+			</div>
+		</div>
+    </section>
+	<!--DASHBOARD-->
+	<section>
+		<div class="db">
+			<!--LEFT SECTION-->
+            <div class="db-l">
+				<div class="db-l-1">
+					<ul>
+                        {% if request.session.tripadvert_user_image %}
+                            <li><img src="{{ request.session.tripadvert_user_image }}" alt="" />
+                            </li>
+                            {% else %}
+                            <li><img src="{% static '/travel/images/person.png' %}" alt="" />
+                            </li>
+                        {% endif %}
+
+					</ul>
+				</div>
+				<div class="db-l-2">
+					<ul>
+						<li>
+							<a href="/travel/user/dashboard/my-profile/"><img src="{% static 'travel/images/icon/dbl6.png' %}" alt="" /> My Profile</a>
+						</li>
+						<li>
+							<a href="/travel/user/dashboard/event-booking/"><img src="{% static 'travel/images/icon/dbl2.png' %}" alt="" /> Travel Bookings</a>
+						</li>
+                        <li>
+							<a href="/travel/user/dashboard/completed-events/"><img src="{% static 'travel/images/icon/dbl4.png' %}" alt="" />Completed Events</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!--CENTER SECTION-->
+            <div class="db-2">
+				<div class="db-2-com db-2-main">
+					<h4>My Events</h4>
+					<div class="db-2-main-com db-2-main-com-table">
+						<table class="responsive-table">
+							<thead>
+								<tr>
+									<th>Name</th>
+									<th>Date</th>
+                                    <th>Rating</th>
+                                    <th></th>
+
+								</tr>
+							</thead>
+							<tbody>
+                            {% for item in pending %}
+                            <tr>
+									<td><a href="/travel/tour/detail/{{ item.event.id }}">{{item.event.title}}</a></td>
+									<td>{{ item.event.date_of_departure }}</td>
+									<td id="rating_field" class="pl-4">
+                                        <div class="row" ><input style="width: 200px;" type="text" name="rating" id="rating" placeholder="Enter rating (1-5)" class="form-control input-number" ><a href='javascript:;' onclick="saveRating(this)" id="4,1" class="db-done px-3 py-1">Save</a> </div>
+                                            <p class="text-danger" id="error" style="font-size: 10px; display: none;"></p>
+                                    </td>
+                                    <td><a href="/travel/tour/detail/{{ item.event.id }}" class="db-down-pdf">View Details</a></td>
+                            </tr>
+                            {% endfor %}
+                            {% for item in data %}
+                                <tr>
+									<td><a href="/travel/tour/detail/{{ item.event.id }}">{{ item.event.title }}</a></td>
+									<td>{{ item.event.date_of_departure }}</td>
+									<td>{% if item.rating %}
+                                            <span class="tour_star">
+                                                {%  for i in item.rating|times  %}
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+
+
+                                                {% endfor %}
+                                                {% if data.rating|get_float %}
+
+                                                <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                                                {% endif %}
+                                            </span>
+                                        {% endif %}
+                                    </td>
+                                    <td><a href="/travel/tour/detail/{{ item.event.id }}" class="db-down-pdf">View Details</a></td>
+
+
+
+								</tr>
+                            {% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<!--RIGHT SECTION-->
+            {% include  'organizer-dashboard-notifications.html' %}
+		</div>
+	</section>
+	</section>
+	<!--END DASHBOARD-->
+    <script>
+    function isFloat(n){
+        while (n>=1)
+        {
+            n = n-1;
+        }
+        if (n>0)
+        {
+            return true;
+        }
+        return false;
+    }
+    function saveRating(targ) {
+        rating = document.getElementById("rating").value;
+        if(rating<1 || rating>5)
+        {
+            document.getElementById("error").innerText = "Rating must be between 1-5";
+            document.getElementById("error").style.display='block';
+            return false;
+        }
+        else
+        {
+            if (isFloat(rating))
+            {
+                if ((rating - (rating | 0))!=0.5)
+                {
+                    document.getElementById("error").innerText = "Decimal part can be 0.5 only";
+                    document.getElementById("error").style.display='block';
+
+                    return false;
+                }
+            }
+
+        }
+
+        document.getElementById("error").style.display='none';
+
+        id = targ.id;
+        event_id=id.split(",")[0];
+        organizer_id=id.split(",")[1];
+        $.ajax({
+            type: "post",
+            url: "/api/reviews/",
+            data: {
+                "event": event_id, "organizer": organizer_id, "user":{{ request.session.tripadvert_person_id }},"rating":rating
+            },
+            success: function (data) {
+                location.replace('/travel/user/dashboard/completed-events/');
+            },
+            error: function (data) {
+                console.log(data)
+            }
+        });
+    }
+    </script>
+{% endblock %}

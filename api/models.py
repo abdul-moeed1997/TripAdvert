@@ -208,21 +208,25 @@ class Image(models.Model):
 
 
 class Notification(models.Model):
-    description = models.CharField(max_length=255,blank=False)
+    description = models.CharField(max_length=255, blank=False)
     date = models.DateTimeField(auto_now_add=True)
-    sentBy = models.ForeignKey(Person, null=False,on_delete=models.CASCADE,related_name='NotificationSender')
-    sentFor = models.ForeignKey(Person, null=False,on_delete=models.CASCADE,related_name='NotificationReceiver')
+    url = models.CharField(max_length=255, default="")
+    sentBy = models.ForeignKey(Person, null=False, on_delete=models.CASCADE, related_name='NotificationSender')
+    sentFor = models.ForeignKey(Person, null=False, on_delete=models.CASCADE, related_name='NotificationReceiver')
+    category = models.CharField(max_length=100,default="New Booking")
 
 class Booking(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     event = models.ForeignKey(Event, null=False, on_delete=models.CASCADE,related_name="event_booking")
-    is_verified = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=None)
     user = models.ForeignKey(Person, null=False, on_delete=models.CASCADE,related_name="user_booking")
 
     def event_details(self):
         event = Event.objects.filter(id=self.event.id).values()
         if event:
-            return event.first()
+            event = event.first()
+            event["date_of_departure"] = str(event["date_of_departure"]).split(" ")[0]
+            return event
         return event
 
     def user_details(self):
@@ -260,7 +264,7 @@ class Review(models.Model):
     comment = models.CharField(max_length=255, blank=True, null= True)
     date = models.DateTimeField(auto_now_add=True,null=True)
     user = models.ForeignKey(Person, null=True,on_delete=models.SET_NULL,default=None)
-    organizer = models.ForeignKey(Organizer, null=False,on_delete=models.CASCADE,related_name="reviews")
+    organizer = models.ForeignKey(Organizer, on_delete=models.CASCADE,related_name="reviews")
     event = models.ForeignKey(Event,on_delete=models.CASCADE)
 
     def get_event(self):

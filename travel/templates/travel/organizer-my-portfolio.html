@@ -19,6 +19,29 @@
        -webkit-box-orient: vertical;
     }
     </style>
+    <section>
+        <div class="search-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="search-form">
+						 <form class="tourz-search-form" action="/travel/tours/" method="post" style="margin-left: 16%">
+                            {% csrf_token %}
+
+                            <div class="input-field">
+                                <input type="text" id="select-search" name="common_filter" class="autocomplete">
+                                <label for="select-search" class="search-hotel-type">Search over a million tour and travels, sight seeings, hotels and more</label>
+                            </div>
+                            <div class="input-field">
+                                <input type="submit" value="search" class="waves-effect waves-light tourz-sear-btn"> </div>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<!-- END TOP SEARCH BOX -->
+    </section>
     <section class="hot-page2-alp hot-page2-pa-sp-top">
 
     <section>
@@ -49,14 +72,14 @@
                         {% if data %}
                         <div class="popu-places-home">
                             {% for item in data %}
-                            <div class="col-md-6 col-sm-6 col-xs-12 place p-5" >
+                            <div class="col-md-6 col-sm-6 col-xs-12 place p-3" >
                             <div class="col-md-4 col-sm-12 col-xs-12"> <img class="p-1" src="{{ item.pic }}" alt="Event Image"> </div>
                             <div class="col-md-6 col-sm-12 col-xs-12">
                                 <h3><a href="/travel/tour/detail/{{ item.id }}" ><span>{{item.title}}</span></a></h3>
                                 <h5>{{item.category}}</h5>
                             </div>
                             <div class="col-md-12 col-sm-12 col-xs-12 ml-2" >
-                                <p class="para">{{item.description}}</p>
+                                <p class="para p-0">{{item.description}}</p>
                                 <br>
                                 <div class="text-center center center-align"><a href="/travel/organizer/dashboard/portfolio/add-photos/{{ item.id }}" class="link-btn">Add info</a></div>
                             </div>

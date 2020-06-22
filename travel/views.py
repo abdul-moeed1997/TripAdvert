@@ -26,8 +26,16 @@ def index(request):
     if "tripadvert_person_id" not in request.session:
         global prev_url
         prev_url = request.get_raw_uri()
-    return render(request,'index.html')
+    response = requests.get("http://"+request.get_host()+"/api/general-events/top_events")
+    events = None
+    organizers = None
+    if response.status_code == 200:
+        events = response.json()
+    response = requests.get("http://" + request.get_host() + "/api/persons/top_organizers")
+    if response.status_code == 200:
+        organizers = response.json()
 
+    return render(request, 'index.html', {"events": events, "organizers": organizers})
 
 
 
@@ -40,12 +48,23 @@ def specialEvent(request):
 
 def tours(request):
     page=request.GET.get("page",None)
+    common_filter = None
+    if not page:
+        page = 1
     if page:
         if "tripadvert_person_id" not in request.session:
             global prev_url
             prev_url = request.get_raw_uri()
-        response = requests.get("http://"+request.get_host()+"/api/events/?page="+str(page))
-        data = response.json()
+        if request.method == 'POST' or request.GET.get("common_filter",None):
+            common_filter = common_filter
+            if not common_filter:
+                print((request.POST))
+                common_filter = request.POST["common_filter"]
+            response = requests.get("http://" + request.get_host() + "/api/general-events/?page=" + str(page)+"&search="+common_filter)
+            data = response.json()
+        else:
+            response = requests.get("http://"+request.get_host()+"/api/events/?page="+str(page))
+            data = response.json()
 
         if data["previous"]:
             try:
@@ -59,7 +78,7 @@ def tours(request):
         else:
             next = data["next"]
         events= { str(i["id"]) : i for i in data["results"] }
-        return render(request,'all-package.html',{'data':events,'prev':prev,'next':next,'current':page,'prev_url':data["previous"],'next_url':data["next"]})
+        return render(request,'all-package.html',{'data':events,'prev':prev,'next':next,'current':page,'prev_url':data["previous"],'next_url':data["next"],"common_filter":common_filter})
     return redirect("/travel/404/")
 
 def tourDetail(request,id):
@@ -295,7 +314,15 @@ def not_found(request):
 
 def book_event(request,id):
     if request.session.get("tripadvert_person_id", None):
-        requests.post("http://" + request.get_host() + "/api/event-bookings/",{"event": id,"user": request.session.get("tripadvert_person_id", None)})
+        response = requests.post("http://" + request.get_host() + "/api/event-bookings/",{"event": id,"user": request.session.get("tripadvert_person_id", None)})
+        if response.status_code == 201:
+            data = response.json()
+            response = requests.get("http://" + request.get_host() + "/api/persons/?organizer="+str(data["event_details"]["organizer_id"]))
+            if response.status_code == 200:
+                person = response.json()
+                person = person[0]
+                requests.post("http://" + request.get_host() + "/api/notifications/",{"sentFor":person["id"] ,"sentBy": request.session.get("tripadvert_person_id", None),"description":person["first_name"] + " " + person["last_name"] + " requested a reservation in your event.","url":"/travel/organizer/dashboard/event-bookings/"})
+
         return redirect("/travel/tours/?page=1")
     return redirect("/travel/login/")
 def access_denied(request):
@@ -314,9 +341,9 @@ def price_list(request):
 
     return redirect("/travel/something-worng/")
 
-def organizerEventBookings(request):
+def organizerEventBookings(request,id):
     if request.session.get("tripadvert_user_type", None) and request.session.get("tripadvert_user_type", None)==2:
-        response = requests.get("http://" + request.get_host() + "/api/event-bookings/?organizer="+str(request.session.get("tripadvert_user_id", None)))
+        response = requests.get("http://" + request.get_host() + "/api/event-bookings/?event="+str(id))
         if response.status_code == 200:
             data = response.json()
             return render(request, 'organizer-event-bookings.html',{'data':data})
@@ -402,10 +429,13 @@ def EmailforgotPassword(request):
     return redirect("/travel/")
 
 def organizerMyEvents(request):
+    print(request.session["tripadvert_user_id"])
+    print("http://"+request.get_host()+"/api/portfolio?organizer="+str(request.session["tripadvert_user_id"])+("&is_completed=false"))
     data={}
-    response=requests.get("http://"+request.get_host()+"/api/portfolio?user="+str(request.session["tripadvert_user_id"])+("&is_completed=false"))
+    response=requests.get("http://"+request.get_host()+"/api/portfolio?organizer="+str(request.session["tripadvert_user_id"])+("&is_completed=false"))
     if response.status_code==200:
         data = response.json()
+        print(data)
     return render(request, 'organizer-my-events.html',{"data":data})
 
 
@@ -450,21 +480,39 @@ def toggle_isFull(request,id):
     return redirect("/travel/organizer/dashboard/events/")
 
 def toggle_isVerified(request,id):
-    requests.put("http://"+request.get_host()+"/api/bookings/update/"+str(id))
-    return redirect("/travel/organizer/events/bookings")
+    response = requests.put("http://"+request.get_host()+"/api/bookings/update/"+str(id))
+    if response.status_code == 200:
+        data = response.json()
+        verified = "rejected"
+        if data["is_verified"]:
+            verified= "accepted"
+        user_type = "user"
+        booking= "booking"
+        if data["user_details"]["user_type"]==2:
+            user_type = "organizer"
+            booking = "bookings"
+        elif data["user_details"]["user_type"] ==3 :
+            booking = "bookings"
+        requests.post("http://" + request.get_host() + "/api/notifications/",
+                          {"sentFor": data["user_details"]["id"], "sentBy": request.session.get("tripadvert_person_id", None),
+                           "description": "Your booking request has been "+verified+".",
+                           "url": "/travel/"+user_type+"/dashboard/event-"+booking+"/"})
+    return redirect("/travel/organizer/dashboard/event-bookings")
 
 def organizerPortfolio(request):
-    if request.session["tripadvert_user_type"]==2:
-        response = requests.get("http://"+request.get_host()+"/api/portfolio?organizer="+str(request.session["tripadvert_user_id"])+"&is_completed=true")
+    if request.session["tripadvert_user_type"] == 2:
+        print("http://"+request.get_host()+"/api/portfolio?organizer="+str(request.session["tripadvert_user_id"])+"&is_completed=true")
+        response = requests.get("http://"+request.get_host()+"/api/portfolio?organizer="+str(request.session["tripadvert_user_id"])+"&is_completed=True")
         if response.status_code==200:
             data = response.json()
-            return render(request, 'organizer-my-portfolio.html')
+            print(data)
+            return render(request, 'organizer-my-portfolio.html',{"data":data})
         return redirect("/travel/something-wrong/")
     return redirect("/travel/access-denied/")
 
 def organizerPortfolioUser(request,id):
     if request.session.get("tripadvert_user_type",None):
-        response = requests.get("http://" + request.get_host() + "/api/portfolio?organizer=" + str(id) + ("&is_completed=false"))
+        response = requests.get("http://" + request.get_host() + "/api/portfolio?organizer=" + str(id) + ("&is_completed=true"))
         if response.status_code == 200:
             data = response.json()
             if data:
@@ -509,3 +557,20 @@ def userOrganizerEvents(request,id):
 
 def chat(request):
     return render(request,"chat.html")
+
+def userCompletedEvents(request):
+    reviewed = []
+    pending = []
+    if request.session.get("tripadvert_user_type",None):
+        response = requests.get("http://"+request.get_host()+"/api/events/reviewed/"+str(request.session["tripadvert_person_id"]))
+        if response.status_code == 200:
+            reviewed = response.json()
+        response = requests.get("http://" + request.get_host() + "/api/events/pending/" + str(request.session["tripadvert_person_id"]))
+        if response.status_code == 200:
+            pending = response.json()
+            print(pending)
+        return render(request, 'user-completed-events.html', {"data": reviewed,"pending": pending})
+    return redirect("/travel/login/")
+
+def saveRating(request):
+    return redirect("/travel/user/dashboard/completed-events/")

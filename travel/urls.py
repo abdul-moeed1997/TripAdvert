@@ -42,9 +42,11 @@ urlpatterns = [
     path('forgot-pass/', views.forgotPassword,name='forgot-password'),
     path('email-forgot-pass/', views.EmailforgotPassword,name='forgot-password'),
     path('book-event/<id>', views.book_event,name='Book Event'),
-    path('organizer/events/bookings', views.organizerEventBookings,name='Book Event'),
+    path('organizer/events/bookings/<id>', views.organizerEventBookings,name='Book Event'),
     path('organizer/event/schedule/<id>', views.organizerEventSchedule, name='Event Schedule'),
     path('organizer/event/questions/<id>', views.organizerEventQuestions, name='Event Questions'),
     path('organizer/events/<id>', views.userOrganizerEvents, name='Event Questions'),
     path('chat/', views.chat, name='Event Questions'),
+    path('user/dashboard/completed-events/', views.userCompletedEvents, name='Completed Events'),
+    path('save-rating/', views.saveRating, name='Save Rating'),
 ]

@@ -32,19 +32,16 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="search-form">
-						<form class="tourz-search-form" onsubmit="filterData()">
-							<div class="input-field">
-								<input type="text" id="select-city" class="autocomplete">
-								<label for="select-city">Enter city</label>
-							</div>
-							<div class="input-field">
-								<input type="text" id="select-search" class="autocomplete">
-								<label for="select-search" class="search-hotel-type">Search over a million tour and travels, sight seeings, hotels and more</label>
-							</div>
+						 <form class="tourz-search-form" action="/travel/tours/" method="post" style="margin-left: 16%">
+                            {% csrf_token %}
 
-							<div class="input-field">
-								<input type="submit" value="search" class="waves-effect waves-light tourz-sear-btn"> </div>
-						</form>
+                            <div class="input-field">
+                                <input type="text" id="select-search" name="common_filter" class="autocomplete">
+                                <label for="select-search" class="search-hotel-type">Search over a million tour and travels, sight seeings, hotels and more</label>
+                            </div>
+                            <div class="input-field">
+                                <input type="submit" value="search" class="waves-effect waves-light tourz-sear-btn"> </div>
+                        </form>
                         </div>
                         </div>
                     </div>
@@ -84,52 +81,8 @@
 							<h3>Suggesting Packages</h3> </div>
 						<!--PART 2 : LEFT LISTINGS-->
 						<div class="hot-page2-hom-pre hot-page2-alp-left-ner-notb">
-							<ul style="height: 100%">
-								<!--LISTINGS-->
-								<li>
-									<a href="#">
-										<div class="hot-page2-hom-pre-1 hot-page2-alp-cl-1-1"> <img src="{% static 'travel/images/package/1.jpg' %}" alt=""> </div>
-										<div class="hot-page2-hom-pre-2 hot-page2-alp-cl-1-2">
-											<h5>Bali, Indonesia</h5> <span>Bali is a living postcard</span> </div>
-										<div class="hot-page2-hom-pre-3 hot-page2-alp-cl-1-3"> <span>4.2</span> </div>
-									</a>
-								</li>
-								<!--LISTINGS-->
-								<li>
-									<a href="#">
-										<div class="hot-page2-hom-pre-1 hot-page2-alp-cl-1-1"> <img src="{% static 'travel/images/package/2.jpg' %}" alt=""> </div>
-										<div class="hot-page2-hom-pre-2 hot-page2-alp-cl-1-2">
-											<h5>London, United Kingdom</h5> <span>There's so much to see and do in London</span> </div>
-										<div class="hot-page2-hom-pre-3 hot-page2-alp-cl-1-3"> <span>4.4</span> </div>
-									</a>
-								</li>
-								<!--LISTINGS-->
-								<li>
-									<a href="#">
-										<div class="hot-page2-hom-pre-1 hot-page2-alp-cl-1-1"> <img src="{% static 'travel/images/package/3.jpg' %}" alt=""> </div>
-										<div class="hot-page2-hom-pre-2 hot-page2-alp-cl-1-2">
-											<h5>Paris, France</h5> <span>Everyone who visits Paris for the first time probably </span> </div>
-										<div class="hot-page2-hom-pre-3 hot-page2-alp-cl-1-3"> <span>5.0</span> </div>
-									</a>
-								</li>
-								<!--LISTINGS-->
-								<li>
-									<a href="#">
-										<div class="hot-page2-hom-pre-1 hot-page2-alp-cl-1-1"> <img src="{% static 'travel/images/package/4.jpg' %}" alt=""> </div>
-										<div class="hot-page2-hom-pre-2 hot-page2-alp-cl-1-2">
-											<h5>Rome, Italy</h5> <span>It’s nicknamed the Eternal City for a reason.</span> </div>
-										<div class="hot-page2-hom-pre-3 hot-page2-alp-cl-1-3"> <span>4.4</span> </div>
-									</a>
-								</li>
-								<!--LISTINGS-->
-								<li>
-									<a href="#">
-										<div class="hot-page2-hom-pre-1 hot-page2-alp-cl-1-1"> <img src="{% static 'travel/images/package/5.jpg' %}" alt=""> </div>
-										<div class="hot-page2-hom-pre-2 hot-page2-alp-cl-1-2">
-											<h5>New York City, New York</h5> <span>The first time you go to New York</span> </div>
-										<div class="hot-page2-hom-pre-3 hot-page2-alp-cl-1-3"> <span>3.4</span> </div>
-									</a>
-								</li>
+							<ul style="height: 100%" id="suggestion_root">
+
 							</ul>
 						</div>
 						<!--PART 7 : LEFT LISTINGS-->
@@ -206,7 +159,7 @@
                                 <div class="col-md-12 hot-page2-alp-r-list">
 									<div class="col-md-3 hot-page2-alp-r-list-re-sp">
 										<a href="/travel/tour/detail/{{ value.id }}" id="event-id">
-											<div class="hotel-list-score">{{ value.organizer_details.rating }}</div>
+											<div class="hotel-list-score">{% if  value.organizer_details.rating %}{{ value.organizer_details.rating }}{% endif %}</div>
 											<div class="hot-page2-hli-1"> <img src="{{value.pic}}" alt=""> </div>
 										</a>
 									</div>
@@ -286,11 +239,38 @@
 			</div>
 		</div>
 	<script>
+        $( document ).ready(function() {
+            $.ajax({
+                url: "/api/general-events/top_events",
+                dataType: 'json',
+                success: function (data) {
 
+                    console.log(data);
+                    for (i = 0; i < data.length; i++) {
+                        console.log(data[i])
+                        li = ""+'<li>\n' +
+                            '\t\t\t\t\t\t\t\t\t<a href="/travel/tour/detail/'+String(data[i]["id"])+'">\n' +
+                            '\t\t\t\t\t\t\t\t\t\t<div class="hot-page2-hom-pre-1 hot-page2-alp-cl-1-1"> <img height="50px" width="50px" src="'+String(data[i]["pic"])+'" alt=""> </div>\n' +
+                            '\t\t\t\t\t\t\t\t\t\t<div class="hot-page2-hom-pre-2 hot-page2-alp-cl-1-2">\n' +
+                            '\t\t\t\t\t\t\t\t\t\t\t<h5>'+data[i]["title"]+'</h5> <span> $'+String(data[i]["price"])+'</span> </div>\n' +
+                            '\t\t\t\t\t\t\t\t\t\t<div class="hot-page2-hom-pre-3 hot-page2-alp-cl-1-3"> ';
+                            if (data[i]["organizer"]["rating"]>0)
+                            {
+                                li+='<span>'+String(data[i]["organizer"]["rating"]) + '</span> '
+                            }
 
+                            li +='</div>\n' +
+                            '\t\t\t\t\t\t\t\t\t</a>\n' +
+                            '\t\t\t\t\t\t\t\t</li>';
+
+                            document.getElementById("suggestion_root").innerHTML += li;
+                    }
+                }
+            });
+        });
         function switchPage(url) {
             $.ajax({
-        url: url,
+        url: url+"?search={{ common_filter }}",
         dataType: 'json',
         success: function (data) {
             if (data["results"].length>0) {
@@ -298,8 +278,6 @@
                 var current=1;
                 var prev;
                 var next;
-                console.log("prev_url",data["previous"]);
-                console.log("next_url",data["next"]);
                 if(data["previous"])
                 {
                     if (data["previous"].indexOf("page=")<0)
@@ -314,7 +292,6 @@
                 if(data["next"])
                 {
                     next = data["next"][data["next"].indexOf("page=")+"page=".length];
-                    console.log("next = ",next);
                     current = next-1;
                 }
 

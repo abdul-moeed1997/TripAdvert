@@ -9,7 +9,29 @@
 {% block body  %}
 
 
+    <section>
+        <div class="search-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="search-form">
+						 <form class="tourz-search-form" action="/travel/tours/" method="post" style="margin-left: 16%">
+                            {% csrf_token %}
 
+                            <div class="input-field">
+                                <input type="text" id="select-search" name="common_filter" class="autocomplete">
+                                <label for="select-search" class="search-hotel-type">Search over a million tour and travels, sight seeings, hotels and more</label>
+                            </div>
+                            <div class="input-field">
+                                <input type="submit" value="search" class="waves-effect waves-light tourz-sear-btn"> </div>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<!-- END TOP SEARCH BOX -->
+    </section>
 	<!--====== BANNER ==========-->
 	<section>
 		<div class="rows inner_banner inner_banner_3">
